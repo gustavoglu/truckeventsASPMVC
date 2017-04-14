@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Consequencia
+    public class Consequencia : BaseEntity
     {
         public string Descricao { get; set; }
     }

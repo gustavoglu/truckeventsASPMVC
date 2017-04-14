@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Evento
+    public class Evento : BaseEntity
     {
         public string Descricao { get; set; }
 
@@ -15,5 +17,9 @@ namespace TruckEvent.WebApi.Models
         public double TotalValorVendido { get; set; }
 
         public int TotalProdutosVendidos { get; set; }
+
+        public virtual Usuario Usuario_Organizador { get; set; }
+
+        public virtual ICollection<Ficha> Fichas { get; set; }
     }
 }

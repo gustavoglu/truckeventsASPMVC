@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Venda_Produto_Variacao
+    public class Venda_Produto_Variacao : BaseEntity
     {
         public Guid Id_venda_produto { get; set; }
 

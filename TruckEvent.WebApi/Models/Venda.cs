@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Venda
+    public class Venda : BaseEntity
     {
         public DateTime Data { get; set; }
 
@@ -10,9 +12,7 @@ namespace TruckEvent.WebApi.Models
 
         public double Troco { get; set; }
 
-        public string NomeCliente  { get; set; }
-
-
+        public string NomeCliente { get; set; }
 
         public Guid Id_evento { get; set; }
 
@@ -20,7 +20,9 @@ namespace TruckEvent.WebApi.Models
 
         public virtual Evento Evento { get; set; }
 
-        public virtual Venda_Pagamento_Tipo Venda_Pagamento_Tipo  { get; set; }
+        public virtual Venda_Pagamento_Tipo Venda_Pagamento_Tipo { get; set; }
+
+        public virtual ICollection<Pagamento> Pagamentos { get; set; }
 
     }
 }

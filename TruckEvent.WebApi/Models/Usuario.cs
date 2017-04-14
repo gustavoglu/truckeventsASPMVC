@@ -4,6 +4,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TruckEvent.WebApi.Models
 {
@@ -21,7 +23,9 @@ namespace TruckEvent.WebApi.Models
         public Guid Id_usuario_tipo { get; set; }
         public virtual Usuario_Tipo Tipo { get; set; }
 
-    public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Usuario> manager, string authenticationType)
+        public ICollection<Evento> Eventos { get; set; }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Usuario> manager, string authenticationType)
         {
             // authenticationType deve corresponder a um definido em CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);

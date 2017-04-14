@@ -2,7 +2,7 @@
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Venda_Produto
+    public class Venda_Produto : BaseEntity
     {
         public Guid Id_produto{ get; set; }
 

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Produto_Variacao
+    public class Produto_Variacao : BaseEntity
     {
         public string Descricao { get; set; }
 

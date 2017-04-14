@@ -1,6 +1,6 @@
 ﻿namespace TruckEvent.WebApi.Models
 {
-    public class Variacao
+    public class Variacao : BaseEntity
     {
         public string Descricao { get; set; }
 

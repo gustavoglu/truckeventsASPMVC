@@ -5,7 +5,7 @@ using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Ficha
+    public class Ficha : BaseEntity
     {
         public string Codigo { get; set; }
 

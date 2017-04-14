@@ -232,13 +232,25 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infra\EntityConfig\ConsequenciaEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\EventoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Evento_UsuarioEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\FichaEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\PagamentoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\ProdutoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfigcs.cs" />
+    <Compile Include="Infra\EntityConfig\Produto_VariacaoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\VariacaoEntityConfig.cs" />
     <Compile Include="Infra\SQLContext.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Consequencia.cs" />
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
+    <Compile Include="Models\Pagamento.cs" />
     <Compile Include="Models\Produto.cs" />
     <Compile Include="Models\Produto_Cor.cs" />
     <Compile Include="Models\Produto_Tipo.cs" />
