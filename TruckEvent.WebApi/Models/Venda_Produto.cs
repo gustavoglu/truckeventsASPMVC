@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TruckEvent.WebApi.Models
 {
@@ -15,6 +16,8 @@ namespace TruckEvent.WebApi.Models
         public virtual Produto Produto { get; set; }
 
         public virtual Venda Venda { get; set; }
+
+        public virtual ICollection<Venda_Produto_Variacao> Venda_Produto_Variacoes { get; set; }
 
 
     }

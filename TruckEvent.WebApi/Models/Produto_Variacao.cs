@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,5 +19,8 @@ namespace TruckEvent.WebApi.Models
         public virtual Consequencia Consequencia { get; set; }
 
         public virtual Usuario Usuario { get; set; }
+
+
+        public virtual ICollection<Venda_Produto_Variacao> Venda_Produto_Variacoes { get; set; }
     }
 }

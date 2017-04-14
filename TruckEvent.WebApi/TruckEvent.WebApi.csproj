@@ -236,12 +236,49 @@
     <Compile Include="Infra\EntityConfig\EventoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Evento_UsuarioEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\FichaEntityConfig.cs" />
-    <Compile Include="Infra\EntityConfig\PagamentoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Pagamento_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfigcs.cs" />
     <Compile Include="Infra\EntityConfig\Produto_VariacaoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Usuario_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\VariacaoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\VendaEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Venda_PagamentoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Venda_ProdutoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Venda_Produto_VariacaoEntityConfig.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\ConsequenciaRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\EventoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Evento_UsuarioRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Ficha_Repository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IConsequenciaRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IEventoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IEvento_UsuarioRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IFicha_Repository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IPagamento_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProdutoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_CorRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IUsuario_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVendaRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_PagamentoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_ProdutoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_Produto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Pagamento_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\ProdutoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Produto_CorRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Produto_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Produto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Usuario_TipoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\VendaRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Venda_PagamentoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Venda_ProdutoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Venda_Produto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
+    <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -250,7 +287,7 @@
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
-    <Compile Include="Models\Pagamento.cs" />
+    <Compile Include="Models\Venda_Pagamento.cs" />
     <Compile Include="Models\Produto.cs" />
     <Compile Include="Models\Produto_Cor.cs" />
     <Compile Include="Models\Produto_Tipo.cs" />
@@ -259,7 +296,7 @@
     <Compile Include="Models\Usuario_Tipo.cs" />
     <Compile Include="Models\Variacao.cs" />
     <Compile Include="Models\Venda.cs" />
-    <Compile Include="Models\Venda_Pagamento_Tipo.cs" />
+    <Compile Include="Models\Pagamento_Tipo.cs" />
     <Compile Include="Models\Venda_Produto.cs" />
     <Compile Include="Models\Venda_Produto_Variacao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -326,6 +363,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Infra\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

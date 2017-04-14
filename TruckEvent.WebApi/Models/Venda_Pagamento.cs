@@ -5,14 +5,17 @@ using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
-    public class Pagamento : BaseEntity
+    public class Venda_Pagamento : BaseEntity
     {
-        public Ficha Ficha { get; set; }
-
+ 
         public double Valor { get; set; }
 
         public Guid Id_venda { get; set; }
 
         public virtual Venda Venda { get; set; }
+
+        public Guid Id_pagamento_tipo { get; set; }
+
+        public virtual Pagamento_Tipo Pagamento_Tipo{ get; set; }
     }
 }

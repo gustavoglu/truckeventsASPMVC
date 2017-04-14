@@ -7,9 +7,9 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.Infra.EntityConfig
 {
-    public class PagamentoEntityConfig : EntityTypeConfiguration<Pagamento>
+    public class Pagamento_TipoEntityConfig : EntityTypeConfiguration<Venda_Pagamento>
     {
-        public PagamentoEntityConfig()
+        public Pagamento_TipoEntityConfig()
         {
             HasKey(p => p.Id);
 

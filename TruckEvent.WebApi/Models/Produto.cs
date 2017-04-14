@@ -19,5 +19,7 @@ namespace TruckEvent.WebApi.Models
 
         public virtual Produto_Cor Produto_Cor { get; set; }
         public virtual Produto_Tipo Produto_Tipo { get; set; }
+
+        public virtual ICollection<Venda_Produto> Venda_Produtos { get; set; }
     }
 }

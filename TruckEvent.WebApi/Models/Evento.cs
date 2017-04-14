@@ -21,5 +21,7 @@ namespace TruckEvent.WebApi.Models
         public virtual Usuario Usuario_Organizador { get; set; }
 
         public virtual ICollection<Ficha> Fichas { get; set; }
+
+        public virtual ICollection<Venda> Vendas{ get; set; }
     }
 }

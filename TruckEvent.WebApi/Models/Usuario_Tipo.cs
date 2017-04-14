@@ -11,12 +11,10 @@ namespace TruckEvent.WebApi.Models
 
         public bool UserAdmin { get; set; }
 
+        public bool UserPrincipal { get; set; }
+
         public bool Organizador { get; set; }
 
-        public string Id_usuario_admin { get; set; } = null;
-
-        public virtual Usuario Usuario_Admin { get; set; } = null;
-
-
+    
     }
 }
