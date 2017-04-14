@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -226,6 +229,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="AutoMap\AutoMapperConfig.cs" />
+    <Compile Include="AutoMap\ProfileAutoMapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -302,7 +307,39 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\Interfaces\IConsequenciaAppService.cs" />
+    <Compile Include="Services\Interfaces\IEventoAppService.cs" />
+    <Compile Include="Services\Interfaces\IEvento_UsuarioAppService.cs" />
+    <Compile Include="Services\Interfaces\IFichaAppService.cs" />
+    <Compile Include="Services\Interfaces\IPagamento_TipoAppService.cs" />
+    <Compile Include="Services\Interfaces\IProdutoAppService.cs" />
+    <Compile Include="Services\Interfaces\IProduto_CorAppService.cs" />
+    <Compile Include="Services\Interfaces\IProduto_TipoAppService.cs" />
+    <Compile Include="Services\Interfaces\IProduto_VariacaoAppService.cs" />
+    <Compile Include="Services\Interfaces\IUsuarioAppService.cs" />
+    <Compile Include="Services\Interfaces\IUsuario_TipoAppService.cs" />
+    <Compile Include="Services\Interfaces\IVariacaoAppService.cs" />
+    <Compile Include="Services\Interfaces\IVendaAppService.cs" />
+    <Compile Include="Services\Interfaces\IVenda_PagamentoAppService.cs" />
+    <Compile Include="Services\Interfaces\IVenda_ProdutoAppService.cs" />
+    <Compile Include="Services\Interfaces\IVenda_Produto_VariacaoAppService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ConsequenciaViewModel.cs" />
+    <Compile Include="ViewModels\EventoViewModel.cs" />
+    <Compile Include="ViewModels\Evento_UsuarioViewModel.cs" />
+    <Compile Include="ViewModels\FichaViewModel.cs" />
+    <Compile Include="ViewModels\Pagamento_TipoViewModel.cs" />
+    <Compile Include="ViewModels\ProdutoViewModel.cs" />
+    <Compile Include="ViewModels\Produto_CorViewModel.cs" />
+    <Compile Include="ViewModels\Produto_TipoViewModel.cs" />
+    <Compile Include="ViewModels\Produto_VariacaoViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioViewModel.cs" />
+    <Compile Include="ViewModels\Usuario_TipoViewModel.cs" />
+    <Compile Include="ViewModels\VariacaoViewModel.cs" />
+    <Compile Include="ViewModels\VendaViewModel.cs" />
+    <Compile Include="ViewModels\Venda_PagamentoViewModel.cs" />
+    <Compile Include="ViewModels\Venda_ProdutoViewModel.cs" />
+    <Compile Include="ViewModels\Venda_Produto_VariacaoViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />

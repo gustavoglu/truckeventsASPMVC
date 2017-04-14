@@ -24,6 +24,8 @@ namespace TruckEvent.WebApi.Models
         public virtual Usuario_Tipo Tipo { get; set; }
 
         public ICollection<Evento> Eventos { get; set; }
+        public string Id_Usuario_Principal { get; set; } = null;
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Usuario> manager, string authenticationType)
         {
