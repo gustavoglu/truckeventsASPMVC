@@ -285,6 +285,7 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseEntity.cs" />

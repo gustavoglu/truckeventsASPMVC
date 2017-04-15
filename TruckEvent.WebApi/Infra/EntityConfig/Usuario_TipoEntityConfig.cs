@@ -12,6 +12,7 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
         public Usuario_TipoEntityConfig()
         {
             HasKey(ut => ut.Id);
+
         }
     }
 }

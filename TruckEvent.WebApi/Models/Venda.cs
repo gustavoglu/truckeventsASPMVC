@@ -18,7 +18,7 @@ namespace TruckEvent.WebApi.Models
 
         public virtual Evento Evento { get; set; }
 
-        public virtual ICollection<Venda_Pagamento> Pagamentos { get; set; }
+        public virtual ICollection<Venda_Pagamento> Venda_Pagamentos { get; set; }
 
         public virtual ICollection<Venda_Produto> Venda_Produtos { get; set; }
 
