@@ -1,7 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces;
+using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Services.Interfaces;
 using TruckEvent.WebApi.ViewModels;
 
@@ -9,44 +13,53 @@ namespace TruckEvent.WebApi.Services
 {
     public class VariacaoAppService : IVariacaoAppService
     {
+        private readonly IVariacaoRepository _variacaoRepository;
+
+        public VariacaoAppService()
+        {
+            _variacaoRepository = new VariacaoRepository();
+        }
+
         public VariacaoViewModel Atualizar(VariacaoViewModel variacaoViewModel)
         {
-            throw new NotImplementedException();
+            var variacao = Mapper.Map<Variacao>(variacaoViewModel);
+            return Mapper.Map<VariacaoViewModel>(_variacaoRepository.Atualizar(variacao));
         }
 
         public VariacaoViewModel BuscarPorId(Guid Id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<VariacaoViewModel>(_variacaoRepository.BuscarPorId(Id));
         }
 
         public VariacaoViewModel Criar(VariacaoViewModel variacaoViewModel)
         {
-            throw new NotImplementedException();
+            var variacao = Mapper.Map<Variacao>(variacaoViewModel);
+            return Mapper.Map<VariacaoViewModel>(_variacaoRepository.Criar(variacao));
         }
 
         public bool Deletar(Guid Id)
         {
-            throw new NotImplementedException();
+            return _variacaoRepository.Deletar(Id);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _variacaoRepository.Dispose();
         }
 
         public VariacaoViewModel Reativar(Guid Id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<VariacaoViewModel>(_variacaoRepository.Reativar(Id));
         }
 
         public IEnumerable<VariacaoViewModel> TrazerTodosAtivos()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<VariacaoViewModel>>(_variacaoRepository.TrazerTodosAtivos());
         }
 
         public IEnumerable<VariacaoViewModel> TrazerTodosDeletados()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<VariacaoViewModel>>(_variacaoRepository.TrazerTodosDeletados());
         }
     }
 }

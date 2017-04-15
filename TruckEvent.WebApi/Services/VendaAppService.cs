@@ -1,7 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces;
+using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Services.Interfaces;
 using TruckEvent.WebApi.ViewModels;
 
@@ -9,44 +13,53 @@ namespace TruckEvent.WebApi.Services
 {
     public class VendaAppService : IVendaAppService
     {
+        private readonly IVendaRepository _vendaRepository;
+
+        public VendaAppService()
+        {
+            _vendaRepository = new VendaRepository();
+        }
+
         public VendaViewModel Atualizar(VendaViewModel vendaViewModel)
         {
-            throw new NotImplementedException();
+            var venda = Mapper.Map<Venda>(vendaViewModel);
+            return Mapper.Map<VendaViewModel>(_vendaRepository.Atualizar(venda));
         }
 
         public VendaViewModel BuscarPorId(Guid Id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<VendaViewModel>(_vendaRepository.BuscarPorId(Id));
         }
 
         public VendaViewModel Criar(VendaViewModel vendaViewModel)
         {
-            throw new NotImplementedException();
+            var venda = Mapper.Map<Venda>(vendaViewModel);
+            return Mapper.Map<VendaViewModel>(_vendaRepository.Criar(venda));
         }
 
         public bool Deletar(Guid Id)
         {
-            throw new NotImplementedException();
+            return _vendaRepository.Deletar(Id);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _vendaRepository.Dispose();
         }
 
         public VendaViewModel Reativar(Guid Id)
         {
-            throw new NotImplementedException();
+            return Mapper.Map<VendaViewModel> (_vendaRepository.Reativar(Id));
         }
 
         public IEnumerable<VendaViewModel> TrazerTodosAtivos()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<VendaViewModel>>(_vendaRepository.TrazerTodosAtivos());
         }
 
         public IEnumerable<VendaViewModel> TrazerTodosDeletados()
         {
-            throw new NotImplementedException();
+            return Mapper.Map<IEnumerable<VendaViewModel>>(_vendaRepository.TrazerTodosDeletados());
         }
     }
 }
