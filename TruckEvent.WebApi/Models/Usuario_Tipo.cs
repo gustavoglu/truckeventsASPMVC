@@ -15,6 +15,8 @@ namespace TruckEvent.WebApi.Models
 
         public bool Organizador { get; set; }
 
+        public virtual ICollection<Usuario> Usuarios { get; set; }
+
     
     }
 }

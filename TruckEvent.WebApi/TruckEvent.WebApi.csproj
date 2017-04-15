@@ -244,7 +244,7 @@
     <Compile Include="Infra\EntityConfig\Pagamento_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
-    <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfigcs.cs" />
+    <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_VariacaoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Usuario_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\VariacaoEntityConfig.cs" />

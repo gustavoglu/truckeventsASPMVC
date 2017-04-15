@@ -7,9 +7,9 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.Infra.EntityConfig
 {
-    public class Produto_TipoEntityConfigcs : EntityTypeConfiguration<Produto_Tipo>
+    public class Produto_TipoEntityConfig : EntityTypeConfiguration<Produto_Tipo>
     {
-        public Produto_TipoEntityConfigcs()
+        public Produto_TipoEntityConfig()
         {
             HasKey(pt => pt.Id);
 
