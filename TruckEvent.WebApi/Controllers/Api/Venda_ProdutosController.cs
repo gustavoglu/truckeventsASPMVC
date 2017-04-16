@@ -67,8 +67,6 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            db.Venda_ProdutoViewModel.Add(venda_ProdutoViewModel);
-
             _venda_ProdutoAppService.Criar(venda_ProdutoViewModel);
 
             return CreatedAtRoute("DefaultApi", new { id = venda_ProdutoViewModel.Id }, venda_ProdutoViewModel);

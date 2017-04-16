@@ -18,117 +18,117 @@ namespace TruckEvent.WebApi.Controllers.Api
         private SQLContext db = new SQLContext();
 
         // GET: api/Usuarios
-        public IQueryable<UsuarioViewModel> GetUsuarioViewModels()
-        {
-            return db.UsuarioViewModels;
-        }
+        //public IQueryable<UsuarioViewModel> GetUsuarioViewModels()
+        //{
+        //    return db.UsuarioViewModels;
+        //}
 
-        // GET: api/Usuarios/5
-        [ResponseType(typeof(UsuarioViewModel))]
-        public IHttpActionResult GetUsuarioViewModel(string id)
-        {
-            UsuarioViewModel usuarioViewModel = db.UsuarioViewModels.Find(id);
-            if (usuarioViewModel == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/Usuarios/5
+        //[ResponseType(typeof(UsuarioViewModel))]
+        //public IHttpActionResult GetUsuarioViewModel(string id)
+        //{
+        //    UsuarioViewModel usuarioViewModel = db.UsuarioViewModels.Find(id);
+        //    if (usuarioViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(usuarioViewModel);
-        }
+        //    return Ok(usuarioViewModel);
+        //}
 
-        // PUT: api/Usuarios/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuarioViewModel(string id, UsuarioViewModel usuarioViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/Usuarios/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutUsuarioViewModel(string id, UsuarioViewModel usuarioViewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != usuarioViewModel.Id)
-            {
-                return BadRequest();
-            }
+        //    if (id != usuarioViewModel.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(usuarioViewModel).State = EntityState.Modified;
+        //    db.Entry(usuarioViewModel).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UsuarioViewModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!UsuarioViewModelExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // POST: api/Usuarios
-        [ResponseType(typeof(UsuarioViewModel))]
-        public IHttpActionResult PostUsuarioViewModel(UsuarioViewModel usuarioViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/Usuarios
+        //[ResponseType(typeof(UsuarioViewModel))]
+        //public IHttpActionResult PostUsuarioViewModel(UsuarioViewModel usuarioViewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.UsuarioViewModels.Add(usuarioViewModel);
+        //    db.UsuarioViewModels.Add(usuarioViewModel);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                if (UsuarioViewModelExists(usuarioViewModel.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (UsuarioViewModelExists(usuarioViewModel.Id))
+        //        {
+        //            return Conflict();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return CreatedAtRoute("DefaultApi", new { id = usuarioViewModel.Id }, usuarioViewModel);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = usuarioViewModel.Id }, usuarioViewModel);
+        //}
 
-        // DELETE: api/Usuarios/5
-        [ResponseType(typeof(UsuarioViewModel))]
-        public IHttpActionResult DeleteUsuarioViewModel(string id)
-        {
-            UsuarioViewModel usuarioViewModel = db.UsuarioViewModels.Find(id);
-            if (usuarioViewModel == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Usuarios/5
+        //[ResponseType(typeof(UsuarioViewModel))]
+        //public IHttpActionResult DeleteUsuarioViewModel(string id)
+        //{
+        //    UsuarioViewModel usuarioViewModel = db.UsuarioViewModels.Find(id);
+        //    if (usuarioViewModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.UsuarioViewModels.Remove(usuarioViewModel);
-            db.SaveChanges();
+        //    db.UsuarioViewModels.Remove(usuarioViewModel);
+        //    db.SaveChanges();
 
-            return Ok(usuarioViewModel);
-        }
+        //    return Ok(usuarioViewModel);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool UsuarioViewModelExists(string id)
-        {
-            return db.UsuarioViewModels.Count(e => e.Id == id) > 0;
-        }
+        //private bool UsuarioViewModelExists(string id)
+        //{
+        //    return db.UsuarioViewModels.Count(e => e.Id == id) > 0;
+        //}
     }
 }
