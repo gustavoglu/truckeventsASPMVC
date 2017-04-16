@@ -5,7 +5,7 @@ namespace TruckEvent.WebApi.Models
 {
     public class Pagamento_Tipo : BaseEntity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
         public virtual ICollection<Venda_Pagamento>  Venda_Pagamentos { get; set; }
     }

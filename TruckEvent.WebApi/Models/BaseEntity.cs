@@ -12,20 +12,20 @@ namespace TruckEvent.WebApi.Models
             this.Id = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
-        public DateTime CriadoEm{ get; set; }
+        public DateTime? CriadoEm{ get; set; }
 
-        public string CriadoPor { get; set; }
+        public string CriadoPor { get; set; } = null;
 
-        public DateTime DeletadoEm { get; set; }
+        public DateTime? DeletadoEm { get; set; }
 
-        public string DeletadoPor { get; set; }
+        public string DeletadoPor { get; set; } = null;
 
-        public DateTime AtualizadoEm { get; set; }
+        public DateTime? AtualizadoEm { get; set; }
 
-        public string AtualizadoPor { get; set; }
+        public string AtualizadoPor { get; set; } = null;
 
-        public bool Deletado { get; set; }
+        public bool? Deletado { get; set; }
     }
 }

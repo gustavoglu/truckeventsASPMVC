@@ -11,6 +11,8 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public ProdutoEntityConfig()
         {
+            ToTable("produto");
+
             HasKey(p => p.Id);
 
             HasRequired(p => p.Produto_Cor)

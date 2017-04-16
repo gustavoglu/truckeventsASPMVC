@@ -11,6 +11,8 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public FichaEntityConfig()
         {
+            ToTable("ficha");
+
             HasKey(f => f.Id);
 
             HasRequired(f => f.Evento)

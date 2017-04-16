@@ -13,17 +13,19 @@ namespace TruckEvent.WebApi.Models
     public class Usuario : IdentityUser
     {
 
-        public string Nome { get; set; }
-        public string Sobrenome { get; set; }
-        public string RazaoSocial { get; set; }
-        public string Telefone1 { get; set; }
-        public string Telefone2 { get; set; }
-        public string Documento { get; set; }
+        public string Nome { get; set; } = null;
+        public string Sobrenome { get; set; } = null;
+        public string RazaoSocial { get; set; } = null;
+        public string Telefone1 { get; set; } = null;
+        public string Telefone2 { get; set; } = null;
+        public string Documento { get; set; } = null;
+        public string Email { get; set; } = null;
+        public DateTime? DataNascimento { get; set; }
 
         public Guid Id_usuario_tipo { get; set; }
-        public virtual Usuario_Tipo Tipo { get; set; }
+        public virtual Usuario_Tipo Usuario_Tipo { get; set; }
 
-        public ICollection<Evento> Eventos { get; set; }
+        public virtual ICollection<Evento> Eventos { get; set; }
         public string Id_Usuario_Principal { get; set; } = null;
 
 

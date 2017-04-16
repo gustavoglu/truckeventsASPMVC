@@ -7,12 +7,16 @@ namespace TruckEvent.WebApi.Models
 {
     public class Ficha : BaseEntity
     {
-        public string Codigo { get; set; }
+        public string Codigo { get; set; } = null;
 
-        public double Saldo { get; set; }
+        public string NomeCliente { get; set; } = null;
 
-        public Guid Id_Evento { get; set; }
+        public int? Senha { get; set; }
 
-        public virtual Evento Evento { get; set; }
+        public double? Saldo { get; set; }
+
+        public Guid? Id_Evento { get; set; }
+
+        public virtual Evento Evento { get; set; } = null; 
     }
 }

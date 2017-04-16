@@ -11,6 +11,8 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public Produto_TipoEntityConfig()
         {
+            ToTable("produto_tipo");
+
             HasKey(pt => pt.Id);
 
 

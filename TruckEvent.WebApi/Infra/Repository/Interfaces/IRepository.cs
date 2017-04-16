@@ -13,11 +13,11 @@ namespace TruckEvent.WebApi.Infra.Repository.Interfaces
 
         T Atualizar(T obj);
 
-        T BuscarPorId(Guid Id);
+        T BuscarPorId(Guid? Id);
 
-        T Reativar(Guid Id);
+        T Reativar(Guid? Id);
 
-        bool Deletar(Guid Id);
+        bool Deletar(Guid? Id);
 
         IEnumerable<T> Pesquisar(Expression<Func<T, bool>> Expressao);
 

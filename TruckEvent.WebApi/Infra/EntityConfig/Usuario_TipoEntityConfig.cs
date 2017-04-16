@@ -11,6 +11,9 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public Usuario_TipoEntityConfig()
         {
+            ToTable("usuario_tipo");
+
+
             HasKey(ut => ut.Id);
 
         }

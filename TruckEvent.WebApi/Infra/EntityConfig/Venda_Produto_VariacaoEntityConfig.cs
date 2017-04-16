@@ -11,6 +11,9 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public Venda_Produto_VariacaoEntityConfig()
         {
+
+            ToTable("venda_produto_variacao");
+
             HasKey(vpv => vpv.Id);
 
             HasRequired(vpv => vpv.Produto_Variacao)

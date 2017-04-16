@@ -11,11 +11,13 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public VendaEntityConfig()
         {
+            ToTable("venda");
+
             HasKey(v => v.Id);
 
             HasRequired(v => v.Evento)
                 .WithMany(e => e.Vendas)
-                .HasForeignKey(v => v.Evento);
+                .HasForeignKey(v => v.Id_evento);
 
 
         }

@@ -7,9 +7,9 @@ namespace TruckEvent.WebApi.Models
 {
     public class Produto_Cor : BaseEntity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
-        public string Cor { get; set; }
+        public string Cor { get; set; } = null;
 
         public virtual ICollection<Produto> Produtos { get; set; }
     }

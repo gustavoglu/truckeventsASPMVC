@@ -7,15 +7,14 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.Infra.EntityConfig
 {
-    public class Pagamento_TipoEntityConfig : EntityTypeConfiguration<Venda_Pagamento>
+    public class Pagamento_TipoEntityConfig : EntityTypeConfiguration<Pagamento_Tipo>
     {
         public Pagamento_TipoEntityConfig()
         {
+            ToTable("pagamento_tipo");
+
             HasKey(p => p.Id);
 
-            HasRequired(p => p.Venda)
-                .WithMany(v => v.Venda_Pagamentos)
-                .HasForeignKey(p => p.Id_venda);
         }
     }
 }

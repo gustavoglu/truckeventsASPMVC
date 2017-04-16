@@ -11,6 +11,13 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public Produto_VariacaoEntityConfig()
         {
+            ToTable("produto_variacao");
+
+            HasKey(pv => pv.Id);
+
+            HasRequired(pv => pv.Consequencia)
+                .WithMany(c => c.Produto_Variacoes)
+                .HasForeignKey(pv => pv.Id_consequencia);
 
         }
     }

@@ -7,6 +7,8 @@ namespace TruckEvent.WebApi.Models
 {
     public class Consequencia : BaseEntity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
+
+        public virtual ICollection<Produto_Variacao> Produto_Variacoes{ get; set; }
     }
 }

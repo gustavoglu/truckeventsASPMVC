@@ -11,6 +11,8 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public Venda_PagamentoEntityConfig()
         {
+            ToTable("venda_pagamento");
+
             HasKey(vp => vp.Id);
 
             HasRequired(vp => vp.Venda)

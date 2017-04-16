@@ -7,7 +7,7 @@ namespace TruckEvent.WebApi.Models
 {
     public class Produto_Tipo : BaseEntity
     {
-        public string Descricao { get; set; }
+        public string Descricao { get; set; } = null;
 
         public virtual ICollection<Produto> Produtos { get; set; }
     }

@@ -232,6 +232,21 @@
     <Compile Include="AutoMap\AutoMapperConfig.cs" />
     <Compile Include="AutoMap\ProfileAutoMapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\ConsequenciasController.cs" />
+    <Compile Include="Controllers\Api\EventosController.cs" />
+    <Compile Include="Controllers\Api\Evento_UsuariosController.cs" />
+    <Compile Include="Controllers\Api\FichasController.cs" />
+    <Compile Include="Controllers\Api\Pagamento_TiposController.cs" />
+    <Compile Include="Controllers\Api\ProdutosController.cs" />
+    <Compile Include="Controllers\Api\Produto_CoresController.cs" />
+    <Compile Include="Controllers\Api\Produto_TiposController.cs" />
+    <Compile Include="Controllers\Api\Produto_VariacoesController.cs" />
+    <Compile Include="Controllers\Api\UsuariosController.cs" />
+    <Compile Include="Controllers\Api\Usuario_TiposController.cs" />
+    <Compile Include="Controllers\Api\VendasController.cs" />
+    <Compile Include="Controllers\Api\Venda_PagamentoslController.cs" />
+    <Compile Include="Controllers\Api\Venda_ProdutosController.cs" />
+    <Compile Include="Controllers\Api\Venda_Produto_VariacoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -247,7 +262,6 @@
     <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_VariacaoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Usuario_TipoEntityConfig.cs" />
-    <Compile Include="Infra\EntityConfig\VariacaoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\VendaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_PagamentoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_ProdutoEntityConfig.cs" />
@@ -266,7 +280,6 @@
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IUsuario_TipoRepository.cs" />
-    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVariacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVendaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_PagamentoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_ProdutoRepository.cs" />
@@ -277,7 +290,6 @@
     <Compile Include="Infra\Repository\EntityRepository\Produto_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Produto_VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Usuario_TipoRepository.cs" />
-    <Compile Include="Infra\Repository\EntityRepository\VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\VendaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_PagamentoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_ProdutoRepository.cs" />
@@ -285,6 +297,14 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
+    <Compile Include="Migrations\201704152039051_inicial.cs" />
+    <Compile Include="Migrations\201704152039051_inicial.Designer.cs">
+      <DependentUpon>201704152039051_inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704152348126_inicial2.cs" />
+    <Compile Include="Migrations\201704152348126_inicial2.Designer.cs">
+      <DependentUpon>201704152348126_inicial2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -300,7 +320,6 @@
     <Compile Include="Models\Produto_Variacao.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Usuario_Tipo.cs" />
-    <Compile Include="Models\Variacao.cs" />
     <Compile Include="Models\Venda.cs" />
     <Compile Include="Models\Pagamento_Tipo.cs" />
     <Compile Include="Models\Venda_Produto.cs" />
@@ -319,7 +338,6 @@
     <Compile Include="Services\Produto_VariacaoAppService.cs" />
     <Compile Include="Services\UsuarioAppService.cs" />
     <Compile Include="Services\Usuario_TipoAppService.cs" />
-    <Compile Include="Services\VariacaoAppService.cs" />
     <Compile Include="Services\VendaAppService.cs" />
     <Compile Include="Services\Venda_PagamentoAppService.cs" />
     <Compile Include="Services\Venda_ProdutoAppService.cs" />
@@ -335,7 +353,6 @@
     <Compile Include="Services\Interfaces\IProduto_VariacaoAppService.cs" />
     <Compile Include="Services\Interfaces\IUsuarioAppService.cs" />
     <Compile Include="Services\Interfaces\IUsuario_TipoAppService.cs" />
-    <Compile Include="Services\Interfaces\IVariacaoAppService.cs" />
     <Compile Include="Services\Interfaces\IVendaAppService.cs" />
     <Compile Include="Services\Interfaces\IVenda_PagamentoAppService.cs" />
     <Compile Include="Services\Interfaces\IVenda_ProdutoAppService.cs" />
@@ -352,7 +369,6 @@
     <Compile Include="ViewModels\Produto_VariacaoViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="ViewModels\Usuario_TipoViewModel.cs" />
-    <Compile Include="ViewModels\VariacaoViewModel.cs" />
     <Compile Include="ViewModels\VendaViewModel.cs" />
     <Compile Include="ViewModels\Venda_PagamentoViewModel.cs" />
     <Compile Include="ViewModels\Venda_ProdutoViewModel.cs" />
@@ -433,6 +449,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201704152039051_inicial.resx">
+      <DependentUpon>201704152039051_inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704152348126_inicial2.resx">
+      <DependentUpon>201704152348126_inicial2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

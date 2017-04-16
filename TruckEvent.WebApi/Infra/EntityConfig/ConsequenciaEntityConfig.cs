@@ -11,6 +11,8 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
     {
         public ConsequenciaEntityConfig()
         {
+            ToTable("consequencia");
+
             HasKey(i => i.Id);
 
         }

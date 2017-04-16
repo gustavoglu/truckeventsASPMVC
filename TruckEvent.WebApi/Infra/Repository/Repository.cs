@@ -36,7 +36,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             return BuscarPorId(obj.Id);
         }
 
-        public T BuscarPorId(Guid Id)
+        public T BuscarPorId(Guid? Id)
         {
             return dbSet.SingleOrDefault(obj => obj.Id == Id);
         }
@@ -50,7 +50,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             return BuscarPorId(obj.Id);
         }
 
-        public bool Deletar(Guid Id)
+        public bool Deletar(Guid? Id)
         {
             var obj = BuscarPorId(Id);
 
@@ -96,7 +96,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             return dbSet.Where(obj => obj.Deletado == true).Where(Expressao);
         }
 
-        public T Reativar(Guid Id)
+        public T Reativar(Guid? Id)
         {
             var obj = BuscarPorId(Id);
 
