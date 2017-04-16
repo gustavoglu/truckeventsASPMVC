@@ -83,34 +83,28 @@ namespace TruckEvent.WebApi.Infra
 
         }
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.ConsequenciaViewModel> ConsequenciaViewModels { get; set; }
+        public override int SaveChanges()
+        {
+            var Criados = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && e.State == EntityState.Added);
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.EventoViewModel> EventoViewModels { get; set; }
+            var Atualizados = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && e.State == EntityState.Modified);
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Evento_UsuarioViewModel> Evento_UsuarioViewModel { get; set; }
+            foreach (var item in Criados)
+            {
+                ((BaseEntity)item.Entity).CriadoEm = DateTime.Now;
+                ((BaseEntity)item.Entity).CriadoPor = HttpContext.Current.User.Identity.Name;
+                ((BaseEntity)item.Entity).Deletado = false;
+            }
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.FichaViewModel> FichaViewModels { get; set; }
+            foreach (var item in Atualizados)
+            {
+                ((BaseEntity)item.Entity).AtualizadoEm = DateTime.Now;
+                ((BaseEntity)item.Entity).AtualizadoPor = HttpContext.Current.User.Identity.Name;
+            }
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Pagamento_TipoViewModel> Pagamento_TipoViewModel { get; set; }
+            return base.SaveChanges();
+        }
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.ProdutoViewModel> ProdutoViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Produto_CorViewModel> Produto_CorViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Produto_TipoViewModel> Produto_TipoViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Produto_VariacaoViewModel> Produto_VariacaoViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.UsuarioViewModel> UsuarioViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Usuario_TipoViewModel> Usuario_TipoViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.VendaViewModel> VendaViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Venda_PagamentoViewModel> Venda_PagamentoViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Venda_ProdutoViewModel> Venda_ProdutoViewModel { get; set; }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Venda_Produto_VariacaoViewModel> Venda_Produto_VariacaoViewModel { get; set; }
     }
 }

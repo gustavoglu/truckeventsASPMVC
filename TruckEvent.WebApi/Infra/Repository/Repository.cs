@@ -58,6 +58,8 @@ namespace TruckEvent.WebApi.Infra.Repository
             {
 
                 obj.Deletado = true;
+                obj.DeletadoPor = HttpContext.Current.User.Identity.Name;
+                obj.Deletado = true;
 
                 var atualizado = this.Atualizar(obj);
                 if (atualizado != null)
