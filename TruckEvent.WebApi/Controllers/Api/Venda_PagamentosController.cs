@@ -15,7 +15,7 @@ using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Controllers.Api
 {
-    public class Venda_PagamentoslController : ApiController
+    public class Venda_PagamentosController : ApiController
     {
         private SQLContext db = new SQLContext();
 

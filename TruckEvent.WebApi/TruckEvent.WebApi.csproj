@@ -244,7 +244,7 @@
     <Compile Include="Controllers\Api\UsuariosController.cs" />
     <Compile Include="Controllers\Api\Usuario_TiposController.cs" />
     <Compile Include="Controllers\Api\VendasController.cs" />
-    <Compile Include="Controllers\Api\Venda_PagamentoslController.cs" />
+    <Compile Include="Controllers\Api\Venda_PagamentosController.cs" />
     <Compile Include="Controllers\Api\Venda_ProdutosController.cs" />
     <Compile Include="Controllers\Api\Venda_Produto_VariacoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
