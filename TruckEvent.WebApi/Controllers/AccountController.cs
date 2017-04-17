@@ -330,15 +330,16 @@ namespace TruckEvent.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-            //if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false )
-            //{
-            //    return BadRequest("Necessário escolher um tipo de usuario, exemplo Adimn = true");
-            //}
-
-            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin};
 
             var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
             var id_usuario = identity.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value;
+
+            if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario != null)
+            {
+                return BadRequest("Não é possivel criar um usuario de loja sem estar logado, só pessivel criar usuario Admin ou PrincipalLoja");
+            }
+
+            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin};
 
             if (model.PrincipalLoja == false && model.Organizador == false && model.Admin == false && id_usuario != null)
             {

@@ -24,6 +24,8 @@ namespace TruckEvent.WebApi.ViewModels
 
         public string NomeCliente { get; set; } = null;
 
+        public bool? Cancelada { get; set; }
+
         public Guid? Id_evento { get; set; }
 
         public virtual EventoViewModel Evento { get; set; } = null;

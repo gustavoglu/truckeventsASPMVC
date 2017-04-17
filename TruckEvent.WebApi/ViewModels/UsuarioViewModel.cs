@@ -22,6 +22,9 @@ namespace TruckEvent.WebApi.ViewModels
         public string Documento { get; set; } = null;
         public string Email { get; set; } = null;
         public DateTime? DataNascimento { get; set; }
+        public bool? UserAdmin { get; set; }
+        public bool? UserPrincipal { get; set; }
+        public bool? Organizador { get; set; }
 
         public Guid Id_usuario_tipo { get; set; }
         public virtual Usuario_TipoViewModel Usuario_Tipo { get; set; }

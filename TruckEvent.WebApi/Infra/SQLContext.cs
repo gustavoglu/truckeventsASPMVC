@@ -14,14 +14,12 @@ namespace TruckEvent.WebApi.Infra
     public class SQLContext : IdentityDbContext<Usuario>
     {
 
-        public SQLContext() : base("DefaultConnection", throwIfV1Schema: false)
+        public SQLContext() : base("SQLAzureHomlogacao", throwIfV1Schema: false)
         {
             Database.SetInitializer<SQLContext>(new CreateDataBaseIni());
 
           //  Database.SetInitializer(new database)
         }
-
-
 
         public DbSet<Consequencia> Consequencias { get; set; }
         public DbSet<Evento_Usuario> Evento_Usuarios { get; set; }

@@ -13,7 +13,7 @@ namespace TruckEvent.WebApi.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201704170015052_inicial"; }
+            get { return "201704171406511_inicial"; }
         }
         
         string IMigrationMetadata.Source

@@ -47,6 +47,7 @@ namespace TruckEvent.WebApi.Providers
                 CookieAuthenticationDefaults.AuthenticationType);
 
             cookiesIdentity.AddClaim(new Claim("id_usuario", user.Id));
+
             if (user.Id_Usuario_Principal != null)
             {
                 cookiesIdentity.AddClaim(new Claim("id_usuario_principal", user.Id_Usuario_Principal));
