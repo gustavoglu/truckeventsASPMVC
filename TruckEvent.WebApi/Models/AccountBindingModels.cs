@@ -48,6 +48,17 @@ namespace TruckEvent.WebApi.Models
         [Display(Name = "Confirmar senha")]
         [Compare("Password", ErrorMessage = "A senha e a senha de confirmação não coincidem.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Admin")]
+        public bool Admin { get; set; }
+
+        [Display(Name = "Organizador")]
+        public bool Organizador { get; set; }
+
+        [Display(Name = "Principal Usuario da Loja")]
+        public bool PrincipalLoja { get; set; }
+
+
     }
 
     public class RegisterExternalBindingModel

@@ -252,6 +252,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infra\CreateDataBaseIni.cs" />
     <Compile Include="Infra\EntityConfig\ConsequenciaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\EventoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Evento_UsuarioEntityConfig.cs" />
@@ -297,13 +298,13 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
-    <Compile Include="Migrations\201704152039051_inicial.cs" />
-    <Compile Include="Migrations\201704152039051_inicial.Designer.cs">
-      <DependentUpon>201704152039051_inicial.cs</DependentUpon>
+    <Compile Include="Migrations\201704170015052_inicial.cs" />
+    <Compile Include="Migrations\201704170015052_inicial.Designer.cs">
+      <DependentUpon>201704170015052_inicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704152348126_inicial2.cs" />
-    <Compile Include="Migrations\201704152348126_inicial2.Designer.cs">
-      <DependentUpon>201704152348126_inicial2.cs</DependentUpon>
+    <Compile Include="Migrations\201704170035350_inicial2.cs" />
+    <Compile Include="Migrations\201704170035350_inicial2.Designer.cs">
+      <DependentUpon>201704170035350_inicial2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -451,11 +452,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704152039051_inicial.resx">
-      <DependentUpon>201704152039051_inicial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704170015052_inicial.resx">
+      <DependentUpon>201704170015052_inicial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704152348126_inicial2.resx">
-      <DependentUpon>201704152348126_inicial2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704170035350_inicial2.resx">
+      <DependentUpon>201704170035350_inicial2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

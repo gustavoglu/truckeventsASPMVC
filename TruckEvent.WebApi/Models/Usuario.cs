@@ -19,10 +19,12 @@ namespace TruckEvent.WebApi.Models
         public string Telefone1 { get; set; } = null;
         public string Telefone2 { get; set; } = null;
         public string Documento { get; set; } = null;
-        public string Email { get; set; } = null;
         public DateTime? DataNascimento { get; set; }
+        public bool? UserAdmin { get; set; }
+        public bool? UserPrincipal { get; set; }
+        public bool? Organizador { get; set; }
 
-        public Guid Id_usuario_tipo { get; set; }
+        public Guid? Id_usuario_tipo { get; set; }
         public virtual Usuario_Tipo Usuario_Tipo { get; set; }
 
         public virtual ICollection<Evento> Eventos { get; set; }

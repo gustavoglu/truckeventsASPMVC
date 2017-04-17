@@ -38,7 +38,23 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public T BuscarPorId(Guid? Id)
         {
-            return dbSet.SingleOrDefault(obj => obj.Id == Id);
+            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
+
+            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            {
+                return dbSet.SingleOrDefault(t => t.CriadoPor == usuarioPrincipal.UserName && t.Id == Id);
+            }
+            else if (usuario.Organizador == true || usuario.UserPrincipal == true )
+            {
+                return dbSet.SingleOrDefault(t => t.CriadoPor == usuario.UserName && t.Id == Id);
+            }
+            else
+            {
+                return dbSet.SingleOrDefault(obj => obj.Id == Id);
+            }
+
+         
         }
 
         public T Criar(T obj)
@@ -136,11 +152,11 @@ namespace TruckEvent.WebApi.Infra.Repository
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Usuario_Tipo.Organizador == false && usuario.Usuario_Tipo.UserAdmin == false && usuario.Usuario_Tipo.UserPrincipal == true)
+            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuarioPrincipal.UserName);
             }
-            else if (usuario.Usuario_Tipo.Organizador == true || usuario.Usuario_Tipo.UserPrincipal == true)
+            else if (usuario.Organizador == true || usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuario.UserName);
             }
@@ -156,11 +172,11 @@ namespace TruckEvent.WebApi.Infra.Repository
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Usuario_Tipo.Organizador == false && usuario.Usuario_Tipo.UserAdmin == false && usuario.Usuario_Tipo.UserPrincipal == true)
+            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuarioPrincipal.UserName && t.Deletado == false);
             }
-            else if (usuario.Usuario_Tipo.Organizador == true || usuario.Usuario_Tipo.UserPrincipal == true)
+            else if (usuario.Organizador == true || usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == false);
             }
@@ -177,11 +193,11 @@ namespace TruckEvent.WebApi.Infra.Repository
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Usuario_Tipo.Organizador == false && usuario.Usuario_Tipo.UserAdmin == false && usuario.Usuario_Tipo.UserPrincipal == true)
+            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuarioPrincipal.UserName && t.Deletado == true);
             }
-            else if (usuario.Usuario_Tipo.Organizador == true || usuario.Usuario_Tipo.UserPrincipal == true)
+            else if (usuario.Organizador == true || usuario.UserPrincipal == true)
             {
                 return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == true);
             }

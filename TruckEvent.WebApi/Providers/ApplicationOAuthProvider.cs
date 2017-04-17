@@ -17,6 +17,8 @@ namespace TruckEvent.WebApi.Providers
     {
         private readonly string _publicClientId;
 
+        public Usuario Usuario  { get; set; }
+
         public ApplicationOAuthProvider(string publicClientId)
         {
             if (publicClientId == null)
@@ -44,10 +46,18 @@ namespace TruckEvent.WebApi.Providers
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
+            cookiesIdentity.AddClaim(new Claim("id_usuario", user.Id));
+            if (user.Id_Usuario_Principal != null)
+            {
+                cookiesIdentity.AddClaim(new Claim("id_usuario_principal", user.Id_Usuario_Principal));
+            }
+     
+
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
+            this.Usuario = user;
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
@@ -56,6 +66,11 @@ namespace TruckEvent.WebApi.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
+
+            context.AdditionalResponseParameters.Add("Admin", Usuario.UserAdmin);
+            context.AdditionalResponseParameters.Add("Organizador", Usuario.Organizador);
+            context.AdditionalResponseParameters.Add("UsuarioPrincipal", Usuario.UserPrincipal);
+            context.AdditionalResponseParameters.Add("id_usuario_principal", Usuario.Id_Usuario_Principal);
 
             return Task.FromResult<object>(null);
         }

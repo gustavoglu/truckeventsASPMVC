@@ -7,6 +7,7 @@ using TruckEvent.WebApi.Models;
 using System.Data.Entity;
 using TruckEvent.WebApi.Infra.EntityConfig;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository;
 
 namespace TruckEvent.WebApi.Infra
 {
@@ -15,7 +16,12 @@ namespace TruckEvent.WebApi.Infra
 
         public SQLContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer<SQLContext>(new CreateDataBaseIni());
+
+          //  Database.SetInitializer(new database)
         }
+
+
 
         public DbSet<Consequencia> Consequencias { get; set; }
         public DbSet<Evento_Usuario> Evento_Usuarios { get; set; }
@@ -32,11 +38,12 @@ namespace TruckEvent.WebApi.Infra
         public DbSet<Venda_Produto> Venda_Produtos { get; set; }
         public DbSet<Venda> Vendas { get; set; }
 
-
+        
         public static SQLContext Create()
         {
             return new SQLContext();
         }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

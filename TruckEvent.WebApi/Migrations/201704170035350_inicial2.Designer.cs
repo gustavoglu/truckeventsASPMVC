@@ -7,13 +7,13 @@ namespace TruckEvent.WebApi.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class inicial : IMigrationMetadata
+    public sealed partial class inicial2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(inicial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(inicial2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704152039051_inicial"; }
+            get { return "201704170035350_inicial2"; }
         }
         
         string IMigrationMetadata.Source

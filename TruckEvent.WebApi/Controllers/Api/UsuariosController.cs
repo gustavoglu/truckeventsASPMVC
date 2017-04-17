@@ -6,6 +6,9 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TruckEvent.WebApi.Infra;
@@ -16,6 +19,16 @@ namespace TruckEvent.WebApi.Controllers.Api
     public class UsuariosController : ApiController
     {
         private SQLContext db = new SQLContext();
+
+
+        [HttpGet]
+        public string Get()
+        {
+            var identityClaim = (ClaimsPrincipal)Thread.CurrentPrincipal;
+
+            return identityClaim.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value;
+
+        }
 
         // GET: api/Usuarios
         //public IQueryable<UsuarioViewModel> GetUsuarioViewModels()

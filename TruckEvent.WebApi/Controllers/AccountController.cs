@@ -16,6 +16,9 @@ using Microsoft.Owin.Security.OAuth;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Providers;
 using TruckEvent.WebApi.Results;
+using TruckEvent.WebApi.Infra;
+using System.Threading;
+using System.Linq;
 
 namespace TruckEvent.WebApi.Controllers
 {
@@ -327,8 +330,20 @@ namespace TruckEvent.WebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
+            //if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false )
+            //{
+            //    return BadRequest("Necessário escolher um tipo de usuario, exemplo Adimn = true");
+            //}
 
-            var user = new Usuario() { UserName = model.Email, Email = model.Email };
+            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin};
+
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var id_usuario = identity.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value;
+
+            if (model.PrincipalLoja == false && model.Organizador == false && model.Admin == false && id_usuario != null)
+            {
+                user.Id_Usuario_Principal = id_usuario;
+            }
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
