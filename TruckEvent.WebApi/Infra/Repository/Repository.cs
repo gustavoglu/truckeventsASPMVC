@@ -38,22 +38,38 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public T BuscarPorId(Guid? Id)
         {
+           
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
             if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
             {
-                return dbSet.SingleOrDefault(t => t.CriadoPor == usuarioPrincipal.UserName && t.Id == Id);
+                return
+                (from entidades in dbSet
+                join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                && entidades.Id == Id
+                select entidades).SingleOrDefault();
+
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == true)
+            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
             {
                 return dbSet.SingleOrDefault(t => t.CriadoPor == usuario.UserName && t.Id == Id);
             }
+            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            {
+                return
+                (from entidades in dbSet
+                join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                && entidades.Id == Id
+                select entidades).SingleOrDefault();
+
+            }
             else
             {
-                return dbSet.SingleOrDefault(obj => obj.Id == Id);
+                return dbSet.SingleOrDefault(t => t.Id == Id);
             }
-
 
         }
 
