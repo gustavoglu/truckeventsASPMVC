@@ -283,9 +283,9 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
-    <Compile Include="Migrations\201704191453513_fichaproduto.cs" />
-    <Compile Include="Migrations\201704191453513_fichaproduto.Designer.cs">
-      <DependentUpon>201704191453513_fichaproduto.cs</DependentUpon>
+    <Compile Include="Migrations\201704192239128_teste.cs" />
+    <Compile Include="Migrations\201704192239128_teste.Designer.cs">
+      <DependentUpon>201704192239128_teste.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -437,8 +437,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704191453513_fichaproduto.resx">
-      <DependentUpon>201704191453513_fichaproduto.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704192239128_teste.resx">
+      <DependentUpon>201704192239128_teste.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

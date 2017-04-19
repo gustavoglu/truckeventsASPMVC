@@ -7,13 +7,13 @@ namespace TruckEvent.WebApi.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class fichaproduto : IMigrationMetadata
+    public sealed partial class teste : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(fichaproduto));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(teste));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704191453513_fichaproduto"; }
+            get { return "201704192239128_teste"; }
         }
         
         string IMigrationMetadata.Source
