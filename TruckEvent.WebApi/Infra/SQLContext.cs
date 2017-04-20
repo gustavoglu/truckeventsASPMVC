@@ -35,8 +35,8 @@ namespace TruckEvent.WebApi.Infra
         public DbSet<Venda_Produto_Variacao> Venda_Produto_Variacoes { get; set; }
         public DbSet<Venda_Produto> Venda_Produtos { get; set; }
         public DbSet<Venda> Vendas { get; set; }
+        public DbSet<Ficha_Produto> Ficha_Produtos { get; set; }
 
-        
         public static SQLContext Create()
         {
             return new SQLContext();
@@ -80,6 +80,7 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Configurations.Add(new Venda_Produto_VariacaoEntityConfig());
             modelBuilder.Configurations.Add(new Venda_ProdutoEntityConfig());
             modelBuilder.Configurations.Add(new VendaEntityConfig());
+            modelBuilder.Configurations.Add(new Ficha_ProdutoEntityConfig());
 
             //Configura Tamanho de strings e tipo
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(250));
@@ -110,6 +111,6 @@ namespace TruckEvent.WebApi.Infra
             return base.SaveChanges();
         }
 
-
+        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Ficha_ProdutoViewModel> Ficha_ProdutoViewModel { get; set; }
     }
 }

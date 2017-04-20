@@ -236,6 +236,7 @@
     <Compile Include="Controllers\Api\EventosController.cs" />
     <Compile Include="Controllers\Api\Evento_UsuariosController.cs" />
     <Compile Include="Controllers\Api\FichasController.cs" />
+    <Compile Include="Controllers\Api\Ficha_ProdutosController.cs" />
     <Compile Include="Controllers\Api\Pagamento_TiposController.cs" />
     <Compile Include="Controllers\Api\ProdutosController.cs" />
     <Compile Include="Controllers\Api\Produto_CoresController.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Infra\EntityConfig\EventoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Evento_UsuarioEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\FichaEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Ficha_ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Pagamento_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
@@ -270,10 +272,12 @@
     <Compile Include="Infra\Repository\EntityRepository\ConsequenciaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\EventoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Evento_UsuarioRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Ficha_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Ficha_Repository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IConsequenciaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IEventoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IEvento_UsuarioRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IFicha_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IFicha_Repository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IPagamento_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProdutoRepository.cs" />
@@ -310,6 +314,7 @@
     <Compile Include="Models\Evento.cs" />
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
+    <Compile Include="Models\Ficha_Produto.cs" />
     <Compile Include="Models\Venda_Pagamento.cs" />
     <Compile Include="Models\Produto.cs" />
     <Compile Include="Models\Produto_Cor.cs" />
@@ -328,6 +333,8 @@
     <Compile Include="Services\EventoAppService.cs" />
     <Compile Include="Services\Evento_UsuarioAppService.cs" />
     <Compile Include="Services\FichaAppService.cs" />
+    <Compile Include="Services\Ficha_ProdutoAppService.cs" />
+    <Compile Include="Services\Interfaces\IFicha_ProdutoAppService.cs" />
     <Compile Include="Services\Pagamento_TipoAppService.cs" />
     <Compile Include="Services\ProdutoAppService.cs" />
     <Compile Include="Services\Produto_CorAppService.cs" />
@@ -359,6 +366,7 @@
     <Compile Include="ViewModels\EventoViewModel.cs" />
     <Compile Include="ViewModels\Evento_UsuarioViewModel.cs" />
     <Compile Include="ViewModels\FichaViewModel.cs" />
+    <Compile Include="ViewModels\Ficha_ProdutoViewModel.cs" />
     <Compile Include="ViewModels\Pagamento_TipoViewModel.cs" />
     <Compile Include="ViewModels\ProdutoViewModel.cs" />
     <Compile Include="ViewModels\Produto_CorViewModel.cs" />

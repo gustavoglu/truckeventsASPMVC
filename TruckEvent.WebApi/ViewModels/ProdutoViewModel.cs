@@ -11,6 +11,7 @@ namespace TruckEvent.WebApi.ViewModels
         {
             this.Id = Guid.NewGuid();
             this.Venda_Produtos = new List<Venda_ProdutoViewModel>();
+            this.Ficha_Produtos = new List<Ficha_ProdutoViewModel>();
         }
 
         public Guid? Id { get; set; }
@@ -26,5 +27,7 @@ namespace TruckEvent.WebApi.ViewModels
         public virtual Produto_TipoViewModel Produto_Tipo { get; set; } = null;
 
         public virtual ICollection<Venda_ProdutoViewModel> Venda_Produtos { get; set; }
+
+        public virtual ICollection<Ficha_ProdutoViewModel> Ficha_Produtos { get; set; }
     }
 }
