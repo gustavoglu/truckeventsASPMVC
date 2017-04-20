@@ -302,6 +302,10 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
+    <Compile Include="Migrations\201704200124133_smsconf.cs" />
+    <Compile Include="Migrations\201704200124133_smsconf.Designer.cs">
+      <DependentUpon>201704200124133_smsconf.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -450,6 +454,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201704200124133_smsconf.resx">
+      <DependentUpon>201704200124133_smsconf.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

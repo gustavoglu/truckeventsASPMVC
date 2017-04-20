@@ -11,6 +11,10 @@ namespace TruckEvent.WebApi.Models
 
         public string NomeCliente { get; set; } = null;
 
+        public string CelularCliente { get; set; } = null;
+
+        public bool? EnviarSMSConfirmacao{ get; set; }
+
         public int? Senha { get; set; }
 
         public double? Saldo { get; set; }

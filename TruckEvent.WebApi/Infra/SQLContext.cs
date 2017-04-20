@@ -110,7 +110,6 @@ namespace TruckEvent.WebApi.Infra
 
             return base.SaveChanges();
         }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Ficha_ProdutoViewModel> Ficha_ProdutoViewModel { get; set; }
+        
     }
 }
