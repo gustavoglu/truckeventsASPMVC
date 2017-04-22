@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TruckEvent.WebApi.Models;
 using System.Data.Entity;
 using TruckEvent.WebApi.Infra.EntityConfig;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using TruckEvent.WebApi.Infra.Repository.EntityRepository;
 
 namespace TruckEvent.WebApi.Infra
 {
@@ -16,14 +14,12 @@ namespace TruckEvent.WebApi.Infra
 
         public SQLContext() : base("SQLAzureHomlogacao", throwIfV1Schema: false)
         {
-            Database.SetInitializer<SQLContext>(new CreateDataBaseIni());
-
-          //  Database.SetInitializer(new database)
+    
         }
 
         public DbSet<Consequencia> Consequencias { get; set; }
         public DbSet<Evento_Usuario> Evento_Usuarios { get; set; }
-        //public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Evento> Eventos { get; set; }
         public DbSet<Ficha> Fichas { get; set; }
         public DbSet<Pagamento_Tipo> Pagamento_Tipos { get; set; }
         public DbSet<Produto_Cor> Produto_Cores { get; set; }
@@ -45,9 +41,8 @@ namespace TruckEvent.WebApi.Infra
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
-
             base.OnModelCreating(modelBuilder);
+
             //Remove Conventions
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
@@ -64,26 +59,22 @@ namespace TruckEvent.WebApi.Infra
 
 
             //Configura entitys
-            //modelBuilder.Configurations.Add(new EventoEntityConfig());
-            //modelBuilder.Entity<Usuario>()
-            //    .HasRequired(u => u.Usuario_Tipo)
-            //    .WithMany(ut => ut.Usuarios)
-            //    .HasForeignKey(u => u.Id_usuario_tipo);
-
+            modelBuilder.Configurations.Add(new EventoEntityConfig());
+  
             modelBuilder.Entity<Usuario>()
                 .HasOptional(u => u.Usuario_Organizador)
                 .WithMany(uu => uu.Caixas)
                 .HasForeignKey(u => u.id_usuario_organizador);
-
+            
             modelBuilder.Entity<Usuario>()
                 .HasOptional(u => u.Usuario_Principal)
                 .WithMany(uu => uu.Lojas)
                 .HasForeignKey(u => u.Id_Usuario_Principal);
-
+            
             modelBuilder.Configurations.Add(new Usuario_TipoEntityConfig());
             modelBuilder.Configurations.Add(new ConsequenciaEntityConfig());
             modelBuilder.Configurations.Add(new Evento_UsuarioEntityConfig());
-            modelBuilder.Configurations.Add(new EventoEntityConfig());      
+            
             modelBuilder.Configurations.Add(new FichaEntityConfig());
             modelBuilder.Configurations.Add(new Pagamento_TipoEntityConfig());
             modelBuilder.Configurations.Add(new Produto_CorEntityConfig());

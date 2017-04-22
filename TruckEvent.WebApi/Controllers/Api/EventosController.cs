@@ -77,7 +77,8 @@ namespace TruckEvent.WebApi.Controllers.Api
             }
 
             // eventoViewModel.Id_usuario_organizador = usuario.Id;
-            eventoViewModel.Id_usuario_organizador = usuario.Id;//Mapper.Map<UsuarioViewModel> (usuario);
+            eventoViewModel.Id_organizador = usuario.Id;//Mapper.Map<UsuarioViewModel> (usuario);
+            ;
 
             if (!ModelState.IsValid)
             {
@@ -108,9 +109,9 @@ namespace TruckEvent.WebApi.Controllers.Api
             base.Dispose(disposing);
         }
 
-       // private bool EventoViewModelExists(Guid? id)
-       // {
-       //     return db.Eventos.Count(e => e.Id == id) > 0;
-       // }
+        private bool EventoViewModelExists(Guid? id)
+        {
+            return db.Eventos.Count(e => e.Id == id) > 0;
+        }
     }
 }

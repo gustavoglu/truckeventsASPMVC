@@ -48,6 +48,12 @@
     <Reference Include="AutoMapper, Version=5.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.5.2.0\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -124,12 +130,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -302,53 +302,9 @@
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
-    <Compile Include="Migrations\201704200124133_smsconf.cs" />
-    <Compile Include="Migrations\201704200124133_smsconf.Designer.cs">
-      <DependentUpon>201704200124133_smsconf.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704212300232_caixaevento.cs" />
-    <Compile Include="Migrations\201704212300232_caixaevento.Designer.cs">
-      <DependentUpon>201704212300232_caixaevento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704212352356_testeEventoForeignKeyUsuario.cs" />
-    <Compile Include="Migrations\201704212352356_testeEventoForeignKeyUsuario.Designer.cs">
-      <DependentUpon>201704212352356_testeEventoForeignKeyUsuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220003097_testeEventoForeignKeyUsuario2.cs" />
-    <Compile Include="Migrations\201704220003097_testeEventoForeignKeyUsuario2.Designer.cs">
-      <DependentUpon>201704220003097_testeEventoForeignKeyUsuario2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220028488_foreignkeyUsuarioPrincipal.cs" />
-    <Compile Include="Migrations\201704220028488_foreignkeyUsuarioPrincipal.Designer.cs">
-      <DependentUpon>201704220028488_foreignkeyUsuarioPrincipal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220035233_remocaoForeignKeyUsuarioDoEvento.cs" />
-    <Compile Include="Migrations\201704220035233_remocaoForeignKeyUsuarioDoEvento.Designer.cs">
-      <DependentUpon>201704220035233_remocaoForeignKeyUsuarioDoEvento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220046069_testetableevento.cs" />
-    <Compile Include="Migrations\201704220046069_testetableevento.Designer.cs">
-      <DependentUpon>201704220046069_testetableevento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220116156_testetableevento2.cs" />
-    <Compile Include="Migrations\201704220116156_testetableevento2.Designer.cs">
-      <DependentUpon>201704220116156_testetableevento2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220124003_testetableevento3.cs" />
-    <Compile Include="Migrations\201704220124003_testetableevento3.Designer.cs">
-      <DependentUpon>201704220124003_testetableevento3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220129314_evento.cs" />
-    <Compile Include="Migrations\201704220129314_evento.Designer.cs">
-      <DependentUpon>201704220129314_evento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220154567_evento4.cs" />
-    <Compile Include="Migrations\201704220154567_evento4.Designer.cs">
-      <DependentUpon>201704220154567_evento4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704220203286_evento5.cs" />
-    <Compile Include="Migrations\201704220203286_evento5.Designer.cs">
-      <DependentUpon>201704220203286_evento5.cs</DependentUpon>
+    <Compile Include="Migrations\201704221715399_correcao.cs" />
+    <Compile Include="Migrations\201704221715399_correcao.Designer.cs">
+      <DependentUpon>201704221715399_correcao.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -500,41 +456,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704200124133_smsconf.resx">
-      <DependentUpon>201704200124133_smsconf.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704212300232_caixaevento.resx">
-      <DependentUpon>201704212300232_caixaevento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704212352356_testeEventoForeignKeyUsuario.resx">
-      <DependentUpon>201704212352356_testeEventoForeignKeyUsuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220003097_testeEventoForeignKeyUsuario2.resx">
-      <DependentUpon>201704220003097_testeEventoForeignKeyUsuario2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220028488_foreignkeyUsuarioPrincipal.resx">
-      <DependentUpon>201704220028488_foreignkeyUsuarioPrincipal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220035233_remocaoForeignKeyUsuarioDoEvento.resx">
-      <DependentUpon>201704220035233_remocaoForeignKeyUsuarioDoEvento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220046069_testetableevento.resx">
-      <DependentUpon>201704220046069_testetableevento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220116156_testetableevento2.resx">
-      <DependentUpon>201704220116156_testetableevento2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220124003_testetableevento3.resx">
-      <DependentUpon>201704220124003_testetableevento3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220129314_evento.resx">
-      <DependentUpon>201704220129314_evento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220154567_evento4.resx">
-      <DependentUpon>201704220154567_evento4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704220203286_evento5.resx">
-      <DependentUpon>201704220203286_evento5.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704221715399_correcao.resx">
+      <DependentUpon>201704221715399_correcao.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

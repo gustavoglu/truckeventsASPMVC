@@ -28,9 +28,9 @@ namespace TruckEvent.WebApi.ViewModels
 
         public int? TotalProdutosVendidos { get; set; }
 
-        public Usuario Usuario_Organizador { get; set; }
+        //public Usuario Usuario_Organizador { get; set; }
 
-        public string Id_usuario_organizador { get; set; } = null;
+        //public string Id_usuario_organizador { get; set; } = null;
 
         public string Id_organizador { get; set; } = null;
 

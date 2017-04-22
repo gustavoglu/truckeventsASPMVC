@@ -10,7 +10,7 @@ namespace TruckEvent.WebApi.ViewModels
     {
         public UsuarioViewModel()
         {
-            this.Eventos = new List<Evento>();
+            //this.Eventos = new List<Evento>();
         }
 
 
@@ -30,7 +30,7 @@ namespace TruckEvent.WebApi.ViewModels
         public Guid? Id_usuario_tipo { get; set; }
         public virtual Usuario_Tipo Usuario_Tipo { get; set; }
 
-        public virtual ICollection<Evento> Eventos { get; set; }
+       // public virtual ICollection<Evento> Eventos { get; set; }
         public string Id_Usuario_Principal { get; set; } = null;
     }
 }

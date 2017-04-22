@@ -19,7 +19,7 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
                 .WithMany(e => e.Fichas)
                 .HasForeignKey(f => f.Id_Evento);
 
-            
+
         }
     }
 }

@@ -6,14 +6,14 @@ namespace TruckEvent.WebApi.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class evento5 : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
+    public sealed partial class correcao : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(evento5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(correcao));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704220203286_evento5"; }
+            get { return "201704221715399_correcao"; }
         }
         
         string IMigrationMetadata.Source

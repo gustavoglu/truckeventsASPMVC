@@ -347,9 +347,10 @@ namespace TruckEvent.WebApi.Controllers
             }
             
             
-            if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == true|| model.CaixaEvento == false)
+            if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == true ||
+                model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == false)
             {
-                return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, \n" + variaveis);
+                return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, " + variaveis);
             }
 
             var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin ,CaixaEvento = model.CaixaEvento};

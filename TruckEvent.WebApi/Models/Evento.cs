@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace TruckEvent.WebApi.Models
 {
@@ -16,14 +17,16 @@ namespace TruckEvent.WebApi.Models
 
         public int? TotalProdutosVendidos { get; set; }
 
-        public virtual Usuario Usuario_Organizador { get; set; }
-
-        public string Id_usuario_organizador { get; set; } = null;
-
         public string Id_organizador { get; set; } = null;
+
+        public virtual Usuario Usuario_Organizador { get; set; }
 
         public virtual ICollection<Ficha> Fichas { get; set; }
 
-        public virtual ICollection<Venda> Vendas{ get; set; }
+        public virtual ICollection<Venda> Vendas { get; set; }
+
+        public virtual ICollection<Evento_Usuario> Evento_Usuarios  { get; set; }
+
+
     }
 }

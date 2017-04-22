@@ -15,9 +15,9 @@ namespace TruckEvent.WebApi.Infra.EntityConfig
 
             HasKey(v => v.Id);
 
-            HasRequired(v => v.Evento)
-                .WithMany(e => e.Vendas)
-                .HasForeignKey(v => v.Id_evento);
+            //HasRequired(v => v.Evento)
+            //    .WithMany(e => e.Vendas)
+            //    .HasForeignKey(v => v.Id_evento);
 
 
         }
