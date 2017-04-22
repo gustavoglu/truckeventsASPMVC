@@ -331,9 +331,12 @@ namespace TruckEvent.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            string variaveis = "Váriaveis : Admin, CaixaEvento, PrincipalLoja e Organizador";
+
             var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
 
             string id_usuario;
+
             if (identity.Claims.ToList().Exists(c => c.Type == "id_usuario"))
             {
                 id_usuario = identity.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value;
@@ -343,17 +346,24 @@ namespace TruckEvent.WebApi.Controllers
                 id_usuario = string.Empty;
             }
             
-            if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty)
+            
+            if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == true|| model.CaixaEvento == false)
             {
-                return BadRequest("Não é possivel criar um usuario de loja sem estar logado, só pessivel criar usuario Admin ou PrincipalLoja");
+                return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, \n" + variaveis);
             }
 
-            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin};
-
+            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin ,CaixaEvento = model.CaixaEvento};
+            
+            //Funcionario da Loja
             if (model.PrincipalLoja == false && model.Organizador == false && model.Admin == false && id_usuario != string.Empty)
             {
                 user.Id_Usuario_Principal = id_usuario;
             }
+            // CaixaLoja
+            //if (model.CaixaEvento && !model.PrincipalLoja && !model.Organizador && !model.Admin && id_usuario != string.Empty)
+            //{
+            //    user.id_usuario_organizador = id_usuario;
+            //}
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

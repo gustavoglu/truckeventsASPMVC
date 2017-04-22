@@ -23,7 +23,7 @@ namespace TruckEvent.WebApi.Infra
 
         public DbSet<Consequencia> Consequencias { get; set; }
         public DbSet<Evento_Usuario> Evento_Usuarios { get; set; }
-        public DbSet<Evento> Eventos { get; set; }
+        //public DbSet<Evento> Eventos { get; set; }
         public DbSet<Ficha> Fichas { get; set; }
         public DbSet<Pagamento_Tipo> Pagamento_Tipos { get; set; }
         public DbSet<Produto_Cor> Produto_Cores { get; set; }
@@ -61,15 +61,29 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Entity<IdentityUserClaim>().ToTable("usuario_claims");
             modelBuilder.Entity<IdentityRole>().ToTable("regra");
 
+
+
             //Configura entitys
-            modelBuilder.Entity<Usuario>().HasRequired(u => u.Usuario_Tipo)
-                .WithMany(ut => ut.Usuarios)
-                .HasForeignKey(u => u.Id_usuario_tipo);
+            //modelBuilder.Configurations.Add(new EventoEntityConfig());
+            //modelBuilder.Entity<Usuario>()
+            //    .HasRequired(u => u.Usuario_Tipo)
+            //    .WithMany(ut => ut.Usuarios)
+            //    .HasForeignKey(u => u.Id_usuario_tipo);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOptional(u => u.Usuario_Organizador)
+                .WithMany(uu => uu.Caixas)
+                .HasForeignKey(u => u.id_usuario_organizador);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOptional(u => u.Usuario_Principal)
+                .WithMany(uu => uu.Lojas)
+                .HasForeignKey(u => u.Id_Usuario_Principal);
 
             modelBuilder.Configurations.Add(new Usuario_TipoEntityConfig());
             modelBuilder.Configurations.Add(new ConsequenciaEntityConfig());
             modelBuilder.Configurations.Add(new Evento_UsuarioEntityConfig());
-            modelBuilder.Configurations.Add(new EventoEntityConfig());
+            modelBuilder.Configurations.Add(new EventoEntityConfig());      
             modelBuilder.Configurations.Add(new FichaEntityConfig());
             modelBuilder.Configurations.Add(new Pagamento_TipoEntityConfig());
             modelBuilder.Configurations.Add(new Produto_CorEntityConfig());

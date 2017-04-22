@@ -22,7 +22,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         }
 
-        public T Atualizar(T obj)
+        public virtual T Atualizar(T obj)
         {
 
             var entry = Db.Entry(obj);
@@ -36,7 +36,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             return BuscarPorId(obj.Id);
         }
 
-        public T BuscarPorId(Guid? Id)
+        public virtual T BuscarPorId(Guid? Id)
         {
            
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
@@ -73,16 +73,32 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         }
 
-        public T Criar(T obj)
+        public virtual T Criar(T obj)
         {
-            dbSet.Add(obj);
+           
+            //var usuario = Db.Users.SingleOrDefault(u => u.Id == "9d011db7-137f-492f-aadf-b7cbbfebdf26");
+            //
+            //var evento = new Evento() { Descricao = "Teste", DataInicio = new DateTime(2015, 05, 25), DataFim = new DateTime(2015, 05, 25), Usuario_Organizador = usuario };//Id_usuario_organizador = "9d011db7-137f-492f-aadf-b7cbbfebdf26" };
+            //
+            //var produto= new Produto() { Descricao = "ProdutoTeste", Id_produto_cor = Guid.Parse("FBC4DA29-503E-4928-B000-B39BCC0B4AAA"), Id_produto_tipo = Guid.Parse("44CF4EEF-71A9-480D-B1D4-963F835244BE"), Valor = 5, Numero = 1 };
+            //var add = Db.Produtos.Add(produto);
+
+
+            //usuario.Eventos.Add(evento);
+
+           // var teste = Db.Set<Evento>().Add(evento);
+
+            
+
+            //var teste = dbSet.Add(obj);
+             var teste = dbSet.Add(obj);
 
             Salvar();
 
             return BuscarPorId(obj.Id);
         }
 
-        public bool Deletar(Guid? Id)
+        public virtual bool Deletar(Guid? Id)
         {
             var obj = BuscarPorId(Id);
 
@@ -116,7 +132,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             GC.SuppressFinalize(this);
         }
 
-        public IEnumerable<T> Pesquisar(Expression<Func<T, bool>> Expressao)
+        public virtual IEnumerable<T> Pesquisar(Expression<Func<T, bool>> Expressao)
         {
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
@@ -151,7 +167,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         }
 
-        public IEnumerable<T> PesquisarAtivos(Expression<Func<T, bool>> Expressao)
+        public virtual IEnumerable<T> PesquisarAtivos(Expression<Func<T, bool>> Expressao)
         {
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
@@ -186,7 +202,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             }
         }
 
-        public IEnumerable<T> PesquisarDeletados(Expression<Func<T, bool>> Expressao)
+        public virtual IEnumerable<T> PesquisarDeletados(Expression<Func<T, bool>> Expressao)
         {
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
@@ -221,7 +237,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             }
         }
 
-        public T Reativar(Guid? Id)
+        public virtual T Reativar(Guid? Id)
         {
             var obj = BuscarPorId(Id);
 
@@ -253,7 +269,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             return this.Db.SaveChanges();
         }
 
-        public IEnumerable<T> TrazerTodos()
+        public virtual IEnumerable<T> TrazerTodos()
         {
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
@@ -287,7 +303,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         }
 
-        public IEnumerable<T> TrazerTodosAtivos()
+        public virtual IEnumerable<T> TrazerTodosAtivos()
         {
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
             var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
@@ -322,7 +338,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             }
         }
 
-        public IEnumerable<T> TrazerTodosDeletados()
+        public virtual IEnumerable<T> TrazerTodosDeletados()
         {
 
             var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);

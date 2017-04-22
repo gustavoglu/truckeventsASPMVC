@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
@@ -9,7 +10,7 @@ namespace TruckEvent.WebApi.ViewModels
     {
         public UsuarioViewModel()
         {
-            this.Eventos = new List<EventoViewModel>();
+            this.Eventos = new List<Evento>();
         }
 
 
@@ -26,10 +27,10 @@ namespace TruckEvent.WebApi.ViewModels
         public bool? UserPrincipal { get; set; }
         public bool? Organizador { get; set; }
 
-        public Guid Id_usuario_tipo { get; set; }
-        public virtual Usuario_TipoViewModel Usuario_Tipo { get; set; }
+        public Guid? Id_usuario_tipo { get; set; }
+        public virtual Usuario_Tipo Usuario_Tipo { get; set; }
 
-        public virtual ICollection<EventoViewModel> Eventos { get; set; }
+        public virtual ICollection<Evento> Eventos { get; set; }
         public string Id_Usuario_Principal { get; set; } = null;
     }
 }

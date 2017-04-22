@@ -58,6 +58,9 @@ namespace TruckEvent.WebApi.Models
         [Display(Name = "Principal Usuario da Loja")]
         public bool PrincipalLoja { get; set; }
 
+        [Display(Name = "Caixa de Evento")]
+        public bool CaixaEvento { get; set; }
+
 
     }
 

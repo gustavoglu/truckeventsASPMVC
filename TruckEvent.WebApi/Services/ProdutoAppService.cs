@@ -28,7 +28,9 @@ namespace TruckEvent.WebApi.Services
 
         public ProdutoViewModel BuscarPorId(Guid Id)
         {
-            return Mapper.Map<ProdutoViewModel>(_produtoRepository.BuscarPorId(Id));
+            var produto = _produtoRepository.BuscarPorId(Id);
+            var viewmodel = Mapper.Map<ProdutoViewModel>(produto);
+            return viewmodel;
         }
 
         public ProdutoViewModel Criar(ProdutoViewModel produtoViewModel)

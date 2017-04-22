@@ -7,7 +7,7 @@ namespace TruckEvent.WebApi.Models
 {
     public abstract class BaseEntity
     {
-        public BaseEntity()
+        protected BaseEntity()
         {
             this.Id = Guid.NewGuid();
         }

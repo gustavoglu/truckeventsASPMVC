@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using TruckEvent.WebApi.Infra;
@@ -62,10 +64,26 @@ namespace TruckEvent.WebApi.Controllers.Api
         [ResponseType(typeof(EventoViewModel))]
         public IHttpActionResult PostEventoViewModel(EventoViewModel eventoViewModel)
         {
+
+            var usuario = db.Users.SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+            if (usuario == null)
+            {
+                return BadRequest("Nenhum Usuario Logado");
+            }
+
+            if (usuario.Organizador == false)
+            {
+                return BadRequest("É Necessário ser um Organizador para criar um Evento");
+            }
+
+            // eventoViewModel.Id_usuario_organizador = usuario.Id;
+            eventoViewModel.Id_usuario_organizador = usuario.Id;//Mapper.Map<UsuarioViewModel> (usuario);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
             _eventoAppService.Criar(eventoViewModel);
 
             return CreatedAtRoute("DefaultApi", new { id = eventoViewModel.Id }, eventoViewModel);
@@ -90,9 +108,9 @@ namespace TruckEvent.WebApi.Controllers.Api
             base.Dispose(disposing);
         }
 
-        private bool EventoViewModelExists(Guid? id)
-        {
-            return db.Eventos.Count(e => e.Id == id) > 0;
-        }
+       // private bool EventoViewModelExists(Guid? id)
+       // {
+       //     return db.Eventos.Count(e => e.Id == id) > 0;
+       // }
     }
 }

@@ -10,7 +10,7 @@ namespace TruckEvent.WebApi.AutoMap
     {
         public static void Config()
         {
-            Mapper.Initialize(x => x.AddProfile(new ProfileAutoMapper()));
+            Mapper.Initialize(x => x.AddProfile<ProfileAutoMapper>());
         }
     }
 }

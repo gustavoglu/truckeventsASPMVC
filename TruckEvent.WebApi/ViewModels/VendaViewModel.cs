@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
@@ -11,8 +12,8 @@ namespace TruckEvent.WebApi.ViewModels
         public VendaViewModel()
         {
             this.Id = Guid.NewGuid();
-            this.Venda_Pagamentos = new List<Venda_PagamentoViewModel>();
-            this.Venda_Produtos = new List<Venda_ProdutoViewModel>();
+            this.Venda_Pagamentos = new List<Venda_Pagamento>();
+            this.Venda_Produtos = new List<Venda_Produto>();
         }
         public Guid? Id { get; set; }
 
@@ -28,11 +29,25 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Guid? Id_evento { get; set; }
 
-        public virtual EventoViewModel Evento { get; set; } = null;
+        public virtual Evento Evento { get; set; } = null;
 
-        public virtual ICollection<Venda_PagamentoViewModel> Venda_Pagamentos { get; set; }
+        public virtual ICollection<Venda_Pagamento> Venda_Pagamentos { get; set; }
 
-        public virtual ICollection<Venda_ProdutoViewModel> Venda_Produtos { get; set; }
+        public virtual ICollection<Venda_Produto> Venda_Produtos { get; set; }
+
+        public DateTime? CriadoEm { get; set; }
+
+        public string CriadoPor { get; set; } = null;
+
+        public DateTime? DeletadoEm { get; set; }
+
+        public string DeletadoPor { get; set; } = null;
+
+        public DateTime? AtualizadoEm { get; set; }
+
+        public string AtualizadoPor { get; set; } = null;
+
+        public bool? Deletado { get; set; }
 
     }
 }

@@ -23,11 +23,19 @@ namespace TruckEvent.WebApi.Models
         public bool? UserAdmin { get; set; }
         public bool? UserPrincipal { get; set; }
         public bool? Organizador { get; set; }
+        public bool? CaixaEvento { get; set; }
+
+        public string id_usuario_organizador { get; set; }
+        public virtual Usuario Usuario_Organizador { get; set; }
 
         public Guid? Id_usuario_tipo { get; set; }
         public virtual Usuario_Tipo Usuario_Tipo { get; set; }
 
+        public virtual ICollection<Usuario> Caixas { get; set; }
+        public virtual ICollection<Usuario> Lojas { get; set; }
         public virtual ICollection<Evento> Eventos { get; set; }
+
+        public virtual Usuario Usuario_Principal { get; set; }
         public string Id_Usuario_Principal { get; set; } = null;
 
 
