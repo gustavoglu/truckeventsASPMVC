@@ -12,7 +12,7 @@ namespace TruckEvent.WebApi.Infra.Repository
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly SQLContext Db;
-        DbSet<T> dbSet;
+        protected DbSet<T> dbSet;
 
 
         public Repository()

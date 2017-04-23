@@ -128,7 +128,7 @@ namespace TruckEvent.WebApi.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -261,9 +261,9 @@ namespace TruckEvent.WebApi.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -331,7 +331,27 @@ namespace TruckEvent.WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
+            int countVariaveisRequest = 0;
+
+            var propertys = model.GetType().GetProperties().Where(p => p.PropertyType == typeof(bool));
+            var count = propertys.Count();
+            foreach (var property in propertys)
+            {
+                var value = property.GetValue(model, null);
+
+                if ((bool)value)
+                {
+                    countVariaveisRequest++;
+                }
+            }
+
             string variaveis = "Váriaveis : Admin, CaixaEvento, PrincipalLoja e Organizador";
+
+
+            if (countVariaveisRequest > 1)
+            {
+                return BadRequest("Não é possivel se cadastrar com mais de um tipo de Usuario, se cadastre apenas como um tipo das váriaveis: " + variaveis);
+            }
 
             var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
 
@@ -345,16 +365,16 @@ namespace TruckEvent.WebApi.Controllers
             {
                 id_usuario = string.Empty;
             }
-            
-            
+
+
             if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == true ||
                 model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == false)
             {
                 return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, " + variaveis);
             }
 
-            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja , UserAdmin = model.Admin ,CaixaEvento = model.CaixaEvento};
-            
+            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja, UserAdmin = model.Admin, CaixaEvento = model.CaixaEvento };
+
             //Funcionario da Loja
             if (model.PrincipalLoja == false && model.Organizador == false && model.Admin == false && id_usuario != string.Empty)
             {
@@ -404,7 +424,7 @@ namespace TruckEvent.WebApi.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

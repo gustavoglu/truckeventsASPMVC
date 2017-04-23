@@ -47,6 +47,11 @@ namespace TruckEvent.WebApi.Providers
                 CookieAuthenticationDefaults.AuthenticationType);
 
             cookiesIdentity.AddClaim(new Claim("id_usuario", user.Id));
+            cookiesIdentity.AddClaim(new Claim("Admin", user.UserAdmin.ToString()));
+            cookiesIdentity.AddClaim(new Claim("Organizador", user.Organizador.ToString()));
+            cookiesIdentity.AddClaim(new Claim("CaixaEvento", user.CaixaEvento.ToString()));
+            cookiesIdentity.AddClaim(new Claim("UsuarioPrincipal", user.UserPrincipal.ToString()));
+
 
             if (user.Id_Usuario_Principal != null)
             {
@@ -70,6 +75,7 @@ namespace TruckEvent.WebApi.Providers
 
             context.AdditionalResponseParameters.Add("Admin", Usuario.UserAdmin);
             context.AdditionalResponseParameters.Add("Organizador", Usuario.Organizador);
+            context.AdditionalResponseParameters.Add("CaixaEvento", Usuario.CaixaEvento);
             context.AdditionalResponseParameters.Add("UsuarioPrincipal", Usuario.UserPrincipal);
             context.AdditionalResponseParameters.Add("id_usuario_principal", Usuario.Id_Usuario_Principal);
 
