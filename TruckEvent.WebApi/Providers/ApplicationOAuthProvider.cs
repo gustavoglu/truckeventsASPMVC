@@ -10,6 +10,7 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using TruckEvent.WebApi.Models;
+using System.Threading;
 
 namespace TruckEvent.WebApi.Providers
 {
@@ -17,7 +18,7 @@ namespace TruckEvent.WebApi.Providers
     {
         private readonly string _publicClientId;
 
-        public Usuario Usuario  { get; set; }
+        public Usuario Usuario { get; set; }
 
         public ApplicationOAuthProvider(string publicClientId)
         {
@@ -40,6 +41,7 @@ namespace TruckEvent.WebApi.Providers
                 context.SetError("invalid_grant", "Nome de usuário ou senha incorreto.");
                 return;
             }
+            this.Usuario = user;
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
@@ -47,23 +49,31 @@ namespace TruckEvent.WebApi.Providers
                 CookieAuthenticationDefaults.AuthenticationType);
 
             cookiesIdentity.AddClaim(new Claim("id_usuario", user.Id));
-            cookiesIdentity.AddClaim(new Claim("Admin", user.UserAdmin.ToString()));
-            cookiesIdentity.AddClaim(new Claim("Organizador", user.Organizador.ToString()));
-            cookiesIdentity.AddClaim(new Claim("CaixaEvento", user.CaixaEvento.ToString()));
-            cookiesIdentity.AddClaim(new Claim("UsuarioPrincipal", user.UserPrincipal.ToString()));
+            cookiesIdentity.AddClaim(new Claim("admin", user.UserAdmin.ToString()));
+            cookiesIdentity.AddClaim(new Claim("organizador", user.Organizador.ToString()));
+            cookiesIdentity.AddClaim(new Claim("caixaEvento", user.CaixaEvento.ToString()));
+            cookiesIdentity.AddClaim(new Claim("usuarioPrincipal", user.UserPrincipal.ToString()));
+
+            oAuthIdentity.AddClaim(new Claim("id_usuario", user.Id));
+            oAuthIdentity.AddClaim(new Claim("admin", user.UserAdmin.ToString()));
+            oAuthIdentity.AddClaim(new Claim("organizador", user.Organizador.ToString()));
+            oAuthIdentity.AddClaim(new Claim("caixaEvento", user.CaixaEvento.ToString()));
+            oAuthIdentity.AddClaim(new Claim("usuarioprincipal", user.UserPrincipal.ToString()));
 
 
             if (user.Id_Usuario_Principal != null)
             {
                 cookiesIdentity.AddClaim(new Claim("id_usuario_principal", user.Id_Usuario_Principal));
             }
-     
+
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
-            this.Usuario = user;
+            
+            var principal = new ClaimsPrincipal(oAuthIdentity);
+            Thread.CurrentPrincipal = principal;
         }
 
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)

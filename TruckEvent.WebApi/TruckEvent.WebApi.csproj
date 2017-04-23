@@ -233,6 +233,7 @@
     <Compile Include="AutoMap\ProfileAutoMapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\ConsequenciasController.cs" />
+    <Compile Include="Controllers\Api\EnvioConviteController.cs" />
     <Compile Include="Controllers\Api\EventosController.cs" />
     <Compile Include="Controllers\Api\Evento_UsuariosController.cs" />
     <Compile Include="Controllers\Api\FichasController.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="Services\Interfaces\IVenda_Produto_VariacaoAppService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ConsequenciaViewModel.cs" />
+    <Compile Include="ViewModels\EnvioConviteViewModel.cs" />
     <Compile Include="ViewModels\EventoViewModel.cs" />
     <Compile Include="ViewModels\Evento_UsuarioViewModel.cs" />
     <Compile Include="ViewModels\FichaViewModel.cs" />
