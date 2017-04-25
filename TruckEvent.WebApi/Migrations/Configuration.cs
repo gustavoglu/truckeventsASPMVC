@@ -4,6 +4,7 @@ namespace TruckEvent.WebApi.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using TruckEvent.WebApi.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<TruckEvent.WebApi.Infra.SQLContext>
     {
@@ -14,6 +15,7 @@ namespace TruckEvent.WebApi.Migrations
 
         protected override void Seed(TruckEvent.WebApi.Infra.SQLContext context)
         {
+            
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

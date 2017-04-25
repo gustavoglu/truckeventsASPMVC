@@ -1,0 +1,26 @@
+﻿@model TruckEvent.WebApi.ViewModels.EnvioConviteFuncionarioViewModel
+@{
+    ViewBag.Title = "Convite para Evento";
+    Layout = null;
+    var variaveisRota = string.Format("http://truckevents.azurewebsites.net?id={0}&token=", Model.Id_usuario_principal,Model.Token);
+}
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    @Styles.Render("~/Content/css")
+    <meta name="viewport" content="width=device-width" />
+    <title>Convite</title>
+</head>
+<body>
+    <div>
+        <h1>Convite para Evento</h1>
+        <h3>Convidado pelo Usuario : @Model.Usuario_Principal.Nome </h3>
+        <p>Olá , você foi convidado para participar do grupo de Funcionarios do  @Model.Usuario_Principal.RazaoSocial, para aceitar o convite clique no Link abaixo:  </p>
+        <a href=@variaveisRota>Aceitar Convite</a>
+    </div>
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>
