@@ -7,7 +7,7 @@ using System.Web;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class EnvioConviteViewModel
+    public class EnvioConviteEventoViewModel
     {
         [DisplayName("E-mail")]
         public string Email { get; set; }

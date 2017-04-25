@@ -265,6 +265,7 @@
     <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_VariacaoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\TokenEnvioEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Usuario_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\VendaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_PagamentoEntityConfig.cs" />
@@ -285,11 +286,13 @@
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_CorRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\ITokenEnvioRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IUsuario_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVendaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_PagamentoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_Produto_VariacaoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\TokenEnvioRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Pagamento_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Produto_CorRepository.cs" />
@@ -307,6 +310,10 @@
     <Compile Include="Migrations\201704221715399_correcao.Designer.cs">
       <DependentUpon>201704221715399_correcao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704242343553_TokenEnvio.cs" />
+    <Compile Include="Migrations\201704242343553_TokenEnvio.Designer.cs">
+      <DependentUpon>201704242343553_TokenEnvio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,6 +323,7 @@
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
     <Compile Include="Models\Ficha_Produto.cs" />
+    <Compile Include="Models\TokenEnvio.cs" />
     <Compile Include="Models\Venda_Pagamento.cs" />
     <Compile Include="Models\Produto.cs" />
     <Compile Include="Models\Produto_Cor.cs" />
@@ -336,11 +344,13 @@
     <Compile Include="Services\FichaAppService.cs" />
     <Compile Include="Services\Ficha_ProdutoAppService.cs" />
     <Compile Include="Services\Interfaces\IFicha_ProdutoAppService.cs" />
+    <Compile Include="Services\Interfaces\ITokenEnvioAppService.cs" />
     <Compile Include="Services\Pagamento_TipoAppService.cs" />
     <Compile Include="Services\ProdutoAppService.cs" />
     <Compile Include="Services\Produto_CorAppService.cs" />
     <Compile Include="Services\Produto_TipoAppService.cs" />
     <Compile Include="Services\Produto_VariacaoAppService.cs" />
+    <Compile Include="Services\TokenEnvioAppService.cs" />
     <Compile Include="Services\UsuarioAppService.cs" />
     <Compile Include="Services\Usuario_TipoAppService.cs" />
     <Compile Include="Services\VendaAppService.cs" />
@@ -364,7 +374,8 @@
     <Compile Include="Services\Interfaces\IVenda_Produto_VariacaoAppService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\ConsequenciaViewModel.cs" />
-    <Compile Include="ViewModels\EnvioConviteViewModel.cs" />
+    <Compile Include="ViewModels\EnvioConviteEventoViewModel.cs" />
+    <Compile Include="ViewModels\EnvioConviteFuncionarioViewModel.cs" />
     <Compile Include="ViewModels\EventoViewModel.cs" />
     <Compile Include="ViewModels\Evento_UsuarioViewModel.cs" />
     <Compile Include="ViewModels\FichaViewModel.cs" />
@@ -374,6 +385,7 @@
     <Compile Include="ViewModels\Produto_CorViewModel.cs" />
     <Compile Include="ViewModels\Produto_TipoViewModel.cs" />
     <Compile Include="ViewModels\Produto_VariacaoViewModel.cs" />
+    <Compile Include="ViewModels\TokenEnvioViewModel.cs" />
     <Compile Include="ViewModels\UsuarioViewModel.cs" />
     <Compile Include="ViewModels\Usuario_TipoViewModel.cs" />
     <Compile Include="ViewModels\VendaViewModel.cs" />
@@ -460,6 +472,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201704221715399_correcao.resx">
       <DependentUpon>201704221715399_correcao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704242343553_TokenEnvio.resx">
+      <DependentUpon>201704242343553_TokenEnvio.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -32,6 +32,7 @@ namespace TruckEvent.WebApi.Infra
         public DbSet<Venda_Produto> Venda_Produtos { get; set; }
         public DbSet<Venda> Vendas { get; set; }
         public DbSet<Ficha_Produto> Ficha_Produtos { get; set; }
+        public DbSet<TokenEnvio> TokenEnvios { get; set; }
 
         public static SQLContext Create()
         {
@@ -86,6 +87,7 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Configurations.Add(new Venda_ProdutoEntityConfig());
             modelBuilder.Configurations.Add(new VendaEntityConfig());
             modelBuilder.Configurations.Add(new Ficha_ProdutoEntityConfig());
+            modelBuilder.Configurations.Add(new TokenEnvioEntityConfig());
 
             //Configura Tamanho de strings e tipo
             modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(250));
