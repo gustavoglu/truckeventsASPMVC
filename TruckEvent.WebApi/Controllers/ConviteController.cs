@@ -1,17 +1,23 @@
-﻿using System;
+﻿
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.ViewModels;
+using static TruckEvent.WebApi.ApplicationUserManager;
 
 namespace TruckEvent.WebApi.Controllers
 {
+    [Authorize]
     public class ConviteController : Controller
     {
+     
         public ActionResult ConviteUsuarioPrincipal()
         {
+        
             Usuario usuario = new Usuario() { RazaoSocial = "Teste razao social" };
             Evento evento = new Evento() { Descricao = "Evento Teste" };
             EnvioConviteEventoViewModel envioconviteViewModel = new EnvioConviteEventoViewModel() { Email = "teste@email.com", Usuario_Organizador = usuario, Evento = evento };

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
@@ -11,6 +12,7 @@ using Owin;
 using TruckEvent.WebApi.Providers;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Infra;
+using static TruckEvent.WebApi.ApplicationUserManager;
 
 namespace TruckEvent.WebApi
 {
@@ -26,7 +28,7 @@ namespace TruckEvent.WebApi
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(SQLContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseCookieAuthentication(new CookieAuthenticationOptions());

@@ -41,6 +41,7 @@ namespace TruckEvent.WebApi.Providers
                 context.SetError("invalid_grant", "Nome de usuário ou senha incorreto.");
                 return;
             }
+
             this.Usuario = user;
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,

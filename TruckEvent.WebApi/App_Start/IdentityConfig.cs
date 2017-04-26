@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Infra;
+using System.Security.Claims;
+using Microsoft.Owin.Security;
 
 namespace TruckEvent.WebApi
 {
@@ -41,6 +43,24 @@ namespace TruckEvent.WebApi
                 manager.UserTokenProvider = new DataProtectorTokenProvider<Usuario>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public class ApplicationSignInManager : SignInManager<Usuario, string>
+        {
+            public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+                : base(userManager, authenticationManager)
+            {
+            }
+
+            public override Task<ClaimsIdentity> CreateUserIdentityAsync(Usuario user)
+            {
+                return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+            }
+
+            public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+            {
+                return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            }
         }
     }
 }

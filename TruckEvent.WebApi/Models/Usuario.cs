@@ -44,6 +44,14 @@ namespace TruckEvent.WebApi.Models
             // Adicione declarações de usuários aqui
             return userIdentity;
         }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Usuario> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
     }
 
 }
