@@ -251,6 +251,7 @@
     <Compile Include="Controllers\Api\Venda_Produto_VariacoesController.cs" />
     <Compile Include="Controllers\ConviteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -457,6 +458,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Convite\ConviteUsuarioPrincipal.cshtml" />
     <Content Include="Views\Convite\ConviteFuncionario.cshtml" />
+    <Content Include="Views\Usuario\Cadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
