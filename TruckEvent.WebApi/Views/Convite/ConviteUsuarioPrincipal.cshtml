@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Convite para Evento";
     Layout = null;
-    var variaveisRota = string.Format("http://truckevents.azurewebsites.net?id={0}&token=", Model.Id_Evento, Model.Token);
+    var variaveisRota = string.Format("http://truckevents.azurewebsites.net/{0}/{1}/{2}", Model.Id_Evento,Model.Email, Model.Token);
 }
 
 <!DOCTYPE html>

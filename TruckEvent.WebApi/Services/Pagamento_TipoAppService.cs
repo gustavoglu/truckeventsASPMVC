@@ -54,12 +54,12 @@ namespace TruckEvent.WebApi.Services
 
         public IEnumerable<Pagamento_TipoViewModel> TrazerTodosAtivos()
         {
-            return Mapper.Map<IEnumerable<Pagamento_TipoViewModel>>(_pagamento_TipoRepository.TrazerTodosAtivos());
+            return Mapper.Map<IEnumerable<Pagamento_TipoViewModel>>(_pagamento_TipoRepository.TrazerTodosAtivos().ToList());
         }
 
         public IEnumerable<Pagamento_TipoViewModel> TrazerTodosDeletados()
         {
-            return Mapper.Map<IEnumerable<Pagamento_TipoViewModel>>(_pagamento_TipoRepository.TrazerTodosDeletados());
+            return Mapper.Map<IEnumerable<Pagamento_TipoViewModel>>(_pagamento_TipoRepository.TrazerTodosDeletados().ToList());
         }
     }
 }

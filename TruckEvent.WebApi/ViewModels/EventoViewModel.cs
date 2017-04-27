@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,8 +7,10 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
+    [JsonObject("Evento")]
     public class EventoViewModel
     {
+        
         public EventoViewModel()
         {
             this.Id = Guid.NewGuid();

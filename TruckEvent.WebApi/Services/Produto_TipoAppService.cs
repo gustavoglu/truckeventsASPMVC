@@ -55,12 +55,12 @@ namespace TruckEvent.WebApi.Services
 
         public IEnumerable<Produto_TipoViewModel> TrazerTodosAtivos()
         {
-            return Mapper.Map<IEnumerable<Produto_TipoViewModel>>(_produto_TipoRepository.TrazerTodosAtivos());
+            return Mapper.Map<IEnumerable<Produto_TipoViewModel>>(_produto_TipoRepository.TrazerTodosAtivos().ToList());
         }
 
         public IEnumerable<Produto_TipoViewModel> TrazerTodosDeletados()
         {
-            return Mapper.Map<IEnumerable<Produto_TipoViewModel>>(_produto_TipoRepository.TrazerTodosDeletados());
+            return Mapper.Map<IEnumerable<Produto_TipoViewModel>>(_produto_TipoRepository.TrazerTodosDeletados().ToList());
         }
     }
 }

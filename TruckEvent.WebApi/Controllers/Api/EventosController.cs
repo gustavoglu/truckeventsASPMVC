@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using TruckEvent.WebApi.Infra;
 using TruckEvent.WebApi.Services;
 using TruckEvent.WebApi.Services.Interfaces;
@@ -28,6 +30,10 @@ namespace TruckEvent.WebApi.Controllers.Api
         {
             var lista = _eventoAppService.TrazerTodosAtivos().ToList();
             return lista;
+
+           
+            //return Json(lista);
+
         }
 
         // GET: api/EventoViewModels/5
