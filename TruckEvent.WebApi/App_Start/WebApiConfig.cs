@@ -22,7 +22,9 @@ namespace TruckEvent.WebApi
             var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
 
-            config.EnableCors();
+
+            var cors = new EnableCorsAttribute("http://truckevents.azurewebsites.net", "*", "*");
+            config.EnableCors(cors);
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
