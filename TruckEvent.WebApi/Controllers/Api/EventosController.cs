@@ -24,9 +24,10 @@ namespace TruckEvent.WebApi.Controllers.Api
         private readonly IEventoAppService _eventoAppService = new EventoAppService();
 
         // GET: api/EventoViewModels
-        public IQueryable<EventoViewModel> GetEventoViewModels()
+        public IList<EventoViewModel> GetEventoViewModels()
         {
-            return _eventoAppService.TrazerTodosAtivos().ToList().AsQueryable();
+            var lista = _eventoAppService.TrazerTodosAtivos().ToList();
+            return lista;
         }
 
         // GET: api/EventoViewModels/5
