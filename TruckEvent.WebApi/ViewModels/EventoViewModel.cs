@@ -28,13 +28,15 @@ namespace TruckEvent.WebApi.ViewModels
 
         public int? TotalProdutosVendidos { get; set; }
 
-        public Usuario Usuario_Organizador { get; set; }
-
         public string Id_organizador { get; set; } = null;
+
+        public virtual Usuario Usuario_Organizador { get; set; }
 
         public virtual ICollection<Ficha> Fichas { get; set; }
 
         public virtual ICollection<Venda> Vendas { get; set; }
+
+        public virtual ICollection<Evento_Usuario> Evento_Usuarios { get; set; }
 
         public DateTime? CriadoEm { get; set; }
 

@@ -54,7 +54,7 @@ namespace TruckEvent.WebApi.Services
 
         public IEnumerable<EventoViewModel> TrazerTodosAtivos()
         {
-            return Mapper.Map<IEnumerable<EventoViewModel>>(_eventoRepository.TrazerTodosAtivos());
+            return Mapper.Map<IEnumerable<EventoViewModel>>(_eventoRepository.TrazerTodosAtivos().ToList());
         }
 
         public IEnumerable<EventoViewModel> TrazerTodosDeletados()
