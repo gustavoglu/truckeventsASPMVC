@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using System.Web.Mvc;
 using TruckEvent.WebApi.Infra;
@@ -26,6 +27,7 @@ namespace TruckEvent.WebApi.Controllers.Api
         private readonly IEventoAppService _eventoAppService = new EventoAppService();
 
         // GET: api/EventoViewModels
+       
         public IList<EventoViewModel> GetEventoViewModels()
         {
             var lista = _eventoAppService.TrazerTodosAtivos().ToList();
