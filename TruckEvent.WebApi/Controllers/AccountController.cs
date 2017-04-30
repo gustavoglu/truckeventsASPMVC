@@ -373,7 +373,20 @@ namespace TruckEvent.WebApi.Controllers
                 return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, " + variaveis);
             }
 
-            var user = new Usuario() { UserName = model.Email, Email = model.Email, Organizador = model.Organizador, UserPrincipal = model.PrincipalLoja, UserAdmin = model.Admin, CaixaEvento = model.CaixaEvento };
+            var user = new Usuario()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Documento = model.Documento,
+                Nome = model.Nome,
+                Sobrenome = model.Nome,
+                Telefone1 = model.Telefone1,
+                Telefone2 = model.Telefone2,
+                Organizador = model.Organizador,
+                UserPrincipal = model.PrincipalLoja,
+                UserAdmin = model.Admin,
+                CaixaEvento = model.CaixaEvento
+            };
 
             //Funcionario da Loja
             if (model.PrincipalLoja == false && model.Organizador == false && model.Admin == false && id_usuario != string.Empty)

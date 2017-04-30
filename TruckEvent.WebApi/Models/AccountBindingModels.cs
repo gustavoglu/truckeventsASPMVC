@@ -34,7 +34,7 @@ namespace TruckEvent.WebApi.Models
 
     public class RegisterBindingModel
     {
-        [Required]
+        [Required(ErrorMessage ="Obrigatório informar o E-mail")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -48,6 +48,26 @@ namespace TruckEvent.WebApi.Models
         [Display(Name = "Confirmar senha")]
         [Compare("Password", ErrorMessage = "A senha e a senha de confirmação não coincidem.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+        [Display(Name = "Sobrenome")]
+        public string Sobrenome { get; set; }
+
+        [Display(Name = "Razão Social")]
+        public string RazaoSocial { get; set; }
+
+        [Display(Name = "Documento")]
+        public string Documento { get; set; }
+
+        [DataType(DataType.PhoneNumber,ErrorMessage = "Por favor inserir número de telefone válido")]
+        [Display(Name = "Telefone Principal")]
+        public string Telefone1 { get; set; }
+
+        [DataType(DataType.PhoneNumber,ErrorMessage = "Por favor inserir número de telefone válido")]
+        [Display(Name = "Telefone Adicional")]
+        public string Telefone2 { get; set; }
 
         [Display(Name = "Admin")]
         public bool Admin { get; set; }
