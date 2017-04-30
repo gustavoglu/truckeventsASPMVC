@@ -379,7 +379,7 @@ namespace TruckEvent.WebApi.Controllers
                 Email = model.Email,
                 Documento = model.Documento,
                 Nome = model.Nome,
-                Sobrenome = model.Nome,
+                Sobrenome = model.Sobrenome,
                 Telefone1 = model.Telefone1,
                 Telefone2 = model.Telefone2,
                 Organizador = model.Organizador,
