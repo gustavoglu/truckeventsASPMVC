@@ -120,7 +120,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 smtp.EnableSsl = true;
                 await smtp.SendMailAsync(message);
 
-                return Ok("Enviado");
+                return Ok("Convite Enviado");
 
             }
         }
@@ -209,7 +209,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 smtp.EnableSsl = true;
                 await smtp.SendMailAsync(message);
 
-                return Ok("Enviado");
+                return Ok("Convite Enviado");
 
             }
         }

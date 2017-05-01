@@ -425,8 +425,8 @@ namespace TruckEvent.WebApi.Controllers
 
             ITokenEnvioAppService _tokenEnvioAppService = new TokenEnvioAppService();
 
-            var tokenExist = _tokenEnvioAppService.TrazerTodosAtivos().ToList().Exists(t => t.Token == model.Token && t.ExpiraEm < DateTime.Now);
-            if (!tokenExist)
+            var token = _tokenEnvioAppService.TrazerTodosAtivos().SingleOrDefault(t => t.Token == model.Token && t.ExpiraEm < DateTime.Now && t.Ativo == true);
+            if (token == null)
             {
                 return BadRequest("Este token já Expirou ou não existe, por favor solicitar outro convite");
             }
@@ -489,6 +489,10 @@ namespace TruckEvent.WebApi.Controllers
 
                     if (evento_usuarioInserido != null)
                     {
+                       
+                        token.Ativo = false;
+                        _tokenEnvioAppService.Atualizar(token);
+
                         return Ok("Usuario Cadastrado e vinculado com Evento " + evento.Descricao);
                     }
                     else
@@ -507,6 +511,9 @@ namespace TruckEvent.WebApi.Controllers
             }
             else
             {
+                token.Ativo = false;
+                _tokenEnvioAppService.Atualizar(token);
+
                 return Ok();
             }
 
