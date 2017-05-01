@@ -415,7 +415,7 @@ namespace TruckEvent.WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("Register/Convite")]
         public async Task<IHttpActionResult> RegisterConvite(RegisterConviteBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -426,11 +426,10 @@ namespace TruckEvent.WebApi.Controllers
             ITokenEnvioAppService _tokenEnvioAppService = new TokenEnvioAppService();
 
             var tokenExist = _tokenEnvioAppService.TrazerTodosAtivos().ToList().Exists(t => t.Token == model.Token && t.ExpiraEm < DateTime.Now);
-            if (tokenExist)
+            if (!tokenExist)
             {
                 return BadRequest("Este token já Expirou ou não existe, por favor solicitar outro convite");
             }
-
 
             Usuario usuarioCadastrado = new Usuario()
             {
@@ -443,8 +442,13 @@ namespace TruckEvent.WebApi.Controllers
                 Telefone2 = model.Telefone2,
             };
 
-            var eventoExist = Db.Eventos.ToList().Exists(e => e.Id == Guid.Parse(model.Id) && e.Deletado == false);
-            var usuarioRemetente = Db.Users.ToList().SingleOrDefault(u => u.Id == model.Id);
+            var eventoExist = Db.Eventos.ToList().Exists(e => e.Id == Guid.Parse(model.Id_parametro) && e.Deletado == false);
+            var usuarioRemetente = Db.Users.ToList().SingleOrDefault(u => u.Id == model.Id_parametro);
+
+            if (!eventoExist && usuarioRemetente == null)
+            {
+                return BadRequest("Evento ou Usuario não existem");
+            }
 
             if (usuarioRemetente != null)
             {
@@ -474,7 +478,7 @@ namespace TruckEvent.WebApi.Controllers
                     IEvento_UsuarioAppService _evento_UsuarioAppService = new Evento_UsuarioAppService();
                     IEventoAppService _eventoAppService = new EventoAppService();
 
-                    EventoViewModel evento = _eventoAppService.BuscarPorId(Guid.Parse(model.Id));
+                    EventoViewModel evento = _eventoAppService.BuscarPorId(Guid.Parse(model.Id_parametro));
                     Evento_UsuarioViewModel evento_usuario = new Evento_UsuarioViewModel()
                     {
                         Id_Evento = evento.Id,

@@ -125,23 +125,9 @@ namespace TruckEvent.WebApi.Models
         [Display(Name ="token")]
         public string Token { get; set; }
 
-
         [Required(ErrorMessage = "Necessário informar o Id passado como parâmetro")]
-        [Display(Name ="id")]
-        public string Id { get; set; }
-
-        //[Display(Name = "Admin")]
-        //public bool Admin { get; set; }
-
-        //[Display(Name = "Organizador")]
-        //public bool Organizador { get; set; }
-
-        //[Display(Name = "Principal Usuario da Loja")]
-        //public bool PrincipalLoja { get; set; }
-
-        //[Display(Name = "Caixa de Evento")]
-        //public bool CaixaEvento { get; set; }
-
+        [Display(Name ="id_Parametro")]
+        public string Id_parametro { get; set; }
 
     }
 
