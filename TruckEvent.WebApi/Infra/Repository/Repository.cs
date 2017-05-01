@@ -24,7 +24,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual T Atualizar(T obj)
         {
-
+            
             var entry = Db.Entry(obj);
 
             dbSet.Attach(obj);
@@ -33,38 +33,45 @@ namespace TruckEvent.WebApi.Infra.Repository
 
             this.Salvar();
 
-            return BuscarPorId(obj.Id);
+            return dbSet.Find(obj.Id);
         }
 
         public virtual T BuscarPorId(Guid? Id)
         {
-
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
-
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                return
-                (from entidades in dbSet
-                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
-                 && entidades.Id == Id
-                 select entidades).SingleOrDefault();
 
-            }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
-            {
-                return dbSet.SingleOrDefault(t => t.CriadoPor == usuario.UserName && t.Id == Id);
-            }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
-            {
-                return
-                (from entidades in dbSet
-                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
-                 && entidades.Id == Id
-                 select entidades).SingleOrDefault();
+                var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
+                var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
+                if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+                {
+                    return
+                    (from entidades in dbSet
+                     join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                     where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                     && entidades.Id == Id
+                     select entidades).SingleOrDefault();
+
+                }
+                else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+                {
+                    return dbSet.SingleOrDefault(t => t.CriadoPor == usuario.UserName && t.Id == Id);
+                }
+                else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+                {
+                    return
+                    (from entidades in dbSet
+                     join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                     where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                     && entidades.Id == Id
+                     select entidades).SingleOrDefault();
+
+                }
+                else
+                {
+                    return dbSet.SingleOrDefault(t => t.Id == Id);
+                }
             }
             else
             {
@@ -80,7 +87,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
             Salvar();
 
-            return BuscarPorId(obj.Id);
+            return dbSet.Find(obj.Id);
         }
 
         public virtual bool Deletar(Guid? Id)

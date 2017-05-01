@@ -425,11 +425,13 @@ namespace TruckEvent.WebApi.Controllers
 
             ITokenEnvioAppService _tokenEnvioAppService = new TokenEnvioAppService();
 
-            var token = _tokenEnvioAppService.TrazerTodosAtivos().SingleOrDefault(t => t.Token == model.Token && t.ExpiraEm < DateTime.Now && t.Ativo == true);
+            var token = _tokenEnvioAppService.TrazerTodosAtivos().SingleOrDefault(t => t.Token == model.Token && t.ExpiraEm > DateTime.Now && t.Ativo == true);
             if (token == null)
             {
                 return BadRequest("Este token já Expirou ou não existe, por favor solicitar outro convite");
             }
+           // token.Ativo = false;
+           // _tokenEnvioAppService.Atualizar(token);
 
             Usuario usuarioCadastrado = new Usuario()
             {
@@ -473,7 +475,6 @@ namespace TruckEvent.WebApi.Controllers
                 }
                 else
                 {
-                    var id_usuarioCadastrado = Db.Users.SingleOrDefault(u => u.UserName == model.Email).Id;
 
                     IEvento_UsuarioAppService _evento_UsuarioAppService = new Evento_UsuarioAppService();
                     IEventoAppService _eventoAppService = new EventoAppService();
@@ -482,16 +483,16 @@ namespace TruckEvent.WebApi.Controllers
                     Evento_UsuarioViewModel evento_usuario = new Evento_UsuarioViewModel()
                     {
                         Id_Evento = evento.Id,
-                        Id_Usuario = id_usuarioCadastrado
+                        Id_Usuario = usuarioCadastrado.Id
                     };
 
                     var evento_usuarioInserido = _evento_UsuarioAppService.Criar(evento_usuario);
 
                     if (evento_usuarioInserido != null)
                     {
-                       
-                        token.Ativo = false;
-                        _tokenEnvioAppService.Atualizar(token);
+
+                        //token.Ativo = false;
+                        //_tokenEnvioAppService.Atualizar(token);
 
                         return Ok("Usuario Cadastrado e vinculado com Evento " + evento.Descricao);
                     }
@@ -501,6 +502,9 @@ namespace TruckEvent.WebApi.Controllers
                     }
 
                 }
+
+
+
             }
 
             IdentityResult result = await UserManager.CreateAsync(usuarioCadastrado, model.Password);
@@ -511,8 +515,8 @@ namespace TruckEvent.WebApi.Controllers
             }
             else
             {
-                token.Ativo = false;
-                _tokenEnvioAppService.Atualizar(token);
+                //token.Ativo = false;
+                //_tokenEnvioAppService.Atualizar(token);
 
                 return Ok();
             }

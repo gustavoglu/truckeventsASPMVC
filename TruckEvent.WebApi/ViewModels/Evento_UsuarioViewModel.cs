@@ -20,9 +20,11 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Guid? Id_Evento { get; set; }
 
-        public bool? UsuarioConfirmado { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
-        //public virtual Evento Evento { get; set; } = null;
+        public virtual Evento Evento { get; set; } = null;
+
+        public bool? UsuarioConfirmado { get; set; }
 
         public DateTime? CriadoEm { get; set; }
 
