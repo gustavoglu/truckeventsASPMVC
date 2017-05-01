@@ -19,6 +19,9 @@ using TruckEvent.WebApi.Results;
 using TruckEvent.WebApi.Infra;
 using System.Threading;
 using System.Linq;
+using TruckEvent.WebApi.Services;
+using TruckEvent.WebApi.Services.Interfaces;
+using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Controllers
 {
@@ -27,10 +30,12 @@ namespace TruckEvent.WebApi.Controllers
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
+        private readonly SQLContext Db;
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
+            Db = new SQLContext();
         }
 
         public AccountController(ApplicationUserManager userManager,
@@ -350,7 +355,7 @@ namespace TruckEvent.WebApi.Controllers
 
             if (countVariaveisRequest > 1)
             {
-                return BadRequest("Não é possivel se cadastrar com mais de um tipo de Usuario, se cadastre apenas como um tipo das váriaveis: " + variaveis);
+                return BadRequest("Não é possivel cadastrar usuario com mais de um tipo de Usuario, se cadastre apenas com um tipo das váriaveis: " + variaveis);
             }
 
             var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
@@ -370,7 +375,7 @@ namespace TruckEvent.WebApi.Controllers
             if (model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == true ||
                 model.Organizador == false && model.Admin == false && model.PrincipalLoja == false && id_usuario == string.Empty && model.CaixaEvento == false)
             {
-                return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é pessivel criar usuario Admin ou PrincipalLoja, " + variaveis);
+                return BadRequest("Não é possivel criar Usuario de loja ou Usuario Caixa de Evento sem estar logado, só é possivel criar usuario Admin ou PrincipalLoja, " + variaveis);
             }
 
             var user = new Usuario()
@@ -407,6 +412,101 @@ namespace TruckEvent.WebApi.Controllers
             }
 
             return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> RegisterConvite(RegisterConviteBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            ITokenEnvioAppService _tokenEnvioAppService = new TokenEnvioAppService();
+
+            var tokenExist = _tokenEnvioAppService.TrazerTodosAtivos().ToList().Exists(t => t.Token == model.Token && t.ExpiraEm < DateTime.Now);
+            if (tokenExist)
+            {
+                return BadRequest("Este token já Expirou ou não existe, por favor solicitar outro convite");
+            }
+
+
+            Usuario usuarioCadastrado = new Usuario()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Documento = model.Documento,
+                Nome = model.Nome,
+                Sobrenome = model.Sobrenome,
+                Telefone1 = model.Telefone1,
+                Telefone2 = model.Telefone2,
+            };
+
+            var eventoExist = Db.Eventos.ToList().Exists(e => e.Id == Guid.Parse(model.Id) && e.Deletado == false);
+            var usuarioRemetente = Db.Users.ToList().SingleOrDefault(u => u.Id == model.Id);
+
+            if (usuarioRemetente != null)
+            {
+                if (usuarioRemetente.Organizador == true)
+                {
+                    usuarioCadastrado.CaixaEvento = true;
+                }
+
+                if (usuarioRemetente.UserPrincipal == true)
+                {
+                    usuarioCadastrado.Id_Usuario_Principal = usuarioRemetente.Id;
+                }
+            }
+
+            if (eventoExist)
+            {
+                IdentityResult rs = await UserManager.CreateAsync(usuarioCadastrado, model.Password);
+
+                if (!rs.Succeeded)
+                {
+                    return GetErrorResult(rs);
+                }
+                else
+                {
+                    var id_usuarioCadastrado = Db.Users.SingleOrDefault(u => u.UserName == model.Email).Id;
+
+                    IEvento_UsuarioAppService _evento_UsuarioAppService = new Evento_UsuarioAppService();
+                    IEventoAppService _eventoAppService = new EventoAppService();
+
+                    EventoViewModel evento = _eventoAppService.BuscarPorId(Guid.Parse(model.Id));
+                    Evento_UsuarioViewModel evento_usuario = new Evento_UsuarioViewModel()
+                    {
+                        Id_Evento = evento.Id,
+                        Id_Usuario = id_usuarioCadastrado
+                    };
+
+                    var evento_usuarioInserido = _evento_UsuarioAppService.Criar(evento_usuario);
+
+                    if (evento_usuarioInserido != null)
+                    {
+                        return Ok("Usuario Cadastrado e vinculado com Evento " + evento.Descricao);
+                    }
+                    else
+                    {
+                        return BadRequest("Evento_usuario não foi inserido corretamente.");
+                    }
+
+                }
+            }
+
+            IdentityResult result = await UserManager.CreateAsync(usuarioCadastrado, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            else
+            {
+                return Ok();
+            }
+
+
         }
 
         // POST api/Account/RegisterExternal
