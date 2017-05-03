@@ -32,6 +32,13 @@ namespace TruckEvent.WebApi.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+            if (context.UserName == null || context.Password == null)
+            {
+                context.SetError("Parametros username ou password nulos");
+                return;
+            }
+
+
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             Usuario user = await userManager.FindAsync(context.UserName, context.Password);
