@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public FichaViewModel Atualizar(FichaViewModel fichaViewModel)
         {
-            var ficha = Mapper.Map<Ficha>(fichaViewModel);
+            var fichaDTO = _fichaRepository.BuscarPorId(fichaViewModel.Id);
+            var ficha = Mapper.Map(fichaViewModel, fichaDTO);
             return Mapper.Map<FichaViewModel>(_fichaRepository.Atualizar(ficha));
         }
 

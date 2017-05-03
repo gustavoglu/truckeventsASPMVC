@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public ConsequenciaViewModel Atualizar(ConsequenciaViewModel consequenciaViewModel)
         {
-            var consequencia = Mapper.Map<Consequencia>(consequenciaViewModel);
+            var consequenciaDTO = _consequenciaRepository.BuscarPorId(consequenciaViewModel.Id);
+            var consequencia = Mapper.Map(consequenciaViewModel, consequenciaDTO);
             return Mapper.Map<ConsequenciaViewModel>(_consequenciaRepository.Atualizar(consequencia));
         }
 

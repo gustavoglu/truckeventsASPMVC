@@ -22,8 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public Venda_PagamentoViewModel Atualizar(Venda_PagamentoViewModel venda_PagamentoViewModel)
         {
-            
-            var venda_pagamento = Mapper.Map<Venda_Pagamento>(venda_PagamentoViewModel);
+            var venda_PagamentoDTO = _venda_PagamentoRepository.BuscarPorId(venda_PagamentoViewModel.Id);
+            var venda_pagamento = Mapper.Map(venda_PagamentoViewModel,venda_PagamentoDTO);
             return Mapper.Map<Venda_PagamentoViewModel>(_venda_PagamentoRepository.Atualizar(venda_pagamento));
         }
 

@@ -425,13 +425,12 @@ namespace TruckEvent.WebApi.Controllers
 
             ITokenEnvioAppService _tokenEnvioAppService = new TokenEnvioAppService();
 
-            var token = _tokenEnvioAppService.TrazerTodosAtivos().SingleOrDefault(t => t.Token == model.Token && t.ExpiraEm > DateTime.Now && t.Ativo == true);
+            var token = _tokenEnvioAppService.TrazerTodosAtivos().SingleOrDefault(t => t.Token == model.Token && t.ExpiraEm >= DateTime.Now && t.Ativo == true);
+
             if (token == null)
             {
                 return BadRequest("Este token já Expirou ou não existe, por favor solicitar outro convite");
             }
-           // token.Ativo = false;
-           // _tokenEnvioAppService.Atualizar(token);
 
             Usuario usuarioCadastrado = new Usuario()
             {
@@ -449,7 +448,7 @@ namespace TruckEvent.WebApi.Controllers
 
             if (!eventoExist && usuarioRemetente == null)
             {
-                return BadRequest("Evento ou Usuario não existem");
+                return BadRequest("Evento ou Usuario não existe");
             }
 
             if (usuarioRemetente != null)
@@ -491,8 +490,8 @@ namespace TruckEvent.WebApi.Controllers
                     if (evento_usuarioInserido != null)
                     {
 
-                        //token.Ativo = false;
-                        //_tokenEnvioAppService.Atualizar(token);
+                        token.Ativo = false;
+                        _tokenEnvioAppService.Atualizar(token);
 
                         return Ok("Usuario Cadastrado e vinculado com Evento " + evento.Descricao);
                     }
@@ -515,10 +514,10 @@ namespace TruckEvent.WebApi.Controllers
             }
             else
             {
-                //token.Ativo = false;
-                //_tokenEnvioAppService.Atualizar(token);
+                token.Ativo = false;
+                _tokenEnvioAppService.Atualizar(token);
 
-                return Ok();
+                return Ok("Usuario cadastrao e vinculado com sucesso");
             }
 
 

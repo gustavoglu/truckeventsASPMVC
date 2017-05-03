@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public Evento_UsuarioViewModel Atualizar(Evento_UsuarioViewModel evento_UsuarioViewModel)
         {
-            var evento_usuario = Mapper.Map<Evento_Usuario>(evento_UsuarioViewModel);
+            var evento_UsuarioDTO = _evento_UsuarioRepository.BuscarPorId(evento_UsuarioViewModel.Id);
+            var evento_usuario = Mapper.Map(evento_UsuarioViewModel, evento_UsuarioDTO);
             return Mapper.Map<Evento_UsuarioViewModel>(_evento_UsuarioRepository.Atualizar(evento_usuario));
         }
 

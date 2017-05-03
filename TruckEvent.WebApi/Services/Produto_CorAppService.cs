@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public Produto_CorViewModel Atualizar(Produto_CorViewModel produto_CorViewModel)
         {
-            var produto_cor = Mapper.Map<Produto_Cor>(produto_CorViewModel);
+            var produto_corDTO = _produto_CorRepository.BuscarPorId(produto_CorViewModel.Id);
+            var produto_cor = Mapper.Map(produto_CorViewModel, produto_corDTO);
             return Mapper.Map<Produto_CorViewModel>(_produto_CorRepository.Atualizar(produto_cor));
         }
 

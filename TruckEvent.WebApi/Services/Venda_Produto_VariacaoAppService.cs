@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public Venda_Produto_VariacaoViewModel Atualizar(Venda_Produto_VariacaoViewModel venda_Produto_VariacaoViewModel)
         {
-            var venda_produto_variacao = Mapper.Map<Venda_Produto_Variacao>(venda_Produto_VariacaoViewModel);
+            var venda_Produto_VariacaoDTO = _venda_Produto_VariacaoRepository.BuscarPorId(venda_Produto_VariacaoViewModel.Id);
+            var venda_produto_variacao = Mapper.Map(venda_Produto_VariacaoViewModel, venda_Produto_VariacaoDTO);
             return Mapper.Map<Venda_Produto_VariacaoViewModel>(_venda_Produto_VariacaoRepository.Atualizar (venda_produto_variacao));
         }
 

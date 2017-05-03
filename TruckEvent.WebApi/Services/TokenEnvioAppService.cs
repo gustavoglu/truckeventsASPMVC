@@ -21,9 +21,8 @@ namespace TruckEvent.WebApi.Services
 
         public TokenEnvioViewModel Atualizar(TokenEnvioViewModel tokenEnvioViewModel)
         {
-            var token = _tokenEnvioRepository.BuscarPorId(tokenEnvioViewModel.Id);
-
-            var tokenEnvio = Mapper.Map<TokenEnvio>(tokenEnvioViewModel);
+            var tokenDTO = _tokenEnvioRepository.BuscarPorId(tokenEnvioViewModel.Id);
+            var tokenEnvio = Mapper.Map(tokenEnvioViewModel,tokenDTO);
             return Mapper.Map<TokenEnvioViewModel>(_tokenEnvioRepository.Atualizar(tokenEnvio));
 
         }

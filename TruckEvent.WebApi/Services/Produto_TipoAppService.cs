@@ -22,7 +22,8 @@ namespace TruckEvent.WebApi.Services
 
         public Produto_TipoViewModel Atualizar(Produto_TipoViewModel produto_TipoViewModel)
         {
-            var produto_tipo = Mapper.Map<Produto_Tipo>(produto_TipoViewModel);
+            var produto_TipoDTO = _produto_TipoRepository.BuscarPorId(produto_TipoViewModel.Id);
+            var produto_tipo = Mapper.Map(produto_TipoViewModel, produto_TipoDTO);
             return Mapper.Map<Produto_TipoViewModel>(_produto_TipoRepository.Atualizar(produto_tipo));
         }
 
