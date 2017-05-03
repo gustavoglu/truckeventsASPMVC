@@ -33,9 +33,6 @@ namespace TruckEvent.WebApi.Controllers.Api
             var lista = _eventoAppService.TrazerTodosAtivos().ToList();
             return lista;
 
-           
-            //return Json(lista);
-
         }
 
         // GET: api/EventoViewModels/5
@@ -60,7 +57,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != eventoViewModel.Id)
+            if (id != eventoViewModel.Id || !EventoViewModelExists(id))
             {
                 return BadRequest();
             }

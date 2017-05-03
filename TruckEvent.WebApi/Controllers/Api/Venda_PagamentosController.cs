@@ -49,7 +49,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
-            if (id != venda_PagamentoViewModel.Id)
+            if (id != venda_PagamentoViewModel.Id || !Venda_PagamentoViewModelExists(id))
             {
                 return BadRequest();
             }
