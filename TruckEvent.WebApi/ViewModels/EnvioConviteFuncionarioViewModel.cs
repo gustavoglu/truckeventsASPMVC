@@ -10,6 +10,10 @@ namespace TruckEvent.WebApi.ViewModels
     {
         public string Email { get; set; }
 
+        public string Nome { get; set; }
+
+        public string Sobrenome { get; set; }
+
         public string Id_usuario_principal { get; set; }
 
         public Usuario Usuario_Principal { get; set; }

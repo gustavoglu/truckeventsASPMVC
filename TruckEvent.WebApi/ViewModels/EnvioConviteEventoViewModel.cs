@@ -10,22 +10,20 @@ namespace TruckEvent.WebApi.ViewModels
 {
     public class EnvioConviteEventoViewModel
     {
-        [DisplayName("E-mail")]
         public string Email { get; set; }
 
-        [ScaffoldColumn(false)]
+        public string Nome { get; set; }
+
+        public string Sobrenome { get; set; }
+
         public string Id_usuario_organizador { get; set; }
 
-        [ScaffoldColumn(false)]
         public Usuario Usuario_Organizador { get; set; }
 
-        [ScaffoldColumn(false)]
         public Evento Evento { get; set; }
 
-        [ScaffoldColumn(false)]
         public Guid? Id_Evento { get; set; }
 
-        [ScaffoldColumn(false)]
         public string Token { get; set; }
     }
 }
