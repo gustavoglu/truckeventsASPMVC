@@ -466,6 +466,7 @@ namespace TruckEvent.WebApi.Controllers
 
             if (eventoExist)
             {
+                usuarioCadastrado.UserPrincipal = true;
                 IdentityResult rs = await UserManager.CreateAsync(usuarioCadastrado, model.Password);
 
                 if (!rs.Succeeded)

@@ -14,7 +14,6 @@ namespace TruckEvent.WebApi.Infra
 
         public SQLContext() : base("SQLAzureHomlogacao", throwIfV1Schema: false)
         {
-    
         }
 
         public DbSet<Consequencia> Consequencias { get; set; }
@@ -61,21 +60,21 @@ namespace TruckEvent.WebApi.Infra
 
             //Configura entitys
             modelBuilder.Configurations.Add(new EventoEntityConfig());
-  
+
             modelBuilder.Entity<Usuario>()
                 .HasOptional(u => u.Usuario_Organizador)
                 .WithMany(uu => uu.Caixas)
                 .HasForeignKey(u => u.id_usuario_organizador);
-            
+
             modelBuilder.Entity<Usuario>()
                 .HasOptional(u => u.Usuario_Principal)
                 .WithMany(uu => uu.Lojas)
                 .HasForeignKey(u => u.Id_Usuario_Principal);
-            
+
             modelBuilder.Configurations.Add(new Usuario_TipoEntityConfig());
             modelBuilder.Configurations.Add(new ConsequenciaEntityConfig());
             modelBuilder.Configurations.Add(new Evento_UsuarioEntityConfig());
-            
+
             modelBuilder.Configurations.Add(new FichaEntityConfig());
             modelBuilder.Configurations.Add(new Pagamento_TipoEntityConfig());
             modelBuilder.Configurations.Add(new Produto_CorEntityConfig());
@@ -98,25 +97,53 @@ namespace TruckEvent.WebApi.Infra
 
         public override int SaveChanges()
         {
+
             var Criados = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && e.State == EntityState.Added);
 
             var Atualizados = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && e.State == EntityState.Modified);
 
-            foreach (var item in Criados)
+            if (Criados.Any())
             {
-                ((BaseEntity)item.Entity).CriadoEm = DateTime.Now;
-                ((BaseEntity)item.Entity).CriadoPor = HttpContext.Current.User.Identity.Name;
-                ((BaseEntity)item.Entity).Deletado = false;
+                foreach (var item in Criados)
+                {
+                    ((BaseEntity)item.Entity).CriadoEm = DateTime.Now;
+                    ((BaseEntity)item.Entity).Deletado = false;
+
+                    // Utilizado Try para não dar erro ao utilizar o Seed para adicionar entitys no banco
+                    try
+                    {
+                        if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {
+                            ((BaseEntity)item.Entity).CriadoPor = HttpContext.Current.User.Identity.Name ?? null;
+                        }
+                    }
+                    catch { }
+                }
+
             }
 
-            foreach (var item in Atualizados)
+            if (Atualizados.Any())
             {
-                ((BaseEntity)item.Entity).AtualizadoEm = DateTime.Now;
-                ((BaseEntity)item.Entity).AtualizadoPor = HttpContext.Current.User.Identity.Name;
+                foreach (var item in Atualizados)
+                {
+                    ((BaseEntity)item.Entity).AtualizadoEm = DateTime.Now;
+
+                    // Utilizado Try para não dar erro ao utilizar o Seed para adicionar entitys no banco
+                    try
+                    {
+                        if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {
+                            ((BaseEntity)item.Entity).AtualizadoPor = null;
+                        }
+                    }
+                    catch { }
+                  
+                }
             }
 
             return base.SaveChanges();
+
         }
-        
+
     }
 }

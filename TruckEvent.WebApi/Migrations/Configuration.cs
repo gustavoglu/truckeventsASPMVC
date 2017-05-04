@@ -1,6 +1,7 @@
 namespace TruckEvent.WebApi.Migrations
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -10,12 +11,11 @@ namespace TruckEvent.WebApi.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(TruckEvent.WebApi.Infra.SQLContext context)
         {
-            
+           
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -29,5 +29,7 @@ namespace TruckEvent.WebApi.Migrations
             //    );
             //
         }
+
+
     }
 }
