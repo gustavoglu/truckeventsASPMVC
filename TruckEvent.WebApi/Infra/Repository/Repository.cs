@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Threading;
 using System.Web;
 using TruckEvent.WebApi.Infra.Repository.Interfaces;
 using TruckEvent.WebApi.Models;
@@ -13,6 +15,14 @@ namespace TruckEvent.WebApi.Infra.Repository
     {
         protected readonly SQLContext Db;
         protected DbSet<T> dbSet;
+        protected ClaimsPrincipal claimsPrincipal { get { return (ClaimsPrincipal)Thread.CurrentPrincipal; } }
+        protected string usuarioLogado_id { get {return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value; } }
+        protected string usuarioLogado_id_usuario_principal { get { return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario_principal").Value; } }
+        protected string usuarioLogado_id_usuario_organizador { get { return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario_organizador").Value; } }
+        protected bool usuarioLogado_organizador { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "organizador").Value); } }
+        protected bool usuarioLogado_caixaevento { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "caixaevento").Value); } }
+        protected bool usuarioLogado_usuarioprincipal { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "usuarioprincipal").Value); } }
+        protected string usuarioLogado_username { get {return  claimsPrincipal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value ?? HttpContext.Current.User.Identity.Name; } }
 
 
         public Repository()
@@ -24,7 +34,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual T Atualizar(T obj)
         {
-            
+
             var entry = Db.Entry(obj);
 
             dbSet.Attach(obj);
@@ -41,32 +51,42 @@ namespace TruckEvent.WebApi.Infra.Repository
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
 
-                var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-                var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
-
-                if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+                if (usuarioLogado_usuarioprincipal)
                 {
                     return
                     (from entidades in dbSet
                      join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                     where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                     where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                      && entidades.Id == Id
                      select entidades).SingleOrDefault();
 
                 }
-                else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+                else if (usuarioLogado_organizador)
                 {
-                    return dbSet.SingleOrDefault(t => t.CriadoPor == usuario.UserName && t.Id == Id);
+                    return dbSet.SingleOrDefault(t => t.CriadoPor == usuarioLogado_username && t.Id == Id);
                 }
-                else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+                else if (usuarioLogado_id_usuario_principal.Any())
                 {
                     return
                     (from entidades in dbSet
                      join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                     where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                     where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal|| usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                      && entidades.Id == Id
                      select entidades).SingleOrDefault();
 
+                }
+                else if (usuarioLogado_caixaevento)
+                {
+                    return
+                    (from entidades in dbSet
+                    join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
+                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                    where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                     || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                     || entidades.CriadoPor == usuarioLogado_id
+                     && entidades.Deletado == false
+                     && entidades.Id == Id
+                    select entidades).SingleOrDefault();
                 }
                 else
                 {
@@ -126,41 +146,39 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual IEnumerable<T> Pesquisar(Expression<Func<T, bool>> Expressao)
         {
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            if (usuarioLogado_usuarioprincipal)
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal
                  select entidades).Where(Expressao);
 
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+            else if (usuarioLogado_organizador)
             {
-                return dbSet.Where(t => t.CriadoPor == usuario.UserName).Where(Expressao);
+                return dbSet.Where(t => t.CriadoPor == usuarioLogado_username).Where(Expressao);
             }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_id_usuario_principal.Any())
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                  select entidades).Where(Expressao);
 
             }
             //Caixa
-            else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false )
+            else if (usuarioLogado_caixaevento)
             {
                 return
                 (from entidades in dbSet
                  join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador 
-                  || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                  || entidades.CriadoPor == usuario.UserName
+                 where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                  || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                  || entidades.CriadoPor == usuarioLogado_username
                  select entidades).Where(Expressao);
             }
             else
@@ -173,43 +191,41 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual IEnumerable<T> PesquisarAtivos(Expression<Func<T, bool>> Expressao)
         {
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            if (usuarioLogado_usuarioprincipal)
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id|| usuarios.Id == usuarioLogado_id
                  && entidades.Deletado == false
                  select entidades).Where(Expressao);
 
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+            else if (usuarioLogado_organizador)
             {
-                return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == false).Where(Expressao);
+                return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == false).Where(Expressao);
             }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_id_usuario_principal.Any())
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal  || usuarios.Id == usuarioLogado_id
                      && entidades.Deletado == false
                  select entidades).Where(Expressao);
 
             }
             //Caixa
-            else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_caixaevento)
             {
                 return
                 (from entidades in dbSet
                  join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador
-                  || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                  || entidades.CriadoPor == usuario.UserName
+                 where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                  || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                  || entidades.CriadoPor == usuarioLogado_username
                  select entidades).Where(Expressao);
             }
             else
@@ -220,43 +236,41 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual IEnumerable<T> PesquisarDeletados(Expression<Func<T, bool>> Expressao)
         {
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
-
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+         
+            if (usuarioLogado_usuarioprincipal)
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                  && entidades.Deletado == true
                  select entidades).Where(Expressao);
 
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+            else if (usuarioLogado_organizador)
             {
-                return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == true).Where(Expressao);
+                return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == true).Where(Expressao);
             }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_id_usuario_principal.Any())
             {
                 return
                 (from entidades in dbSet
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                 where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                      && entidades.Deletado == true
                  select entidades).Where(Expressao);
 
             }
             //Caixa
-            else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_caixaevento)
             {
                 return
                 (from entidades in dbSet
                  join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
                  join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador
-                  || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                  || entidades.CriadoPor == usuario.UserName
+                 where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                  || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                  || entidades.CriadoPor == usuarioLogado_username
                  select entidades).Where(Expressao);
             }
             else
@@ -299,42 +313,39 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual IEnumerable<T> TrazerTodos()
         {
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
 
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            if (usuarioLogado_usuarioprincipal)
             {
                 return
                 from entidades in dbSet
                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                 select entidades;
 
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == false)
+            else if (usuarioLogado_organizador)
             {
-                return dbSet.Where(t => t.CriadoPor == usuario.UserName);
+                return dbSet.Where(t => t.CriadoPor == usuarioLogado_username);
             }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_id_usuario_principal.Any())
             {
                 return
                 from entidades in dbSet
                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                 select entidades;
 
             }
             //Caixa
-            else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            else if (usuarioLogado_caixaevento)
             {
                 return
                 from entidades in dbSet
-                 join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
-                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                 where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador
-                  || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                  || entidades.CriadoPor == usuario.UserName
-                 select entidades;
+                join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
+                join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                 || entidades.CriadoPor == usuarioLogado_username
+                select entidades;
             }
             else
             {
@@ -345,45 +356,43 @@ namespace TruckEvent.WebApi.Infra.Repository
 
         public virtual IEnumerable<T> TrazerTodosAtivos()
         {
-
+         
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
+               
 
-                var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-                var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
-
-                if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true) // Dono da Loja
+                if (usuarioLogado_usuarioprincipal) // Dono da Loja
                 {
                     return
                     from entidades in dbSet
-                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                    where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarioLogado_username
+                    where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                     && entidades.Deletado == false
                     select entidades;
 
                 }
-                else if (usuario.Organizador == true || usuario.UserPrincipal == false) // Orgazanidor
+                else if (usuarioLogado_organizador) // Orgazanidor
                 {
-                    return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == false);
+                    return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == false);
                 }
-                else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false) // Funcionario
+                else if (usuarioLogado_id_usuario_principal.Any()) // Funcionario
                 {
                     return
                     from entidades in dbSet
                     join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                    where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                    where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                     && entidades.Deletado == false
                     select entidades;
                 } //Caixa
-                else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+                else if (usuarioLogado_caixaevento)
                 {
                     return
                     from entidades in dbSet
                     join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
                     join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                    where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador
-                     || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                     || entidades.CriadoPor == usuario.UserName
+                    where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                     || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                     || entidades.CriadoPor == usuarioLogado_id
                      && entidades.Deletado == false
                     select entidades;
                 }
@@ -402,49 +411,48 @@ namespace TruckEvent.WebApi.Infra.Repository
         public virtual IEnumerable<T> TrazerTodosDeletados()
         {
 
-            var usuario = Db.Set<Usuario>().SingleOrDefault(u => u.UserName == HttpContext.Current.User.Identity.Name);
-            var usuarioPrincipal = Db.Set<Usuario>().SingleOrDefault(u => u.Id == usuario.Id_Usuario_Principal);
-
-            if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == true)
+            if (!usuarioLogado_id_usuario_principal.Any())
             {
                 return
                 from entidades in dbSet
                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                where usuarios.Id_Usuario_Principal == usuario.Id || usuarios.Id == usuario.Id
+                where usuarios.Id_Usuario_Principal == usuarioLogado_id|| usuarios.Id == usuarioLogado_id
                 && entidades.Deletado == true
                 select entidades;
             }
-            else if (usuario.Organizador == true || usuario.UserPrincipal == true)
+            else if (usuarioLogado_organizador)
             {
-                return dbSet.Where(t => t.CriadoPor == usuario.UserName && t.Deletado == true);
+                return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == true);
             }
-            else if (usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false) // Funcionario)
+            else if (usuarioLogado_id_usuario_principal.Any()) // Funcionario)
             {
                 return
                 from entidades in dbSet
                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                where usuarios.Id_Usuario_Principal == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id_Usuario_Principal || usuarios.Id == usuario.Id
+                where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                 && entidades.Deletado == true
                 select entidades;
             }
-             //Caixa
-            else if (usuario.CaixaEvento == true && usuario.Organizador == false && usuario.UserAdmin == false && usuario.UserPrincipal == false)
+            //Caixa
+            else if (usuarioLogado_id_usuario_organizador.Any())
             {
                 return
                 from entidades in dbSet
                 join usuarioEvento in Db.Set<Evento_Usuario>() on entidades.CriadoPor equals usuarioEvento.Usuario.UserName
                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                where usuarioEvento.Evento.Id_organizador == usuario.id_usuario_organizador
-                 || usuarios.id_usuario_organizador == usuario.id_usuario_organizador
-                 || entidades.CriadoPor == usuario.UserName
+                where usuarioEvento.Evento.Id_organizador == usuarioLogado_id_usuario_organizador
+                 || usuarios.id_usuario_organizador == usuarioLogado_id_usuario_organizador
+                 || entidades.CriadoPor == usuarioLogado_username
                  && entidades.Deletado == true
                 select entidades;
-            }else
+            }
+            else
             {
 
                 return dbSet.Where(obj => obj.Deletado == true);
             }
         }
+
     }
 
 }

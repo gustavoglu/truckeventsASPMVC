@@ -59,27 +59,32 @@ namespace TruckEvent.WebApi.Providers
             cookiesIdentity.AddClaim(new Claim("id_usuario", user.Id));
             cookiesIdentity.AddClaim(new Claim("admin", user.UserAdmin.ToString()));
             cookiesIdentity.AddClaim(new Claim("organizador", user.Organizador.ToString()));
-            cookiesIdentity.AddClaim(new Claim("caixaEvento", user.CaixaEvento.ToString()));
+            cookiesIdentity.AddClaim(new Claim("caixaevento", user.CaixaEvento.ToString()));
             cookiesIdentity.AddClaim(new Claim("usuarioPrincipal", user.UserPrincipal.ToString()));
 
             oAuthIdentity.AddClaim(new Claim("id_usuario", user.Id));
             oAuthIdentity.AddClaim(new Claim("admin", user.UserAdmin.ToString()));
             oAuthIdentity.AddClaim(new Claim("organizador", user.Organizador.ToString()));
-            oAuthIdentity.AddClaim(new Claim("caixaEvento", user.CaixaEvento.ToString()));
+            oAuthIdentity.AddClaim(new Claim("caixaevento", user.CaixaEvento.ToString()));
             oAuthIdentity.AddClaim(new Claim("usuarioprincipal", user.UserPrincipal.ToString()));
 
+            cookiesIdentity.AddClaim(new Claim("id_usuario_principal",
+                user.Id_Usuario_Principal == null ? "" : user.Id_Usuario_Principal));
 
-            if (user.Id_Usuario_Principal != null)
-            {
-                cookiesIdentity.AddClaim(new Claim("id_usuario_principal", user.Id_Usuario_Principal));
-            }
+            cookiesIdentity.AddClaim(new Claim("id_usuario_organizador",
+             user.id_usuario_organizador == null ? "" : user.id_usuario_organizador));
 
+            oAuthIdentity.AddClaim(new Claim("id_usuario_principal",
+             user.Id_Usuario_Principal == null ? "" : user.Id_Usuario_Principal));
+
+            oAuthIdentity.AddClaim(new Claim("id_usuario_organizador",
+             user.id_usuario_organizador == null ? "" : user.id_usuario_organizador));
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
-            
+
             var principal = new ClaimsPrincipal(oAuthIdentity);
             Thread.CurrentPrincipal = principal;
         }
@@ -96,6 +101,7 @@ namespace TruckEvent.WebApi.Providers
             context.AdditionalResponseParameters.Add("CaixaEvento", Usuario.CaixaEvento);
             context.AdditionalResponseParameters.Add("UsuarioPrincipal", Usuario.UserPrincipal);
             context.AdditionalResponseParameters.Add("id_usuario_principal", Usuario.Id_Usuario_Principal);
+            context.AdditionalResponseParameters.Add("id_usuario_organizador", Usuario.id_usuario_organizador);
 
             return Task.FromResult<object>(null);
         }

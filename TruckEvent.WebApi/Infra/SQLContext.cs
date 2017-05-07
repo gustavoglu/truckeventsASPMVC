@@ -71,6 +71,7 @@ namespace TruckEvent.WebApi.Infra
                 .WithMany(uu => uu.Lojas)
                 .HasForeignKey(u => u.Id_Usuario_Principal);
 
+            modelBuilder.Configurations.Add(new VendaEntityConfig());
             modelBuilder.Configurations.Add(new Usuario_TipoEntityConfig());
             modelBuilder.Configurations.Add(new ConsequenciaEntityConfig());
             modelBuilder.Configurations.Add(new Evento_UsuarioEntityConfig());
@@ -84,7 +85,7 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Configurations.Add(new Venda_PagamentoEntityConfig());
             modelBuilder.Configurations.Add(new Venda_Produto_VariacaoEntityConfig());
             modelBuilder.Configurations.Add(new Venda_ProdutoEntityConfig());
-            modelBuilder.Configurations.Add(new VendaEntityConfig());
+           
             modelBuilder.Configurations.Add(new Ficha_ProdutoEntityConfig());
             modelBuilder.Configurations.Add(new TokenEnvioEntityConfig());
 
@@ -106,6 +107,12 @@ namespace TruckEvent.WebApi.Infra
             {
                 foreach (var item in Criados)
                 {
+
+                    if (!((BaseEntity)item.Entity).Id.HasValue)
+                    {
+                        ((BaseEntity)item.Entity).Id = Guid.NewGuid();
+                    }
+                    
                     ((BaseEntity)item.Entity).CriadoEm = DateTime.Now;
                     ((BaseEntity)item.Entity).Deletado = false;
 
@@ -137,7 +144,7 @@ namespace TruckEvent.WebApi.Infra
                         }
                     }
                     catch { }
-                  
+
                 }
             }
 

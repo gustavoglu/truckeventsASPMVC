@@ -329,6 +329,26 @@
     <Compile Include="Migrations\201705032257062_adicionalCores.Designer.cs">
       <DependentUpon>201705032257062_adicionalCores.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705060149584_fkVendaEEvento.cs" />
+    <Compile Include="Migrations\201705060149584_fkVendaEEvento.Designer.cs">
+      <DependentUpon>201705060149584_fkVendaEEvento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705060156445_fkVendaEEvento2.cs" />
+    <Compile Include="Migrations\201705060156445_fkVendaEEvento2.Designer.cs">
+      <DependentUpon>201705060156445_fkVendaEEvento2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705060201023_fkVendaEEvento3.cs" />
+    <Compile Include="Migrations\201705060201023_fkVendaEEvento3.Designer.cs">
+      <DependentUpon>201705060201023_fkVendaEEvento3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705060204295_fkVendaEEvento4.cs" />
+    <Compile Include="Migrations\201705060204295_fkVendaEEvento4.Designer.cs">
+      <DependentUpon>201705060204295_fkVendaEEvento4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705062222375_fkVendaEEvento5.cs" />
+    <Compile Include="Migrations\201705062222375_fkVendaEEvento5.Designer.cs">
+      <DependentUpon>201705062222375_fkVendaEEvento5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -505,6 +525,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705032257062_adicionalCores.resx">
       <DependentUpon>201705032257062_adicionalCores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705060149584_fkVendaEEvento.resx">
+      <DependentUpon>201705060149584_fkVendaEEvento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705060156445_fkVendaEEvento2.resx">
+      <DependentUpon>201705060156445_fkVendaEEvento2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705060201023_fkVendaEEvento3.resx">
+      <DependentUpon>201705060201023_fkVendaEEvento3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705060204295_fkVendaEEvento4.resx">
+      <DependentUpon>201705060204295_fkVendaEEvento4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705062222375_fkVendaEEvento5.resx">
+      <DependentUpon>201705062222375_fkVendaEEvento5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
