@@ -27,6 +27,7 @@ namespace TruckEvent.WebApi.Infra
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Usuario_Tipo> Usuario_Tipos { get; set; }
         public DbSet<Venda_Pagamento> Venda_Pagamentos { get; set; }
+        public DbSet<Venda_Pagamento_Ficha> Venda_Pagamento_Fichas { get; set; }
         public DbSet<Venda_Produto_Variacao> Venda_Produto_Variacoes { get; set; }
         public DbSet<Venda_Produto> Venda_Produtos { get; set; }
         public DbSet<Venda> Vendas { get; set; }
@@ -85,7 +86,7 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Configurations.Add(new Venda_PagamentoEntityConfig());
             modelBuilder.Configurations.Add(new Venda_Produto_VariacaoEntityConfig());
             modelBuilder.Configurations.Add(new Venda_ProdutoEntityConfig());
-           
+            modelBuilder.Configurations.Add(new Venda_Pagamento_FichaEntityConfig());
             modelBuilder.Configurations.Add(new Ficha_ProdutoEntityConfig());
             modelBuilder.Configurations.Add(new TokenEnvioEntityConfig());
 
@@ -152,5 +153,6 @@ namespace TruckEvent.WebApi.Infra
 
         }
 
+        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Venda_Pagamento_FichaViewModel> Venda_Pagamento_FichaViewModel { get; set; }
     }
 }

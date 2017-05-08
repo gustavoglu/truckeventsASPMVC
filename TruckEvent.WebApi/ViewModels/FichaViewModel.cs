@@ -13,6 +13,7 @@ namespace TruckEvent.WebApi.ViewModels
         {
             this.Id = Guid.NewGuid();
             this.Ficha_Produtos = new List<Ficha_Produto>();
+            this.Venda_Pagamento_Fichas = new List<Venda_Pagamento_Ficha>();
         }
         public Guid? Id { get; set; }
 
@@ -26,9 +27,11 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Guid? Id_Evento { get; set; }
 
-        //public virtual Evento Evento { get; set; } = null;
+        public virtual Evento Evento { get; set; } = null;
 
         public virtual ICollection<Ficha_Produto> Ficha_Produtos{ get; set; }
+
+        public virtual ICollection<Venda_Pagamento_Ficha> Venda_Pagamento_Fichas { get; set; }
 
         public DateTime? CriadoEm { get; set; }
 

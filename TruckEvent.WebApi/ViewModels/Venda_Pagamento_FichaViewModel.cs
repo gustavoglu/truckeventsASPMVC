@@ -6,28 +6,22 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class Venda_PagamentoViewModel
+    public class Venda_Pagamento_FichaViewModel
     {
-        public Venda_PagamentoViewModel()
+        public Venda_Pagamento_FichaViewModel()
         {
             this.Id = Guid.NewGuid();
-
-            this.Venda_Pagamento_Fichas = new List<Venda_Pagamento_Ficha>();
         }
 
         public Guid? Id { get; set; }
 
-        public double? Valor { get; set; }
+        public Guid? Id_Ficha { get; set; }
 
-        public Guid? Id_venda { get; set; }
+        public Guid? Id_Venda_Pagamento { get; set; }
 
-        public virtual Venda Venda { get; set; } = null;
+        public virtual Venda_Pagamento Venda_Pagamento { get; set; }
 
-        public Guid? Id_pagamento_tipo { get; set; }
-
-        public virtual Pagamento_Tipo Pagamento_Tipo { get; set; } = null;
-
-        public virtual ICollection<Venda_Pagamento_Ficha> Venda_Pagamento_Fichas { get; set; }
+        public virtual Ficha Ficha { get; set; }
 
         public DateTime? CriadoEm { get; set; }
 
@@ -42,5 +36,6 @@ namespace TruckEvent.WebApi.ViewModels
         public string AtualizadoPor { get; set; } = null;
 
         public bool? Deletado { get; set; }
+
     }
 }

@@ -251,6 +251,7 @@
     <Compile Include="Controllers\Api\Usuario_TiposController.cs" />
     <Compile Include="Controllers\Api\VendasController.cs" />
     <Compile Include="Controllers\Api\Venda_PagamentosController.cs" />
+    <Compile Include="Controllers\Api\Venda_Pagamento_FichasController.cs" />
     <Compile Include="Controllers\Api\Venda_ProdutosController.cs" />
     <Compile Include="Controllers\Api\Venda_Produto_VariacoesController.cs" />
     <Compile Include="Controllers\ConviteController.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Infra\EntityConfig\Usuario_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\VendaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_PagamentoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\Venda_Pagamento_FichaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Venda_Produto_VariacaoEntityConfig.cs" />
     <Compile Include="Infra\Repository\EntityRepository\ConsequenciaRepository.cs" />
@@ -296,6 +298,7 @@
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IUsuario_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVendaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_PagamentoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_Pagamento_FichaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IVenda_Produto_VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\TokenEnvioRepository.cs" />
@@ -307,6 +310,7 @@
     <Compile Include="Infra\Repository\EntityRepository\Usuario_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\VendaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_PagamentoRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Venda_Pagamento_FichaRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_Produto_VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
@@ -349,6 +353,10 @@
     <Compile Include="Migrations\201705062222375_fkVendaEEvento5.Designer.cs">
       <DependentUpon>201705062222375_fkVendaEEvento5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705082323541_vendapagamentoFicha.cs" />
+    <Compile Include="Migrations\201705082323541_vendapagamentoFicha.Designer.cs">
+      <DependentUpon>201705082323541_vendapagamentoFicha.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -358,6 +366,7 @@
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
     <Compile Include="Models\Ficha_Produto.cs" />
+    <Compile Include="Models\Venda_Pagamento_Ficha.cs" />
     <Compile Include="Models\TokenEnvio.cs" />
     <Compile Include="Models\Venda_Pagamento.cs" />
     <Compile Include="Models\Produto.cs" />
@@ -380,6 +389,7 @@
     <Compile Include="Services\Ficha_ProdutoAppService.cs" />
     <Compile Include="Services\Interfaces\IFicha_ProdutoAppService.cs" />
     <Compile Include="Services\Interfaces\ITokenEnvioAppService.cs" />
+    <Compile Include="Services\Interfaces\IVenda_Pagamento_FichaAppService.cs" />
     <Compile Include="Services\Pagamento_TipoAppService.cs" />
     <Compile Include="Services\ProdutoAppService.cs" />
     <Compile Include="Services\Produto_CorAppService.cs" />
@@ -390,6 +400,7 @@
     <Compile Include="Services\Usuario_TipoAppService.cs" />
     <Compile Include="Services\VendaAppService.cs" />
     <Compile Include="Services\Venda_PagamentoAppService.cs" />
+    <Compile Include="Services\Venda_Pagamento_FichaAppService.cs" />
     <Compile Include="Services\Venda_ProdutoAppService.cs" />
     <Compile Include="Services\Venda_Produto_VariacaoAppService.cs" />
     <Compile Include="Services\Interfaces\IConsequenciaAppService.cs" />
@@ -426,6 +437,7 @@
     <Compile Include="ViewModels\Usuario_TipoViewModel.cs" />
     <Compile Include="ViewModels\VendaViewModel.cs" />
     <Compile Include="ViewModels\Venda_PagamentoViewModel.cs" />
+    <Compile Include="ViewModels\Venda_Pagamento_FichaViewModel.cs" />
     <Compile Include="ViewModels\Venda_ProdutoViewModel.cs" />
     <Compile Include="ViewModels\Venda_Produto_VariacaoViewModel.cs" />
   </ItemGroup>
@@ -540,6 +552,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705062222375_fkVendaEEvento5.resx">
       <DependentUpon>201705062222375_fkVendaEEvento5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705082323541_vendapagamentoFicha.resx">
+      <DependentUpon>201705082323541_vendapagamentoFicha.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
