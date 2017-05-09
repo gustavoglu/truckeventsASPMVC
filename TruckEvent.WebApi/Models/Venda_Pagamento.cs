@@ -18,7 +18,7 @@ namespace TruckEvent.WebApi.Models
 
         public virtual Pagamento_Tipo Pagamento_Tipo { get; set; } = null;
 
-        public virtual ICollection<Venda_Pagamento_Ficha> Id_Venda_Pagamento_Fichas { get; set; }
+        public virtual ICollection<Venda_Pagamento_Ficha> Venda_Pagamento_Fichas { get; set; }
 
     }
 }
