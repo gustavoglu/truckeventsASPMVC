@@ -152,7 +152,5 @@ namespace TruckEvent.WebApi.Infra
             return base.SaveChanges();
 
         }
-
-        public System.Data.Entity.DbSet<TruckEvent.WebApi.ViewModels.Venda_Pagamento_FichaViewModel> Venda_Pagamento_FichaViewModel { get; set; }
     }
 }

@@ -27,11 +27,28 @@ namespace TruckEvent.WebApi.Controllers.Api
             return _fichaAppService.TrazerTodosAtivos().ToList().AsQueryable();
         }
 
+        [Route("/Evento")]
+        public IQueryable<FichaViewModel> GetFichaViewModelsEvento(Guid id_evento)
+        {
+            return _fichaAppService.TrazerTodosAtivos(id_evento).ToList().AsQueryable();
+        }
+
         // GET: api/FichaViewModels/5
         [ResponseType(typeof(FichaViewModel))]
         public IHttpActionResult GetFichaViewModel(Guid id)
         {
             FichaViewModel fichaViewModel = _fichaAppService.BuscarPorId(id);
+            if (fichaViewModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(fichaViewModel);
+        }
+
+        public IHttpActionResult GetFichaViewModel(Guid id_evento, string codigo)
+        {
+            FichaViewModel fichaViewModel = _fichaAppService.BuscarPorCodigo(codigo);
             if (fichaViewModel == null)
             {
                 return NotFound();

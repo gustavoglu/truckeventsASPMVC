@@ -82,7 +82,7 @@ namespace TruckEvent.WebApi.Controllers.Api
             //Verifica se alguma das fichas usadas contem saldo
             if(!vendaViewModel.Venda_Pagamentos.ToList().Exists(vp => vp.Venda_Pagamento_Fichas.Where(vpf => vpf.Ficha.Saldo > 0).Count() > 0))
             {
-                return BadRequest("Não existe saldo em nenhuma Ficha informada");
+                return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
             }
 
             //Verifica se a soma das fichas dessa venda tem saldo para o total da venda

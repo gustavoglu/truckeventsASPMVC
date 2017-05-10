@@ -14,12 +14,18 @@ namespace TruckEvent.WebApi.Services.Interfaces
 
         FichaViewModel BuscarPorId(Guid Id);
 
+        FichaViewModel BuscarPorCodigo(string codigo);
+
         FichaViewModel Reativar(Guid Id);
 
         bool Deletar(Guid Id);
 
         IEnumerable<FichaViewModel> TrazerTodosAtivos();
 
+        IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid id_evento);
+
         IEnumerable<FichaViewModel> TrazerTodosDeletados();
+
+        IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid id_evento);
     }
 }

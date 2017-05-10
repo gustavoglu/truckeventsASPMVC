@@ -357,6 +357,14 @@
     <Compile Include="Migrations\201705082323541_vendapagamentoFicha.Designer.cs">
       <DependentUpon>201705082323541_vendapagamentoFicha.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705092351018_teste.cs" />
+    <Compile Include="Migrations\201705092351018_teste.Designer.cs">
+      <DependentUpon>201705092351018_teste.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705100043060_correcaoNomeTabelaVendaPagamentoFicha.cs" />
+    <Compile Include="Migrations\201705100043060_correcaoNomeTabelaVendaPagamentoFicha.Designer.cs">
+      <DependentUpon>201705100043060_correcaoNomeTabelaVendaPagamentoFicha.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -555,6 +563,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705082323541_vendapagamentoFicha.resx">
       <DependentUpon>201705082323541_vendapagamentoFicha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705092351018_teste.resx">
+      <DependentUpon>201705092351018_teste.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705100043060_correcaoNomeTabelaVendaPagamentoFicha.resx">
+      <DependentUpon>201705100043060_correcaoNomeTabelaVendaPagamentoFicha.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

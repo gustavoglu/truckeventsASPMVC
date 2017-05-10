@@ -27,6 +27,11 @@ namespace TruckEvent.WebApi.Services
             return Mapper.Map<FichaViewModel>(_fichaRepository.Atualizar(ficha));
         }
 
+        public FichaViewModel BuscarPorCodigo(string codigo)
+        {
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo));
+        }
+
         public FichaViewModel BuscarPorId(Guid Id)
         {
             return Mapper.Map<FichaViewModel>(_fichaRepository.BuscarPorId(Id));
@@ -58,9 +63,19 @@ namespace TruckEvent.WebApi.Services
             return Mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosAtivos().ToList());
         }
 
+        public IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid id_evento)
+        {
+            return Mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosAtivos().Where(f => f.Id_Evento == id_evento).ToList());
+        }
+
         public IEnumerable<FichaViewModel> TrazerTodosDeletados()
         {
             return Mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosDeletados().ToList());
+        }
+
+        public IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid id_evento)
+        {
+            return Mapper.Map<IEnumerable<FichaViewModel>>(_fichaRepository.TrazerTodosDeletados().Where(f => f.Id_Evento == id_evento).ToList());
         }
     }
 }
