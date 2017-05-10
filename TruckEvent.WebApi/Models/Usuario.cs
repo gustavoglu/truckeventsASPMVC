@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TruckEvent.WebApi.Models
 {
@@ -28,9 +29,17 @@ namespace TruckEvent.WebApi.Models
         public string id_usuario_organizador { get; set; }
         public virtual Usuario Usuario_Organizador { get; set; }
 
+
+        [JsonIgnore]
         public virtual ICollection<Usuario> Caixas { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Usuario> Lojas { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Evento> Eventos { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Evento_Usuario> Evento_Usuarios { get; set; }
 
         public virtual Usuario Usuario_Principal { get; set; }

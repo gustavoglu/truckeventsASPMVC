@@ -11,56 +11,8 @@ using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Services
 {
-    public class ConsequenciaAppService : IConsequenciaAppService
+    public class ConsequenciaAppService : AppService<Consequencia,ConsequenciaViewModel> , IConsequenciaAppService
     {
-        private readonly IConsequenciaRepository _consequenciaRepository;
-
-        public ConsequenciaAppService()
-        {
-            _consequenciaRepository = new ConsequenciaRepository();
-        }
-
-        public ConsequenciaViewModel Atualizar(ConsequenciaViewModel consequenciaViewModel)
-        {
-            var consequenciaDTO = _consequenciaRepository.BuscarPorId(consequenciaViewModel.Id);
-            var consequencia = Mapper.Map(consequenciaViewModel, consequenciaDTO);
-            return Mapper.Map<ConsequenciaViewModel>(_consequenciaRepository.Atualizar(consequencia));
-        }
-
-        public ConsequenciaViewModel BuscarPorId(Guid Id)
-        {
-            return Mapper.Map<ConsequenciaViewModel>(_consequenciaRepository.BuscarPorId(Id));
-        }
-
-        public ConsequenciaViewModel Criar(ConsequenciaViewModel consequenciaViewModel)
-        {
-            var consequencia = Mapper.Map<Consequencia>(consequenciaViewModel);
-            return Mapper.Map<ConsequenciaViewModel>(_consequenciaRepository.Criar(consequencia));
-        }
-
-        public bool Deletar(Guid Id)
-        {
-            return _consequenciaRepository.Deletar(Id);
-        }
-
-        public void Dispose()
-        {
-            _consequenciaRepository.Dispose();
-        }
-
-        public ConsequenciaViewModel Reativar(Guid Id)
-        {
-            return Mapper.Map<ConsequenciaViewModel>(_consequenciaRepository.Reativar(Id));
-        }
-
-        public IEnumerable<ConsequenciaViewModel> TrazerTodosAtivos()
-        {
-            return Mapper.Map<IEnumerable<ConsequenciaViewModel>>(_consequenciaRepository.TrazerTodosAtivos().ToList());
-        }
-
-        public IEnumerable<ConsequenciaViewModel> TrazerTodosDeletados()
-        {
-            return Mapper.Map<IEnumerable<ConsequenciaViewModel>>(_consequenciaRepository.TrazerTodosDeletados().ToList());
-        }
+       
     }
 }

@@ -7,19 +7,17 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    [JsonObject("Evento")]
-    public class EventoViewModel
+
+    public class EventoViewModel : BaseEntityViewModel
     {
         
-        public EventoViewModel()
+        public EventoViewModel() : base()
         {
-            this.Id = Guid.NewGuid();
 
-            this.Fichas = new List<Ficha>();
-            this.Vendas = new List<Venda>();
+            //this.Fichas = new List<FichaViewModel>();
+            //this.Vendas = new List<VendaViewModel>();
+            //this.Evento_Usuarios = new List<Evento_UsuarioViewModel>();
         }
-
-        public Guid? Id { get; set; }
 
         public string Descricao { get; set; } = null;
 
@@ -33,26 +31,15 @@ namespace TruckEvent.WebApi.ViewModels
 
         public string Id_organizador { get; set; } = null;
 
-        public virtual Usuario Usuario_Organizador { get; set; }
+        public virtual UsuarioViewModel Usuario_Organizador { get; set; }
+        
+        ////[JsonIgnore]
+        //public virtual ICollection<FichaViewModel> Fichas { get; set; }
+        
+        //public virtual ICollection<VendaViewModel> Vendas { get; set; }
+        ////
+        ////[JsonIgnore]
+        //public virtual ICollection<Evento_UsuarioViewModel> Evento_Usuarios { get; set; }
 
-        public virtual ICollection<Ficha> Fichas { get; set; }
-
-        public virtual ICollection<Venda> Vendas { get; set; }
-
-        public virtual ICollection<Evento_Usuario> Evento_Usuarios { get; set; }
-
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,48 +8,37 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class ProdutoViewModel
+    public class ProdutoViewModel : BaseEntityViewModel
     {
-        public ProdutoViewModel()
+        public ProdutoViewModel() : base()
         {
-            Id = Guid.NewGuid();
 
-            Venda_Produtos = new List<Venda_Produto>();
-            Ficha_Produtos = new List<Ficha_Produto>();
+            Venda_Produtos = new List<Venda_ProdutoViewModel>();
+
+            Ficha_Produtos = new List<Ficha_ProdutoViewModel>();
         }
-        [Key]
-        public Guid? Id { get; set; }
 
         public string Descricao { get; set; } = null;
+
         public double? Valor { get; set; }
+
         public int? Numero { get; set; }
 
         public Guid? Id_produto_cor { get; set; }
+
         public Guid? Id_produto_tipo { get; set; }
+   
+        public Produto_CorViewModel Produto_Cor { get; set; } = null;
 
-        //public Produto_CorViewModel Produto_Cor { get; set; } = null;
-        //public Produto_TipoViewModel Produto_Tipo { get; set; } = null;
+        public Produto_TipoViewModel Produto_Tipo { get; set; } = null;
 
-        public Produto_Cor Produto_Cor { get; set; } = null;
-        public Produto_Tipo Produto_Tipo { get; set; } = null;
+        [JsonIgnore]
+        public virtual ICollection<Venda_ProdutoViewModel> Venda_Produtos { get; set; }
 
-        public virtual ICollection<Venda_Produto> Venda_Produtos { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<Ficha_ProdutoViewModel> Ficha_Produtos { get; set; }
 
-        public virtual ICollection<Ficha_Produto> Ficha_Produtos { get; set; }
 
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
 
     }
 }

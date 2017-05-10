@@ -25,13 +25,14 @@ namespace TruckEvent.WebApi.AutoMap
             CreateMap<Usuario_Tipo, Usuario_TipoViewModel>().ReverseMap();
             CreateMap<Venda, VendaViewModel>().ReverseMap();
             CreateMap<Venda_Pagamento, Venda_PagamentoViewModel>().ReverseMap();
+            CreateMap<Venda_Pagamento_Ficha, Venda_Pagamento_FichaViewModel>().ReverseMap();
             CreateMap<Venda_Produto, Venda_ProdutoViewModel>().ReverseMap();
             CreateMap<Venda_Produto_Variacao, Venda_Produto_VariacaoViewModel>().ReverseMap();
             CreateMap<Ficha_Produto, Ficha_ProdutoViewModel>().ReverseMap();
             CreateMap<TokenEnvio, TokenEnvioViewModel>().ReverseMap();
 
-
-
         }
+
+
     }
 }

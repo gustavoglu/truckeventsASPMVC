@@ -6,38 +6,23 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class Evento_UsuarioViewModel
+    public class Evento_UsuarioViewModel : BaseEntityViewModel
     {
-
-        public Evento_UsuarioViewModel()
+         
+        public Evento_UsuarioViewModel() : base()
         {
-            this.Id = Guid.NewGuid();
+            
         }
-
-        public Guid? Id { get; set; }
 
         public string Id_Usuario { get; set; } = null;
 
         public Guid? Id_Evento { get; set; }
 
-        public virtual Usuario Usuario { get; set; }
+        public virtual UsuarioViewModel Usuario { get; set; }
 
-        public virtual Evento Evento { get; set; } = null;
+        public virtual EventoViewModel Evento { get; set; } = null;
 
         public bool? UsuarioConfirmado { get; set; }
 
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
     }
 }

@@ -7,36 +7,19 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class Produto_CorViewModel
+    public class Produto_CorViewModel : BaseEntityViewModel
     {
-        public Produto_CorViewModel()
-        {
-            Id = Guid.NewGuid();
-
-            Produtos = new List<Produto>();
+        public Produto_CorViewModel() : base()
+        { 
+            Produtos = new List<ProdutoViewModel>();
 
         }
-        [Key]
-        public Guid? Id { get; set; }
 
         public string Descricao { get; set; } = null;
 
         public string Cor { get; set; } = null;
 
-        public ICollection<Produto> Produtos { get; set; }
+        public ICollection<ProdutoViewModel> Produtos { get; set; }
 
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
     }
 }

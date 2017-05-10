@@ -6,15 +6,12 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class Usuario_TipoViewModel
+    public class Usuario_TipoViewModel : BaseEntityViewModel
     {
-        public Usuario_TipoViewModel()
+        public Usuario_TipoViewModel() : base()
         {
-            this.Id = Guid.NewGuid();
-            this.Usuarios = new List<Usuario>();
+            this.Usuarios = new List<UsuarioViewModel>();
         }
-
-        public Guid? Id { get; set; }
 
         public string Descricao { get; set; } = null;
 
@@ -24,20 +21,8 @@ namespace TruckEvent.WebApi.ViewModels
 
         public bool? Organizador { get; set; }
 
-        public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<UsuarioViewModel> Usuarios { get; set; }
 
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
+      
     }
 }

@@ -2,24 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Services.Interfaces
 {
-    public interface IVendaAppService : IDisposable
+    public interface IVendaAppService : IAppService<Venda,VendaViewModel>
     {
-        VendaViewModel Criar(VendaViewModel vendaViewModel);
-
-        VendaViewModel Atualizar(VendaViewModel vendaViewModel);
-
-        VendaViewModel BuscarPorId(Guid Id);
-
-        VendaViewModel Reativar(Guid Id);
-
-        bool Deletar(Guid Id);
-
-        IEnumerable<VendaViewModel> TrazerTodosAtivos();
-
-        IEnumerable<VendaViewModel> TrazerTodosDeletados();
+     
     }
 }

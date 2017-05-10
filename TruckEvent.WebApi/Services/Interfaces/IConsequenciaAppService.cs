@@ -2,25 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Services.Interfaces
 {
-    public interface IConsequenciaAppService : IDisposable
+    public interface IConsequenciaAppService : IAppService<Consequencia,ConsequenciaViewModel>
     {
-        ConsequenciaViewModel Criar(ConsequenciaViewModel consequenciaViewModel);
-
-        ConsequenciaViewModel Atualizar(ConsequenciaViewModel consequenciaViewModel);
-
-        ConsequenciaViewModel BuscarPorId(Guid Id);
-
-        ConsequenciaViewModel Reativar(Guid Id);
-
-        bool Deletar(Guid Id);
-
-        IEnumerable<ConsequenciaViewModel> TrazerTodosAtivos();
-
-        IEnumerable<ConsequenciaViewModel> TrazerTodosDeletados();
+        
 
     }
 }

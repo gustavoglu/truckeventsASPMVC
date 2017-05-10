@@ -4,19 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TruckEvent.WebApi.Models
+namespace TruckEvent.WebApi.ViewModels
 {
-    public class BaseEntity
+    public class BaseEntityViewModel
     {
-        public BaseEntity()
+        public BaseEntityViewModel()
         {
             this.Id = Guid.NewGuid();
         }
-
         [Key]
         public Guid? Id { get; set; }
 
-        public DateTime? CriadoEm{ get; set; }
+        public DateTime? CriadoEm { get; set; }
 
         public string CriadoPor { get; set; } = null;
 

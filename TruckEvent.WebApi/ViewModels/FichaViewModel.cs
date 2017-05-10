@@ -6,17 +6,17 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.ViewModels
 {
-    public class FichaViewModel
+    public class FichaViewModel : BaseEntityViewModel
     {
 
-        public FichaViewModel()
+        public FichaViewModel() : base()
         {
-            this.Id = Guid.NewGuid();
-            this.Ficha_Produtos = new List<Ficha_Produto>();
-            this.Venda_Pagamento_Fichas = new List<Venda_Pagamento_Ficha>();
-        }
-        public Guid? Id { get; set; }
+         
+            this.Ficha_Produtos = new List<Ficha_ProdutoViewModel>();
 
+            this.Venda_Pagamento_Fichas = new List<Venda_Pagamento_FichaViewModel>();
+        }
+   
         public string Codigo { get; set; } = null;
 
         public string NomeCliente { get; set; } = null;
@@ -27,24 +27,11 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Guid? Id_Evento { get; set; }
 
-        public virtual Evento Evento { get; set; } = null;
+        public virtual EventoViewModel Evento { get; set; } = null;
 
-        public virtual ICollection<Ficha_Produto> Ficha_Produtos{ get; set; }
+        public virtual ICollection<Ficha_ProdutoViewModel> Ficha_Produtos { get; set; }
 
-        public virtual ICollection<Venda_Pagamento_Ficha> Venda_Pagamento_Fichas { get; set; }
+        public virtual ICollection<Venda_Pagamento_FichaViewModel> Venda_Pagamento_Fichas { get; set; }
 
-        public DateTime? CriadoEm { get; set; }
-
-        public string CriadoPor { get; set; } = null;
-
-        public DateTime? DeletadoEm { get; set; }
-
-        public string DeletadoPor { get; set; } = null;
-
-        public DateTime? AtualizadoEm { get; set; }
-
-        public string AtualizadoPor { get; set; } = null;
-
-        public bool? Deletado { get; set; }
     }
 }

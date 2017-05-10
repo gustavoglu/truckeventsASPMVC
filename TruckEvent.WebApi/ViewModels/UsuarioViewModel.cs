@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -12,33 +13,56 @@ namespace TruckEvent.WebApi.ViewModels
     {
         public UsuarioViewModel()
         {
-            //this.Eventos = new List<Evento>();
+            this.Eventos = new List<EventoViewModel>();
+            this.Lojas = new List<UsuarioViewModel>();
+            this.Eventos = new List<EventoViewModel>();
+            this.Evento_Usuarios = new List<Evento_UsuarioViewModel>();
         }
 
-        [ScaffoldColumn(false)]
         public string Id { get; set; }
+
         public string Nome { get; set; } = null;
+
         public string Sobrenome { get; set; } = null;
-        [DisplayName("Razão Social")]
+
         public string RazaoSocial { get; set; } = null;
-        [DisplayName("Telefone Principal")]
+
         public string Telefone1 { get; set; } = null;
-        [DisplayName("Telefone Opcional")]
+
         public string Telefone2 { get; set; } = null;
+
         public string Documento { get; set; } = null;
+
         public string Email { get; set; } = null;
 
-        [ScaffoldColumn(false)]
         public bool? UserAdmin { get; set; }
-        [ScaffoldColumn(false)]
+
         public bool? UserPrincipal { get; set; }
-        [ScaffoldColumn(false)]
+
         public bool? Organizador { get; set; }
 
-        [ScaffoldColumn(false)]
+        public bool? CaixaEvento { get; set; }
 
-       // public virtual ICollection<Evento> Eventos { get; set; }
         public string Id_Usuario_Principal { get; set; } = null;
+
+        public virtual UsuarioViewModel Usuario_Principal { get; set; }
+
+        public string id_usuario_organizador { get; set; }
+
+        public virtual UsuarioViewModel Usuario_Organizador { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<UsuarioViewModel> Caixas { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<UsuarioViewModel> Lojas { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<EventoViewModel> Eventos { get; set; }
+
+        [JsonIgnore]
+        public virtual ICollection<Evento_UsuarioViewModel> Evento_Usuarios { get; set; }
+
 
     }
 }
