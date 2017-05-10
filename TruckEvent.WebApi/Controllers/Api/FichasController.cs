@@ -27,7 +27,7 @@ namespace TruckEvent.WebApi.Controllers.Api
             return _fichaAppService.TrazerTodosAtivos().ToList().AsQueryable();
         }
 
-        [Route("/Evento")]
+        [Route("Evento/{id_evento}")]
         public IQueryable<FichaViewModel> GetFichaViewModelsEvento(Guid id_evento)
         {
             return _fichaAppService.TrazerTodosAtivos(id_evento).ToList().AsQueryable();
@@ -46,6 +46,8 @@ namespace TruckEvent.WebApi.Controllers.Api
             return Ok(fichaViewModel);
         }
 
+        [HttpGet]
+        [ResponseType(typeof(FichaViewModel))]
         public IHttpActionResult GetFichaViewModel(Guid id_evento, string codigo)
         {
             FichaViewModel fichaViewModel = _fichaAppService.BuscarPorCodigo(codigo);
