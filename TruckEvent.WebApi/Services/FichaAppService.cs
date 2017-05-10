@@ -29,7 +29,7 @@ namespace TruckEvent.WebApi.Services
 
         public FichaViewModel BuscarPorCodigo(string codigo)
         {
-            return Mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo));
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo).SingleOrDefault());
         }
 
         public FichaViewModel BuscarPorId(Guid Id)
