@@ -56,9 +56,7 @@ namespace TruckEvent.WebApi.Services
 
         public virtual IEnumerable<J> TrazerTodosAtivos()
         {
-            var listaList = _repository.TrazerTodosAtivos().ToList();
-            var lista = Mapper.Map<List<J>>(listaList); 
-            return lista;
+            return Mapper.Map<List<J>>(_repository.TrazerTodosAtivos().ToList()); ;
         }
 
         public virtual IEnumerable<J> TrazerTodosDeletados()

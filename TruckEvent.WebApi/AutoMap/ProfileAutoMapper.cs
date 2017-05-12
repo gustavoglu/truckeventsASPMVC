@@ -12,24 +12,61 @@ namespace TruckEvent.WebApi.AutoMap
     {
         public ProfileAutoMapper()
         {
-            CreateMap<Consequencia, ConsequenciaViewModel>().ReverseMap();
-            CreateMap<Evento, EventoViewModel>().ReverseMap();
-            CreateMap<Evento_Usuario, Evento_UsuarioViewModel>().ReverseMap();
-            CreateMap<Ficha, FichaViewModel>().ReverseMap();
-            CreateMap<Pagamento_Tipo, Pagamento_TipoViewModel>().ReverseMap();
-            CreateMap<Produto, ProdutoViewModel>().ReverseMap();
-            CreateMap<Produto_Cor, Produto_CorViewModel>().ReverseMap();
-            CreateMap<Produto_Tipo, Produto_TipoViewModel>().ReverseMap();
-            CreateMap<Produto_Variacao, Produto_VariacaoViewModel>().ReverseMap();
-            CreateMap<Usuario, UsuarioViewModel>().ReverseMap();
-            CreateMap<Usuario_Tipo, Usuario_TipoViewModel>().ReverseMap();
-            CreateMap<Venda, VendaViewModel>().ReverseMap();
-            CreateMap<Venda_Pagamento, Venda_PagamentoViewModel>().ReverseMap();
-            CreateMap<Venda_Pagamento_Ficha, Venda_Pagamento_FichaViewModel>().ReverseMap();
-            CreateMap<Venda_Produto, Venda_ProdutoViewModel>().ReverseMap();
-            CreateMap<Venda_Produto_Variacao, Venda_Produto_VariacaoViewModel>().ReverseMap();
-            CreateMap<Ficha_Produto, Ficha_ProdutoViewModel>().ReverseMap();
-            CreateMap<TokenEnvio, TokenEnvioViewModel>().ReverseMap();
+            CreateMap<ConsequenciaViewModel, Consequencia>().ReverseMap()
+                .ForMember(c => c.Produto_Variacoes, cfg => cfg.Ignore());
+
+            CreateMap<EventoViewModel, Evento>().ReverseMap()
+                .ForMember(e => e.Fichas, cfg => cfg.Ignore())
+                .ForMember(e => e.Vendas, cfg => cfg.Ignore())
+                .ForMember(e => e.Evento_Usuarios, cfg => cfg.Ignore());
+
+            CreateMap<Evento_UsuarioViewModel, Evento_Usuario>().ReverseMap();
+
+            CreateMap<FichaViewModel, Ficha>().ReverseMap()
+                .ForMember(e => e.Ficha_Produtos, cfg => cfg.Ignore())
+                .ForMember(e => e.Venda_Pagamento_Fichas, cfg => cfg.Ignore());
+
+            CreateMap<Pagamento_TipoViewModel, Pagamento_Tipo>().ReverseMap()
+                .ForMember(e => e.Venda_Pagamentos, cfg => cfg.Ignore());
+
+            CreateMap<ProdutoViewModel, Produto>().ReverseMap()
+                .ForMember(e => e.Venda_Produtos, cfg => cfg.Ignore())
+                .ForMember(e => e.Ficha_Produtos, cfg => cfg.Ignore());
+
+            CreateMap<Produto_CorViewModel, Produto_Cor>().ReverseMap()
+                .ForMember(e => e.Produtos, cfg => cfg.Ignore());
+
+            CreateMap<Produto_TipoViewModel, Produto_Tipo>().ReverseMap()
+                      .ForMember(e => e.Produtos, cfg => cfg.Ignore());
+
+            CreateMap<Produto_VariacaoViewModel, Produto_Variacao>().ReverseMap()
+                 .ForMember(e => e.Venda_Produto_Variacoes, cfg => cfg.Ignore());
+
+            CreateMap<UsuarioViewModel, Usuario>().ReverseMap()
+                .ForMember(e => e.Caixas, cfg => cfg.Ignore())
+                .ForMember(e => e.Lojas, cfg => cfg.Ignore())
+                .ForMember(e => e.Eventos, cfg => cfg.Ignore())
+                .ForMember(e => e.Evento_Usuarios, cfg => cfg.Ignore());
+
+            CreateMap<Usuario_TipoViewModel, Usuario_Tipo>().ReverseMap();
+
+            CreateMap<VendaViewModel, Venda>().ReverseMap()
+                 .ForMember(e => e.Venda_Pagamentos, cfg => cfg.Ignore())
+                .ForMember(e => e.Venda_Produtos, cfg => cfg.Ignore());
+
+            CreateMap<Venda_PagamentoViewModel, Venda_Pagamento>().ReverseMap()
+                      .ForMember(e => e.Venda_Pagamento_Fichas, cfg => cfg.Ignore());
+
+            CreateMap<Venda_Pagamento_FichaViewModel, Venda_Pagamento_Ficha>().ReverseMap();
+
+            CreateMap<Venda_ProdutoViewModel, Venda_Produto>().ReverseMap()
+                .ForMember(e => e.Venda_Produto_Variacoes, cfg => cfg.Ignore());
+
+            CreateMap<Venda_Produto_VariacaoViewModel, Venda_Produto_Variacao>().ReverseMap();
+
+            CreateMap<Ficha_ProdutoViewModel, Ficha_Produto>().ReverseMap();
+
+            CreateMap<TokenEnvioViewModel, TokenEnvio>().ReverseMap();
 
         }
 

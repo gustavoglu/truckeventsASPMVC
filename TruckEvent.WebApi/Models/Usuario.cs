@@ -15,36 +15,42 @@ namespace TruckEvent.WebApi.Models
     {
 
         public string Nome { get; set; } = null;
+
         public string Sobrenome { get; set; } = null;
+
         public string RazaoSocial { get; set; } = null;
+
         public string Telefone1 { get; set; } = null;
+
         public string Telefone2 { get; set; } = null;
+
         public string Documento { get; set; } = null;
+
         public DateTime? DataNascimento { get; set; }
+
         public bool? UserAdmin { get; set; }
+
         public bool? UserPrincipal { get; set; }
+
         public bool? Organizador { get; set; }
+
         public bool? CaixaEvento { get; set; }
 
         public string id_usuario_organizador { get; set; }
+
         public virtual Usuario Usuario_Organizador { get; set; }
 
-
-        [JsonIgnore]
         public virtual ICollection<Usuario> Caixas { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Usuario> Lojas { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Evento> Eventos { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Evento_Usuario> Evento_Usuarios { get; set; }
 
         public virtual Usuario Usuario_Principal { get; set; }
-        public string Id_Usuario_Principal { get; set; } = null;
 
+        public string Id_Usuario_Principal { get; set; } = null;
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Usuario> manager, string authenticationType)
         {

@@ -12,7 +12,6 @@ namespace TruckEvent.WebApi.Models
 
         public string Cor { get; set; } = null;
 
-        [JsonIgnore]
         public virtual ICollection<Produto> Produtos { get; set; }
     }
 }

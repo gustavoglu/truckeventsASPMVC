@@ -10,7 +10,6 @@ namespace TruckEvent.WebApi.Models
     {
         public string Descricao { get; set; } = null;
 
-        [JsonIgnore]
         public virtual ICollection<Produto> Produtos { get; set; }
     }
 }

@@ -13,10 +13,9 @@ namespace TruckEvent.WebApi.ViewModels
         
         public EventoViewModel() : base()
         {
-
-            //this.Fichas = new List<FichaViewModel>();
-            //this.Vendas = new List<VendaViewModel>();
-            //this.Evento_Usuarios = new List<Evento_UsuarioViewModel>();
+            this.Fichas = new List<FichaViewModel>();
+            this.Vendas = new List<VendaViewModel>();
+            this.Evento_Usuarios = new List<Evento_UsuarioViewModel>();
         }
 
         public string Descricao { get; set; } = null;
@@ -32,14 +31,12 @@ namespace TruckEvent.WebApi.ViewModels
         public string Id_organizador { get; set; } = null;
 
         public virtual UsuarioViewModel Usuario_Organizador { get; set; }
-        
-        ////[JsonIgnore]
-        //public virtual ICollection<FichaViewModel> Fichas { get; set; }
-        
-        //public virtual ICollection<VendaViewModel> Vendas { get; set; }
-        ////
-        ////[JsonIgnore]
-        //public virtual ICollection<Evento_UsuarioViewModel> Evento_Usuarios { get; set; }
+       
+        public virtual ICollection<FichaViewModel> Fichas { get; set; }
+
+        public virtual ICollection<VendaViewModel> Vendas { get; set; }
+
+        public virtual ICollection<Evento_UsuarioViewModel> Evento_Usuarios { get; set; }
 
     }
 }
