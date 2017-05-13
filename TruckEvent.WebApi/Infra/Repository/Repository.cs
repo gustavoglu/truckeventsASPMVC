@@ -6,8 +6,10 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading;
 using System.Web;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository;
 using TruckEvent.WebApi.Infra.Repository.Interfaces;
 using TruckEvent.WebApi.Models;
+using TruckEvent.WebApi.Services;
 
 namespace TruckEvent.WebApi.Infra.Repository
 {
@@ -365,7 +367,7 @@ namespace TruckEvent.WebApi.Infra.Repository
                 {
                     return
                     from entidades in dbSet
-                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarioLogado_username
+                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName //usuarioLogado_username
                     where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                     && entidades.Deletado == false
                     select entidades;
@@ -453,6 +455,7 @@ namespace TruckEvent.WebApi.Infra.Repository
             }
         }
 
+ 
     }
 
 }

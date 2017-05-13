@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TruckEvent.WebApi.Infra.Repository;
+using TruckEvent.WebApi.Infra.Repository.EntityRepository;
 using TruckEvent.WebApi.Infra.Repository.Interfaces;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Services.Interfaces;
@@ -11,18 +12,20 @@ using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Services
 {
-    public class AppService<T, J> : IAppService<T, J>  where T : BaseEntity where J : BaseEntityViewModel
+    public class AppService<T, J> : IAppService<T, J> where T : BaseEntity where J : BaseEntityViewModel
     {
 
-        private readonly IRepository<T> _repository;
+        protected Repository<T> _repository;
+
 
         public AppService()
         {
-            this._repository = new Repository<T>();
+            this._repository =  new Repository<T>() ;
         }
 
         public virtual J Atualizar(J viewModel)
         {
+            
             var entityDTO = _repository.BuscarPorId(viewModel.Id);
             var entity = Mapper.Map(viewModel, entityDTO);
             return Mapper.Map<J>(_repository.Atualizar(entity));
