@@ -24,7 +24,7 @@ namespace TruckEvent.WebApi.Services
         {
             var fichaDTO = _fichaRepository.BuscarPorId(fichaViewModel.Id);
             var ficha = Mapper.Map(fichaViewModel, fichaDTO);
-            return Mapper.Map<FichaViewModel>(ficha);
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Atualizar(ficha));
         }
 
         public FichaViewModel BuscarPorCodigo(string codigo)

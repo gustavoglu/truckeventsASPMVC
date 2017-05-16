@@ -16,6 +16,7 @@ using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.Controllers.Api
 {
+    [RoutePrefix("api/Vendas")]
     public class VendasController : ApiController
     {
         private SQLContext db = new SQLContext();
@@ -33,7 +34,7 @@ namespace TruckEvent.WebApi.Controllers.Api
         [ResponseType(typeof(VendaViewModel))]
         public IHttpActionResult GetVendaViewModel(Guid id)
         {
-            VendaViewModel vendaViewModel =_vendaAppService.BuscarPorId(id);
+            VendaViewModel vendaViewModel = _vendaAppService.BuscarPorId(id);
             if (vendaViewModel == null)
             {
                 return NotFound();
@@ -69,6 +70,22 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
+            var fichasPagamentos = new List<FichaViewModel>();
+
+            foreach (var item in vendaViewModel.Venda_Pagamentos)
+            {
+                foreach (var pagamentoFicha in item.Venda_Pagamento_Fichas)
+                {
+                    var ficha = _fichaAppService.BuscarPorId(pagamentoFicha.Id_Ficha.Value);
+
+                    if (ficha != null)
+                    {
+                        fichasPagamentos.Add(ficha);
+                    }
+                }
+            }
+
+
             if (!(vendaViewModel.Venda_Produtos.Count > 0))
             {
                 return BadRequest("Uma venda precisa ter Produtos Vendidos");
@@ -79,73 +96,72 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest("Uma venda precisa ter Pagamentos");
             }
 
-            //Verifica se alguma das fichas usadas contem saldo
-            if(!vendaViewModel.Venda_Pagamentos.ToList().Exists(vp => vp.Venda_Pagamento_Fichas.Where(vpf => vpf.Ficha.Saldo > 0).Count() > 0))
-            {
-                return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
-            }
+
 
             //Verifica se a soma das fichas dessa venda tem saldo para o total da venda
             double somaSaldoFichas = 0;
 
-            foreach (var venda_pagamento in vendaViewModel.Venda_Pagamentos)
+            foreach (var ficha in fichasPagamentos)
             {
-                foreach (var venda_pagamento_ficha in venda_pagamento.Venda_Pagamento_Fichas)
+                if (ficha.Saldo > 0)
                 {
-                    if (venda_pagamento_ficha.Ficha.Saldo > 0)
-                    {
-                        somaSaldoFichas = somaSaldoFichas + venda_pagamento_ficha.Ficha.Saldo.Value;
-                    }
+                    somaSaldoFichas = somaSaldoFichas + ficha.Saldo.Value;
                 }
+            }
+
+            //Verifica se alguma das fichas usadas contem saldo
+
+            if (!(somaSaldoFichas > 0))
+            {
+                return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
             }
 
             if (!(somaSaldoFichas > 0) && !(somaSaldoFichas >= vendaViewModel.TotalVenda))
             {
-                return BadRequest(string.Format("A(s) Ficha(s) não contem saldo para esta Venda, total saldo da(s) Ficha(s) : {0}, total Venda: {1}",somaSaldoFichas,vendaViewModel.TotalVenda));
+                return BadRequest(string.Format("A(s) Ficha(s) não contem saldo para esta Venda, total saldo da(s) Ficha(s) : {0}, total Venda: {1}", somaSaldoFichas, vendaViewModel.TotalVenda));
             }
 
 
-            _vendaAppService.Criar(vendaViewModel);
+            var venda = _vendaAppService.Criar(vendaViewModel);
 
 
             //Atualiza Saldo das Fichas
-            foreach (var pagamentos in vendaViewModel.Venda_Pagamentos)
+
+            double? pagamento = vendaViewModel.TotalVenda.Value;
+
+            foreach (var ficha in fichasPagamentos)
             {
-                double? pagamento = vendaViewModel.TotalVenda.Value;
-
-                foreach (var pagamentoficha in pagamentos.Venda_Pagamento_Fichas)
+                while (pagamento > 0)
                 {
-                    while (pagamento > 0)
+
+                    if (ficha.Saldo >= pagamento)
                     {
-
-                        if (pagamentoficha.Ficha.Saldo >= pagamento)
-                        {
-                            var descontado = pagamentoficha.Ficha.Saldo - pagamento;
-                            pagamentoficha.Ficha.Saldo = descontado;
-                            _fichaAppService.Atualizar(Mapper.Map<FichaViewModel>(pagamentoficha.Ficha));
-                            pagamento = 0;
-                        }
-                        else
-                        {
-                            var descontado = pagamento - pagamentoficha.Ficha.Saldo;
-                            pagamentoficha.Ficha.Saldo = 0;
-                            _fichaAppService.Atualizar(Mapper.Map<FichaViewModel>(pagamentoficha.Ficha));
-                            pagamento = descontado;
-                        }
-
+                        var descontado = ficha.Saldo - pagamento;
+                        ficha.Saldo = descontado;
+                        _fichaAppService.Atualizar(ficha);
+                        pagamento = 0;
                     }
-                }
+                    else
+                    {
+                        var descontado = pagamento - ficha.Saldo;
+                        ficha.Saldo = 0;
+                        _fichaAppService.Atualizar(ficha);
+                        pagamento = descontado;
+                    }
 
+                }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = vendaViewModel.Id }, vendaViewModel);
+
+
+            return Ok(venda);
         }
 
         // DELETE: api/Vendas/5
         [ResponseType(typeof(VendaViewModel))]
         public IHttpActionResult DeleteVendaViewModel(Guid id)
         {
-            VendaViewModel vendaViewModel =_vendaAppService.BuscarPorId(id);
+            VendaViewModel vendaViewModel = _vendaAppService.BuscarPorId(id);
             if (vendaViewModel == null)
             {
                 return NotFound();
@@ -154,6 +170,13 @@ namespace TruckEvent.WebApi.Controllers.Api
             _vendaAppService.Deletar(id);
 
             return Ok(vendaViewModel);
+        }
+
+        [HttpGet]
+        [Route("evento/{id_evento}")]
+        public IQueryable<VendaViewModel> GetVendasEvento(Guid id_evento)
+        {
+            return _vendaAppService.TrazerVendasDeEvento(id_evento).AsQueryable();
         }
 
         protected override void Dispose(bool disposing)

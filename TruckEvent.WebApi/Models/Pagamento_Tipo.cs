@@ -7,6 +7,6 @@ namespace TruckEvent.WebApi.Models
     {
         public string Descricao { get; set; } = null;
 
-        public virtual ICollection<Venda_Pagamento>  Venda_Pagamentos { get; set; }
+       // public virtual ICollection<Venda_Pagamento>  Venda_Pagamentos { get; set; }
     }
 }

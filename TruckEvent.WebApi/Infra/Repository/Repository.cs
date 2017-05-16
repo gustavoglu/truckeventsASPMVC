@@ -39,7 +39,7 @@ namespace TruckEvent.WebApi.Infra.Repository
 
             var entry = Db.Entry(obj);
 
-            dbSet.Attach(obj);
+           // dbSet.Attach(obj);
 
             entry.State = EntityState.Modified;
 
