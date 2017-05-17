@@ -85,7 +85,6 @@ namespace TruckEvent.WebApi.Controllers.Api
                 }
             }
 
-
             if (!(vendaViewModel.Venda_Produtos.Count > 0))
             {
                 return BadRequest("Uma venda precisa ter Produtos Vendidos");
@@ -95,8 +94,6 @@ namespace TruckEvent.WebApi.Controllers.Api
             {
                 return BadRequest("Uma venda precisa ter Pagamentos");
             }
-
-
 
             //Verifica se a soma das fichas dessa venda tem saldo para o total da venda
             double somaSaldoFichas = 0;
@@ -110,7 +107,6 @@ namespace TruckEvent.WebApi.Controllers.Api
             }
 
             //Verifica se alguma das fichas usadas contem saldo
-
             if (!(somaSaldoFichas > 0))
             {
                 return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
@@ -121,38 +117,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(string.Format("A(s) Ficha(s) não contem saldo para esta Venda, total saldo da(s) Ficha(s) : {0}, total Venda: {1}", somaSaldoFichas, vendaViewModel.TotalVenda));
             }
 
-
             var venda = _vendaAppService.Criar(vendaViewModel);
-
-
-            //Atualiza Saldo das Fichas
-
-            double? pagamento = vendaViewModel.TotalVenda.Value;
-
-            foreach (var ficha in fichasPagamentos)
-            {
-                while (pagamento > 0)
-                {
-
-                    if (ficha.Saldo >= pagamento)
-                    {
-                        var descontado = ficha.Saldo - pagamento;
-                        ficha.Saldo = descontado;
-                        _fichaAppService.Atualizar(ficha);
-                        pagamento = 0;
-                    }
-                    else
-                    {
-                        var descontado = pagamento - ficha.Saldo;
-                        ficha.Saldo = 0;
-                        _fichaAppService.Atualizar(ficha);
-                        pagamento = descontado;
-                    }
-
-                }
-            }
-
-
 
             return Ok(venda);
         }
