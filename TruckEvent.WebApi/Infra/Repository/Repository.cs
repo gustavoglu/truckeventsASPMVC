@@ -18,13 +18,13 @@ namespace TruckEvent.WebApi.Infra.Repository
         protected readonly SQLContext Db;
         protected DbSet<T> dbSet;
         protected ClaimsPrincipal claimsPrincipal { get { return (ClaimsPrincipal)Thread.CurrentPrincipal; } }
-        protected string usuarioLogado_id { get {return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario").Value; } }
-        protected string usuarioLogado_id_usuario_principal { get { return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario_principal").Value; } }
-        protected string usuarioLogado_id_usuario_organizador { get { return claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "id_usuario_organizador").Value; } }
-        protected bool usuarioLogado_organizador { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "organizador").Value); } }
-        protected bool usuarioLogado_caixaevento { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "caixaevento").Value); } }
-        protected bool usuarioLogado_usuarioprincipal { get { return bool.Parse(claimsPrincipal.Claims.SingleOrDefault(c => c.Type == "usuarioprincipal").Value); } }
-        protected string usuarioLogado_username { get {return  claimsPrincipal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Name).Value ?? HttpContext.Current.User.Identity.Name; } }
+        protected string usuarioLogado_id { get {return claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "id_usuario").Value; } }
+        protected string usuarioLogado_id_usuario_principal { get { return claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "id_usuario_principal").Value; } }
+        protected string usuarioLogado_id_usuario_organizador { get { return claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "id_usuario_organizador").Value; } }
+        protected bool usuarioLogado_organizador { get { return bool.Parse(claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "organizador").Value); } }
+        protected bool usuarioLogado_caixaevento { get { return bool.Parse(claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "caixaevento").Value); } }
+        protected bool usuarioLogado_usuarioprincipal { get { return bool.Parse(claimsPrincipal.Claims.FirstOrDefault(c => c.Type == "usuarioprincipal").Value); } }
+        protected string usuarioLogado_username { get {return  claimsPrincipal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value ?? HttpContext.Current.User.Identity.Name; } }
 
 
         public Repository()
@@ -60,7 +60,7 @@ namespace TruckEvent.WebApi.Infra.Repository
                      join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
                      where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
                      && entidades.Id == Id
-                     select entidades).SingleOrDefault();
+                     select entidades).FirstOrDefault();
 
                 }
                 else if (usuarioLogado_organizador)
@@ -74,7 +74,7 @@ namespace TruckEvent.WebApi.Infra.Repository
                      join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
                      where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal|| usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
                      && entidades.Id == Id
-                     select entidades).SingleOrDefault();
+                     select entidades).FirstOrDefault();
 
                 }
                 else if (usuarioLogado_caixaevento)
@@ -88,16 +88,16 @@ namespace TruckEvent.WebApi.Infra.Repository
                      || entidades.CriadoPor == usuarioLogado_id
                      && entidades.Deletado == false
                      && entidades.Id == Id
-                    select entidades).SingleOrDefault();
+                    select entidades).FirstOrDefault();
                 }
                 else
                 {
-                    return dbSet.SingleOrDefault(t => t.Id == Id);
+                    return dbSet.FirstOrDefault(t => t.Id == Id);
                 }
             }
             else
             {
-                return dbSet.SingleOrDefault(t => t.Id == Id);
+                return dbSet.FirstOrDefault(t => t.Id == Id);
             }
 
         }

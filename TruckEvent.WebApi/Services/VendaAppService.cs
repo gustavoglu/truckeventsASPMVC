@@ -105,15 +105,17 @@ namespace TruckEvent.WebApi.Services
                 if (ficha.Saldo >= pagamento)
                 {
                     var descontado = ficha.Saldo - pagamento;
+                    double saldoAntigo = ficha.Saldo.Value;
                     ficha.Saldo = descontado;
-                    _ficha_Repository.Atualizar(ficha);
+                    _ficha_Repository.Atualizar(ficha,saldoAntigo);
                     pagamento = 0;
                 }
                 else
                 {
                     var descontado = pagamento - ficha.Saldo;
+                    double saldoAntigo = ficha.Saldo.Value;
                     ficha.Saldo = 0;
-                    _ficha_Repository.Atualizar(ficha);
+                    _ficha_Repository.Atualizar(ficha, saldoAntigo);
                     pagamento = descontado;
                 }
             }

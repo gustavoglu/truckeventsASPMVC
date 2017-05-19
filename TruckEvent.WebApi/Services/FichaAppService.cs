@@ -14,10 +14,12 @@ namespace TruckEvent.WebApi.Services
     public class FichaAppService : IFichaAppService
     {
         private readonly IFicha_Repository _fichaRepository;
+        private readonly IMovimentacaoAppService _movimentacaoAppService;
 
         public FichaAppService()
         {
             _fichaRepository = new Ficha_Repository();
+            _movimentacaoAppService = new MovimentacaoAppService();
         }
 
         public FichaViewModel Atualizar(FichaViewModel fichaViewModel)
@@ -51,6 +53,14 @@ namespace TruckEvent.WebApi.Services
         public void Dispose()
         {
             _fichaRepository.Dispose();
+        }
+
+        public FichaViewModel Estornar(FichaViewModel fichaViewModel)
+        {
+            var fichaDTO = _fichaRepository.BuscarPorId(fichaViewModel.Id);
+            var ficha = Mapper.Map(fichaViewModel, fichaDTO);
+
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Estornar(ficha));
         }
 
         public FichaViewModel Reativar(Guid Id)

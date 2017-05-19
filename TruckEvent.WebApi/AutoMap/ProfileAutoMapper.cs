@@ -24,7 +24,8 @@ namespace TruckEvent.WebApi.AutoMap
 
             CreateMap<FichaViewModel, Ficha>().ReverseMap()
                 .ForMember(e => e.Ficha_Produtos, cfg => cfg.Ignore())
-                .ForMember(e => e.Venda_Pagamento_Fichas, cfg => cfg.Ignore());
+                .ForMember(e => e.Venda_Pagamento_Fichas, cfg => cfg.Ignore())
+                .ForMember(e => e.Movimentacoes, cfg => cfg.Ignore());
 
             CreateMap<Pagamento_TipoViewModel, Pagamento_Tipo>().ReverseMap()
                 .ForMember(e => e.Venda_Pagamentos, cfg => cfg.Ignore());
@@ -67,6 +68,8 @@ namespace TruckEvent.WebApi.AutoMap
             CreateMap<Ficha_ProdutoViewModel, Ficha_Produto>().ReverseMap();
 
             CreateMap<TokenEnvioViewModel, TokenEnvio>().ReverseMap();
+
+            CreateMap<MovimentacaoViewModel, Movimentacao>().ReverseMap();
 
         }
 

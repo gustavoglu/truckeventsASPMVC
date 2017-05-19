@@ -33,5 +33,7 @@ namespace TruckEvent.WebApi.ViewModels
 
         public virtual ICollection<Venda_Pagamento_FichaViewModel> Venda_Pagamento_Fichas { get; set; }
 
+        public virtual ICollection<MovimentacaoViewModel> Movimentacoes { get; set; }
+
     }
 }

@@ -267,6 +267,7 @@
     <Compile Include="Infra\EntityConfig\Evento_UsuarioEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\FichaEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Ficha_ProdutoEntityConfig.cs" />
+    <Compile Include="Infra\EntityConfig\MovimentacaoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Pagamento_TipoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\ProdutoEntityConfig.cs" />
     <Compile Include="Infra\EntityConfig\Produto_CorEntityConfig.cs" />
@@ -289,6 +290,7 @@
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IEvento_UsuarioRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IFicha_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IFicha_Repository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\Interfaces\IMovimentacaoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IPagamento_TipoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Interfaces\IProduto_CorRepository.cs" />
@@ -314,6 +316,7 @@
     <Compile Include="Infra\Repository\EntityRepository\Venda_ProdutoRepository.cs" />
     <Compile Include="Infra\Repository\EntityRepository\Venda_Produto_VariacaoRepository.cs" />
     <Compile Include="Infra\Repository\Interfaces\IRepository.cs" />
+    <Compile Include="Infra\Repository\EntityRepository\MovimentacaoRepository.cs" />
     <Compile Include="Infra\Repository\Repository.cs" />
     <Compile Include="Infra\SQLContext.cs" />
     <Compile Include="Infra\SQLContextInitializer.cs" />
@@ -365,6 +368,14 @@
     <Compile Include="Migrations\201705100043060_correcaoNomeTabelaVendaPagamentoFicha.Designer.cs">
       <DependentUpon>201705100043060_correcaoNomeTabelaVendaPagamentoFicha.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705190028036_movimentacao.cs" />
+    <Compile Include="Migrations\201705190028036_movimentacao.Designer.cs">
+      <DependentUpon>201705190028036_movimentacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705190032305_movimentacao1.cs" />
+    <Compile Include="Migrations\201705190032305_movimentacao1.Designer.cs">
+      <DependentUpon>201705190032305_movimentacao1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -374,6 +385,7 @@
     <Compile Include="Models\Evento_Usuario.cs" />
     <Compile Include="Models\Ficha.cs" />
     <Compile Include="Models\Ficha_Produto.cs" />
+    <Compile Include="Models\Movimentacao.cs" />
     <Compile Include="Models\Venda_Pagamento_Ficha.cs" />
     <Compile Include="Models\TokenEnvio.cs" />
     <Compile Include="Models\Venda_Pagamento.cs" />
@@ -398,8 +410,10 @@
     <Compile Include="Services\Ficha_ProdutoAppService.cs" />
     <Compile Include="Services\Interfaces\IAppService.cs" />
     <Compile Include="Services\Interfaces\IFicha_ProdutoAppService.cs" />
+    <Compile Include="Services\Interfaces\IMovimentacaoAppService.cs" />
     <Compile Include="Services\Interfaces\ITokenEnvioAppService.cs" />
     <Compile Include="Services\Interfaces\IVenda_Pagamento_FichaAppService.cs" />
+    <Compile Include="Services\MovimentacaoAppService.cs" />
     <Compile Include="Services\Pagamento_TipoAppService.cs" />
     <Compile Include="Services\ProdutoAppService.cs" />
     <Compile Include="Services\Produto_CorAppService.cs" />
@@ -438,6 +452,7 @@
     <Compile Include="ViewModels\Evento_UsuarioViewModel.cs" />
     <Compile Include="ViewModels\FichaViewModel.cs" />
     <Compile Include="ViewModels\Ficha_ProdutoViewModel.cs" />
+    <Compile Include="ViewModels\MovimentacaoViewModel.cs" />
     <Compile Include="ViewModels\Pagamento_TipoViewModel.cs" />
     <Compile Include="ViewModels\ProdutoViewModel.cs" />
     <Compile Include="ViewModels\Produto_CorViewModel.cs" />
@@ -572,6 +587,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705100043060_correcaoNomeTabelaVendaPagamentoFicha.resx">
       <DependentUpon>201705100043060_correcaoNomeTabelaVendaPagamentoFicha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705190028036_movimentacao.resx">
+      <DependentUpon>201705190028036_movimentacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705190032305_movimentacao1.resx">
+      <DependentUpon>201705190032305_movimentacao1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

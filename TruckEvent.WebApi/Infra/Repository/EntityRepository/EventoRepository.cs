@@ -25,12 +25,12 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
                     join eventoUsuario in Db.Evento_Usuarios on entidades.Id equals eventoUsuario.Evento.Id
                     where eventoUsuario.Usuario.Id == usuarioLogado_id
                     && entidades.Deletado == false
-                    select entidades).SingleOrDefault(e => e.Id == Id);
+                    select entidades).FirstOrDefault(e => e.Id == Id);
 
                 }
                 else if (usuarioLogado_organizador)
                 {
-                    return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == false ).SingleOrDefault(e => e.Id == Id);
+                    return dbSet.Where(t => t.CriadoPor == usuarioLogado_username && t.Deletado == false ).FirstOrDefault(e => e.Id == Id);
                 }
                 else if (usuarioLogado_id_usuario_principal.Any())
                 {
@@ -39,7 +39,7 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
                     join eventoUsuario in Db.Evento_Usuarios on entidades.Id equals eventoUsuario.Evento.Id
                     where eventoUsuario.Usuario.Id == usuarioLogado_id_usuario_principal
                     && entidades.Deletado == false
-                    select entidades).SingleOrDefault(e => e.Id == Id);
+                    select entidades).FirstOrDefault(e => e.Id == Id);
 
                 }
                 else if (usuarioLogado_caixaevento)
@@ -50,16 +50,16 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
                     join eventoUsuario in Db.Evento_Usuarios on entidades.Id equals eventoUsuario.Evento.Id
                     where usuarios.Usuario_Organizador.Id == usuarioLogado_id_usuario_organizador
                     && entidades.Deletado == false
-                    select entidades).SingleOrDefault(e => e.Id == Id);
+                    select entidades).FirstOrDefault(e => e.Id == Id);
                 }
                 else
                 {
-                    return dbSet.Where(t => t.Deletado == false).SingleOrDefault(e => e.Id == Id);
+                    return dbSet.Where(t => t.Deletado == false).FirstOrDefault(e => e.Id == Id);
                 }
             }
             else
             {
-                return dbSet.Where(t => t.Deletado == false).SingleOrDefault(e => e.Id == Id);
+                return dbSet.Where(t => t.Deletado == false).FirstOrDefault(e => e.Id == Id);
             }
         }
 

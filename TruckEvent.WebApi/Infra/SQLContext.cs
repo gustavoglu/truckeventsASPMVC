@@ -33,6 +33,7 @@ namespace TruckEvent.WebApi.Infra
         public DbSet<Venda> Vendas { get; set; }
         public DbSet<Ficha_Produto> Ficha_Produtos { get; set; }
         public DbSet<TokenEnvio> TokenEnvios { get; set; }
+        public DbSet<Movimentacao> Movimentacoes { get; set; }
 
         public static SQLContext Create()
         {
@@ -76,7 +77,7 @@ namespace TruckEvent.WebApi.Infra
             modelBuilder.Configurations.Add(new Usuario_TipoEntityConfig());
             modelBuilder.Configurations.Add(new ConsequenciaEntityConfig());
             modelBuilder.Configurations.Add(new Evento_UsuarioEntityConfig());
-
+            modelBuilder.Configurations.Add(new MovimentacaoEntityConfig());
             modelBuilder.Configurations.Add(new FichaEntityConfig());
             modelBuilder.Configurations.Add(new Pagamento_TipoEntityConfig());
             modelBuilder.Configurations.Add(new Produto_CorEntityConfig());

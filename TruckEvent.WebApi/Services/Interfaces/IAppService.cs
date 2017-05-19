@@ -7,9 +7,9 @@ namespace TruckEvent.WebApi.Services.Interfaces
 {
     public interface IAppService<T,J> : IDisposable
     {
-        J Criar(J consequenciaViewModel);
+        J Criar(J objViewModel);
 
-        J Atualizar(J consequenciaViewModel);
+        J Atualizar(J objViewModel);
 
         J BuscarPorId(Guid Id);
 

@@ -12,6 +12,8 @@ namespace TruckEvent.WebApi.Services.Interfaces
 
         FichaViewModel BuscarPorCodigo(string codigo);
 
+        FichaViewModel Estornar(FichaViewModel fichaViewModel);
+
         IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid id_evento);
 
         IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid id_evento);

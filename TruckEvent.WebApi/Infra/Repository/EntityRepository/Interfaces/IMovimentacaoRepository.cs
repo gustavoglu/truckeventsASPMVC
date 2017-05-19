@@ -7,10 +7,7 @@ using TruckEvent.WebApi.Models;
 
 namespace TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces
 {
-    public interface IFicha_Repository : IRepository<Ficha>
+    public interface IMovimentacaoRepository : IRepository<Movimentacao>
     {
-        Ficha Estornar(Ficha obj);
-
-        Ficha Atualizar(Ficha obj,double? valorAntigo);
     }
 }
