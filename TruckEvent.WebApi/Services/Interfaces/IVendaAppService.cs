@@ -10,5 +10,8 @@ namespace TruckEvent.WebApi.Services.Interfaces
     public interface IVendaAppService : IAppService<Venda,VendaViewModel>
     {
         IEnumerable<VendaViewModel> TrazerVendasDeEvento(Guid id_evento);
+
+        VendaViewModel Calcelar(Guid Id_Venda);
+
     }
 }

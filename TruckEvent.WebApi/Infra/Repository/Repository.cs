@@ -361,16 +361,17 @@ namespace TruckEvent.WebApi.Infra.Repository
          
             if (HttpContext.Current.User.Identity.IsAuthenticated)
             {
-               
 
                 if (usuarioLogado_usuarioprincipal) // Dono da Loja
                 {
-                    return
-                    from entidades in dbSet
-                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName //usuarioLogado_username
-                    where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
-                    && entidades.Deletado == false
-                    select entidades;
+                    var lista = (from entidades in dbSet
+                                 join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName //usuarioLogado_username
+                                 where usuarios.Id_Usuario_Principal == usuarioLogado_id || usuarios.Id == usuarioLogado_id
+                                 && entidades.Deletado == false
+                                 select entidades);
+
+                    return lista;
+                    
 
                 }
                 else if (usuarioLogado_organizador) // Orgazanidor
@@ -379,13 +380,15 @@ namespace TruckEvent.WebApi.Infra.Repository
                 }
                 else if (usuarioLogado_id_usuario_principal.Any()) // Funcionario
                 {
-                    return
-                    from entidades in dbSet
-                    join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
-                    where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
-                    && entidades.Deletado == false
-                    select entidades;
-                } //Caixa
+                    var lista = from entidades in dbSet
+                                join usuarios in Db.Set<Usuario>() on entidades.CriadoPor equals usuarios.UserName
+                                where usuarios.Id_Usuario_Principal == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id_usuario_principal || usuarios.Id == usuarioLogado_id
+                                && entidades.Deletado == false
+                                select entidades;
+
+
+                    return lista;
+                                    } //Caixa
                 else if (usuarioLogado_caixaevento)
                 {
                     return

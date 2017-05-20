@@ -67,14 +67,12 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             return dbSet.Where(obj => obj.Deletado == true).Where(Expressao);
         }
 
-        public Ficha Estornar(Ficha obj)
+        public Ficha Estornar(Ficha obj, double? valorAntigo)
         {
-            double valorAntigo = this.BuscarPorId(obj.Id).Saldo.Value;
-
             //Cria Movimentação
             if (valorAntigo != obj.Saldo.Value)
             {
-                Movimentacao novaMovimentacao = new Movimentacao(valorAntigo, obj.Saldo.Value, true);
+                Movimentacao novaMovimentacao = new Movimentacao(valorAntigo.Value, obj.Saldo.Value, true);
                 obj.Movimentacoes.Add(novaMovimentacao);
             }
 

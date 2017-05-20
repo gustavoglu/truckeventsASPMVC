@@ -61,6 +61,14 @@ namespace TruckEvent.WebApi.Controllers.Api
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        [HttpPut]
+        [Route("cancelar/{id}")]
+        public IHttpActionResult PutCancelaVenda(Guid id)
+        {
+            return Ok (_vendaAppService.Calcelar(id));
+        }
+
         // POST: api/Vendas
         [ResponseType(typeof(VendaViewModel))]
         public IHttpActionResult PostVendaViewModel(VendaViewModel vendaViewModel)

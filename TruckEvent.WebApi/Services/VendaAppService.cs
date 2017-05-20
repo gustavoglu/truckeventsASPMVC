@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TruckEvent.WebApi.Infra;
 using TruckEvent.WebApi.Infra.Repository.EntityRepository;
 using TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces;
 using TruckEvent.WebApi.Models;
@@ -15,11 +16,15 @@ namespace TruckEvent.WebApi.Services
     {
         private readonly IVendaRepository _vendaRepository;
         private readonly IFicha_Repository _ficha_Repository;
+        private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly SQLContext Db;
 
         public VendaAppService()
         {
             _vendaRepository = new VendaRepository();
             _ficha_Repository = new Ficha_Repository();
+            _movimentacaoRepository = new MovimentacaoRepository();
+            Db = new SQLContext();
         }
 
 
@@ -119,6 +124,49 @@ namespace TruckEvent.WebApi.Services
                     pagamento = descontado;
                 }
             }
+        }
+
+        public VendaViewModel Calcelar(Guid Id_Venda)
+        {
+            var pagamento_venda_fichas = Db.Venda_Pagamento_Fichas;
+            var venda_pagamentos = Db.Venda_Pagamentos;
+            var movimentacoes = Db.Movimentacoes;
+
+            var venda = _vendaRepository.BuscarPorId(Id_Venda);
+
+            if (venda != null)
+            {
+                //Cancela a venda
+                venda.Cancelada = true;
+
+                var vendaAtualizada = _vendaRepository.Atualizar(venda);
+
+                //Estornar as fichas com base na movimentação
+                var query = from pagamento_venda_ficha in pagamento_venda_fichas
+                            join venda_pagamento in venda_pagamentos on pagamento_venda_ficha.Id_Venda_Pagamento equals venda_pagamento.Id
+                            join movimentacao in movimentacoes on pagamento_venda_ficha.Id_Ficha equals movimentacao.Id_Ficha
+                            where pagamento_venda_ficha.Deletado == false
+                            && venda_pagamento.Deletado == false
+                            && movimentacao.Deletado == false
+                            && venda_pagamento.Id_venda == Id_Venda
+                            select new { Ficha = pagamento_venda_ficha.Ficha, SaldoEstornado = (pagamento_venda_ficha.Ficha.Saldo + movimentacao.Valor) };
+
+                foreach (var estorno in query)
+                {
+                    var valorAnterior = estorno.Ficha.Saldo;
+
+                    var fichaDTO = _ficha_Repository.BuscarPorId(estorno.Ficha.Id);
+
+                    fichaDTO.Saldo = estorno.SaldoEstornado;
+
+                    _ficha_Repository.Estornar(fichaDTO, valorAnterior);
+                }
+
+                return Mapper.Map<VendaViewModel>(vendaAtualizada);
+
+            }
+
+            return null;
         }
     }
 }

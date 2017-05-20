@@ -9,8 +9,9 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces
 {
     public interface IFicha_Repository : IRepository<Ficha>
     {
-        Ficha Estornar(Ficha obj);
+        Ficha Estornar(Ficha obj, double? valorAntigo);
 
         Ficha Atualizar(Ficha obj,double? valorAntigo);
+
     }
 }

@@ -58,9 +58,10 @@ namespace TruckEvent.WebApi.Services
         public FichaViewModel Estornar(FichaViewModel fichaViewModel)
         {
             var fichaDTO = _fichaRepository.BuscarPorId(fichaViewModel.Id);
+            var valorAnterior = fichaDTO.Saldo;
             var ficha = Mapper.Map(fichaViewModel, fichaDTO);
 
-            return Mapper.Map<FichaViewModel>(_fichaRepository.Estornar(ficha));
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Estornar(ficha, valorAnterior));
         }
 
         public FichaViewModel Reativar(Guid Id)
