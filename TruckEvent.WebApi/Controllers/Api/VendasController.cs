@@ -114,7 +114,7 @@ namespace TruckEvent.WebApi.Controllers.Api
                 }
             }
 
-            //Verifica se alguma das fichas usadas contem saldo
+            //Verifica se as fichas usadas contem saldo
             if (!(somaSaldoFichas > 0))
             {
                 return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
@@ -125,9 +125,34 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(string.Format("A(s) Ficha(s) não contem saldo para esta Venda, total saldo da(s) Ficha(s) : {0}, total Venda: {1}", somaSaldoFichas, vendaViewModel.TotalVenda));
             }
 
-            var venda = _vendaAppService.Criar(vendaViewModel);
+            // Verifica se existem fichas com valor já informado
+            var fichasComValorInformado = from vendaPagamento in vendaViewModel.Venda_Pagamentos
+                                                from venda_pagamento_fichas in vendaPagamento.Venda_Pagamento_Fichas
+                                                where venda_pagamento_fichas.ValorInformado > 0
+                                                select new { Fichas = venda_pagamento_fichas.Ficha, Pagamentos = venda_pagamento_fichas };
 
-            return Ok(venda);
+            if (fichasComValorInformado.ToList().Count > 0)
+            {
+                var countValorMaiorQueSaldo = from pagamentos in fichasComValorInformado.Select(f => f.Pagamentos)
+                                              where pagamentos.ValorInformado > pagamentos.Ficha.Saldo
+                                              select pagamentos.Ficha;
+
+                // se existir valor informado maior que o saldo ta ficha
+                if (countValorMaiorQueSaldo.ToList().Count > 0)
+                {
+                    return BadRequest("Existem valores informados maiores que o saldo contido em fichas, verifique");
+                }
+
+                var venda = _vendaAppService.Criar(vendaViewModel);
+                return Ok(venda);
+            }
+            else
+            {
+
+                var venda = _vendaAppService.Criar(vendaViewModel);
+                return Ok(venda);
+            }
+
         }
 
         // DELETE: api/Vendas/5

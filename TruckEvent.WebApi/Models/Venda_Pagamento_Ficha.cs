@@ -15,5 +15,7 @@ namespace TruckEvent.WebApi.Models
         public virtual Venda_Pagamento Venda_Pagamento { get; set; }
 
         public virtual Ficha Ficha { get; set; }
+
+        public double ValorInformado { get; set; }
     }
 }

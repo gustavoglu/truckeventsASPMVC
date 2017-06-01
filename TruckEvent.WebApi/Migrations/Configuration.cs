@@ -11,6 +11,7 @@ namespace TruckEvent.WebApi.Migrations
     {
         public Configuration()
         {
+            
             //AutomaticMigrationsEnabled = true;
         }
 

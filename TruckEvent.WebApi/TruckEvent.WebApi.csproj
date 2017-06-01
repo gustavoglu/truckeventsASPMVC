@@ -376,6 +376,10 @@
     <Compile Include="Migrations\201705190032305_movimentacao1.Designer.cs">
       <DependentUpon>201705190032305_movimentacao1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706012157237_addCampoValorInformado.cs" />
+    <Compile Include="Migrations\201706012157237_addCampoValorInformado.Designer.cs">
+      <DependentUpon>201706012157237_addCampoValorInformado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -593,6 +597,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705190032305_movimentacao1.resx">
       <DependentUpon>201705190032305_movimentacao1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706012157237_addCampoValorInformado.resx">
+      <DependentUpon>201706012157237_addCampoValorInformado.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

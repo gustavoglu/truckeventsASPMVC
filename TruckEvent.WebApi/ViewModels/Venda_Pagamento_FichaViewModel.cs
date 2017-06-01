@@ -21,5 +21,6 @@ namespace TruckEvent.WebApi.ViewModels
 
         public virtual FichaViewModel Ficha { get; set; }
 
+        public double ValorInformado { get; set; }
     }
 }
