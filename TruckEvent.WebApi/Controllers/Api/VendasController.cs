@@ -66,7 +66,7 @@ namespace TruckEvent.WebApi.Controllers.Api
         [Route("cancelar/{id}")]
         public IHttpActionResult PutCancelaVenda(Guid id)
         {
-            return Ok (_vendaAppService.Calcelar(id));
+            return Ok(_vendaAppService.Calcelar(id));
         }
 
         // POST: api/Vendas
@@ -78,20 +78,24 @@ namespace TruckEvent.WebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
 
+            //Pega todas fichas do pagamento
+            var fichas = from vendaPagamento in vendaViewModel.Venda_Pagamentos
+                                   from vendaPagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
+                                   select vendaPagamentoFicha.Ficha;
+
             var fichasPagamentos = new List<FichaViewModel>();
 
-            foreach (var item in vendaViewModel.Venda_Pagamentos)
+            //Pega Valores Atuais das fichas
+            foreach (var ficha in fichas)
             {
-                foreach (var pagamentoFicha in item.Venda_Pagamento_Fichas)
-                {
-                    var ficha = _fichaAppService.BuscarPorId(pagamentoFicha.Id_Ficha.Value);
+                var fichaViewModel = _fichaAppService.BuscarPorId(ficha.Id.Value);
 
-                    if (ficha != null)
-                    {
-                        fichasPagamentos.Add(ficha);
-                    }
+                if (fichaViewModel != null)
+                {
+                    fichasPagamentos.Add(fichaViewModel);
                 }
             }
+
 
             if (!(vendaViewModel.Venda_Produtos.Count > 0))
             {
@@ -127,9 +131,9 @@ namespace TruckEvent.WebApi.Controllers.Api
 
             // Verifica se existem fichas com valor já informado
             var fichasComValorInformado = from vendaPagamento in vendaViewModel.Venda_Pagamentos
-                                                from venda_pagamento_fichas in vendaPagamento.Venda_Pagamento_Fichas
-                                                where venda_pagamento_fichas.ValorInformado > 0
-                                                select new { Fichas = venda_pagamento_fichas.Ficha, Pagamentos = venda_pagamento_fichas };
+                                          from venda_pagamento_fichas in vendaPagamento.Venda_Pagamento_Fichas
+                                          where venda_pagamento_fichas.ValorInformado > 0
+                                          select new { Fichas = venda_pagamento_fichas.Ficha, Pagamentos = venda_pagamento_fichas };
 
             if (fichasComValorInformado.ToList().Count > 0)
             {
