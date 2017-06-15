@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using TruckEvent.WebApi.Infra.Repository;
-using TruckEvent.WebApi.Infra.Repository.EntityRepository;
-using TruckEvent.WebApi.Infra.Repository.Interfaces;
 using TruckEvent.WebApi.Models;
 using TruckEvent.WebApi.Services.Interfaces;
 using TruckEvent.WebApi.ViewModels;
@@ -17,15 +14,13 @@ namespace TruckEvent.WebApi.Services
 
         protected Repository<T> _repository;
 
-
         public AppService()
         {
             this._repository =  new Repository<T>() ;
         }
 
         public virtual J Atualizar(J viewModel)
-        {
-            
+        {   
             var entityDTO = _repository.BuscarPorId(viewModel.Id);
             var entity = Mapper.Map(viewModel, entityDTO);
             return Mapper.Map<J>(_repository.Atualizar(entity));
@@ -57,9 +52,14 @@ namespace TruckEvent.WebApi.Services
             return Mapper.Map<J>(_repository.Reativar(Id));
         }
 
+        public virtual IEnumerable<J> TrazerTodos()
+        {
+            return Mapper.Map<List<J>>(_repository.TrazerTodos().ToList());
+        }
+
         public virtual IEnumerable<J> TrazerTodosAtivos()
         {
-            return Mapper.Map<List<J>>(_repository.TrazerTodosAtivos().ToList()); ;
+            return Mapper.Map<List<J>>(_repository.TrazerTodosAtivos().ToList()); 
         }
 
         public virtual IEnumerable<J> TrazerTodosDeletados()

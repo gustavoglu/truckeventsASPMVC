@@ -8,9 +8,9 @@ using TruckEvent.WebApi.ViewModels;
 
 namespace TruckEvent.WebApi.AutoMap
 {
-    public class ProfileAutoMapper : Profile
+    public class ViewModelToModel : Profile
     {
-        public ProfileAutoMapper()
+        public ViewModelToModel()
         {
             CreateMap<ConsequenciaViewModel, Consequencia>().ReverseMap()
                 .ForMember(c => c.Produto_Variacoes, cfg => cfg.Ignore());
