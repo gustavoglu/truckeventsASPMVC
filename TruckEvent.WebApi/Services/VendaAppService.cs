@@ -17,6 +17,10 @@ namespace TruckEvent.WebApi.Services
         private readonly IVendaRepository _vendaRepository;
         private readonly IFicha_Repository _ficha_Repository;
         private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly IVenda_PagamentoRepository _venda_PagamentoRepository;
+        private readonly IVenda_PagamentoAppService _venda_PagamentoAppService;
+        private readonly IVenda_Pagamento_FichaAppService _venda_Pagamento_FichaAppService;
+        private readonly IVenda_ProdutoAppService _venda_ProdutoAppService;
         private readonly SQLContext Db;
 
         public VendaAppService()
@@ -24,6 +28,11 @@ namespace TruckEvent.WebApi.Services
             _vendaRepository = new VendaRepository();
             _ficha_Repository = new Ficha_Repository();
             _movimentacaoRepository = new MovimentacaoRepository();
+            _venda_PagamentoRepository = new Venda_PagamentoRepository();
+            _venda_PagamentoAppService = new Venda_PagamentoAppService();
+            _venda_Pagamento_FichaAppService = new Venda_Pagamento_FichaAppService();
+            _venda_ProdutoAppService = new Venda_ProdutoAppService();
+
             Db = new SQLContext();
         }
 
@@ -44,10 +53,22 @@ namespace TruckEvent.WebApi.Services
         {
 
             var venda = Mapper.Map<Venda>(vendaViewModel);
+
             var vendaCriadaDTO = _vendaRepository.Criar(venda);
+
             var vendaCriadaViewModel = Mapper.Map<VendaViewModel>(vendaCriadaDTO);
 
-            AtualizaFichas(vendaCriadaDTO);
+            if (vendaViewModel.Venda_Produtos.Count > 0)
+            {
+                AdicionaVenda_Produtos(vendaCriadaDTO.Id.Value, vendaViewModel.Venda_Produtos);
+            }
+
+            if (vendaViewModel.Venda_Pagamentos.Count > 0)
+            {
+                AdicionaVenda_Pagamentos(vendaCriadaDTO.Id.Value, vendaViewModel.Venda_Pagamentos);
+            }
+
+            AtualizaFichas(vendaCriadaDTO.Id.Value);
 
             return vendaCriadaViewModel;
         }
@@ -84,11 +105,57 @@ namespace TruckEvent.WebApi.Services
 
         }
 
-        public void AtualizaFichas(Venda venda)
-        {
 
-            var pagamentos = from vendaPagamento in venda.Venda_Pagamentos
-                         from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
+        private void AdicionaVenda_Pagamentos(Guid Id_Venda,ICollection<Venda_PagamentoViewModel> Venda_Pagamentos)
+        {
+            // Cria Venda_Pagamentos
+            foreach (var venda_Pagamento in Venda_Pagamentos)
+            {
+                venda_Pagamento.Id_venda = Id_Venda;
+
+                var venda_PagamentoCriado = _venda_PagamentoAppService.Criar(venda_Pagamento);
+
+                if (venda_Pagamento.Venda_Pagamento_Fichas.Count > 0)
+                {
+                    //Cria Venda_Pagamento_Fichas
+                    foreach (var venda_Pagamento_Ficha in venda_Pagamento.Venda_Pagamento_Fichas)
+                    {
+                        venda_Pagamento_Ficha.Id_Ficha = venda_Pagamento_Ficha.Ficha.Id.Value;
+
+                        venda_Pagamento_Ficha.Id_Venda_Pagamento = venda_PagamentoCriado.Id;
+
+                        _venda_Pagamento_FichaAppService.Criar(venda_Pagamento_Ficha);
+                    }
+                }
+            }
+
+
+
+        }
+
+        private void AdicionaVenda_Produtos(Guid Id_Venda,ICollection<Venda_ProdutoViewModel> Venda_Produtos)
+        {
+            if (Venda_Produtos.Count > 0)
+            {
+                foreach (var venda_Produto in Venda_Produtos)
+                {
+                    venda_Produto.Id_Venda = Id_Venda;
+
+                    venda_Produto.Id_produto = venda_Produto.Produto.Id.Value;
+
+                    _venda_ProdutoAppService.Criar(venda_Produto);
+                }
+            }
+        }
+
+        public void AtualizaFichas(Guid Id_Venda)
+        {
+            var venda = _vendaRepository.BuscarPorId(Id_Venda);
+
+            var vendaPagamentos = _venda_PagamentoRepository.TrazerTodosAtivos().ToList().Where(vp => vp.Id_venda == Id_Venda);
+
+            var pagamentos = from vendaPagamento in vendaPagamentos
+                             from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
                          select pagamentoFicha;
 
             double countPagamentosInformados = pagamentos.Sum(p => p.ValorInformado);

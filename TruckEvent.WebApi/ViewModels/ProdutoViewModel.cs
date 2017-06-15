@@ -32,10 +32,8 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Produto_TipoViewModel Produto_Tipo { get; set; } = null;
 
-        [JsonIgnore]
         public virtual ICollection<Venda_ProdutoViewModel> Venda_Produtos { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Ficha_ProdutoViewModel> Ficha_Produtos { get; set; }
 
 

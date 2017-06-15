@@ -10,8 +10,9 @@ namespace TruckEvent.WebApi.Models
     public class Movimentacao : BaseEntity
     {
 
-        public Movimentacao(double valorAntigo, double valorNovo, bool? estorno) : base()
+        public Movimentacao(Guid Id_Ficha,double valorAntigo, double valorNovo, bool? estorno) : base()
         {
+            this.Id_Ficha = Id_Ficha;
 
             if (valorAntigo > valorNovo)
             {

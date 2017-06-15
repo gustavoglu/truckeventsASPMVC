@@ -29,7 +29,6 @@ namespace TruckEvent.WebApi.ViewModels
 
         public Guid? Id_evento { get; set; }
 
-        [JsonIgnore]
         public virtual Evento Evento { get; set; } = null;
 
         public virtual ICollection<Venda_PagamentoViewModel> Venda_Pagamentos { get; set; }

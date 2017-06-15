@@ -51,16 +51,12 @@ namespace TruckEvent.WebApi.ViewModels
 
         public virtual UsuarioViewModel Usuario_Organizador { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<UsuarioViewModel> Caixas { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<UsuarioViewModel> Lojas { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<EventoViewModel> Eventos { get; set; }
 
-        [JsonIgnore]
         public virtual ICollection<Evento_UsuarioViewModel> Evento_Usuarios { get; set; }
 
 

@@ -19,15 +19,17 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
 
         public Ficha Atualizar(Ficha obj, double? valorAntigo)
         {
-            
+
+            var fichaAtualizada = this.Atualizar(obj);
+
             //Cria Movimentação
             if (valorAntigo != obj.Saldo.Value )
             {
-                Movimentacao novaMovimentacao = new Movimentacao(valorAntigo.Value,obj.Saldo.Value,false);
-                obj.Movimentacoes.Add(novaMovimentacao);
+                Movimentacao novaMovimentacao = new Movimentacao(obj.Id.Value,valorAntigo.Value,obj.Saldo.Value,false);
+                var movimentacaoCriada = _movimentacaoRepository.Criar(novaMovimentacao);
             }
 
-            return base.Atualizar(obj);
+            return this.dbSet.Find(obj);
             
         }
 
@@ -72,7 +74,7 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             //Cria Movimentação
             if (valorAntigo != obj.Saldo.Value)
             {
-                Movimentacao novaMovimentacao = new Movimentacao(valorAntigo.Value, obj.Saldo.Value, true);
+                Movimentacao novaMovimentacao = new Movimentacao(obj.Id.Value,valorAntigo.Value, obj.Saldo.Value, true);
                 obj.Movimentacoes.Add(novaMovimentacao);
             }
 

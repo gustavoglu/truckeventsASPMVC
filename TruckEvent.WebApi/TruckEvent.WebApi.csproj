@@ -235,7 +235,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="AutoMap\AutoMapperConfig.cs" />
     <Compile Include="AutoMap\ModelToViewModel.cs" />
-    <Compile Include="AutoMap\ViewModelToModel.cs" />
+    <Compile Include="AutoMap\ProfileAutoMapper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\ConsequenciasController.cs" />
     <Compile Include="Controllers\Api\EnvioConviteController.cs" />
