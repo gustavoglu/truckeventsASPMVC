@@ -79,22 +79,9 @@ namespace TruckEvent.WebApi.Controllers.Api
             }
 
             //Pega todas fichas do pagamento
-            var fichas = from vendaPagamento in vendaViewModel.Venda_Pagamentos
+            var fichasPagamentos = from vendaPagamento in vendaViewModel.Venda_Pagamentos
                                    from vendaPagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
-                                   select vendaPagamentoFicha.Ficha;
-
-            var fichasPagamentos = new List<FichaViewModel>();
-
-            //Pega Valores Atuais das fichas
-            foreach (var ficha in fichas)
-            {
-                var fichaViewModel = _fichaAppService.BuscarPorId(ficha.Id.Value);
-
-                if (fichaViewModel != null)
-                {
-                    fichasPagamentos.Add(fichaViewModel);
-                }
-            }
+                                   select _fichaAppService.BuscarPorId(vendaPagamentoFicha.Ficha.Id.Value);
 
 
             if (!(vendaViewModel.Venda_Produtos.Count > 0))
@@ -108,15 +95,7 @@ namespace TruckEvent.WebApi.Controllers.Api
             }
 
             //Verifica se a soma das fichas dessa venda tem saldo para o total da venda
-            double somaSaldoFichas = 0;
-
-            foreach (var ficha in fichasPagamentos)
-            {
-                if (ficha.Saldo > 0)
-                {
-                    somaSaldoFichas = somaSaldoFichas + ficha.Saldo.Value;
-                }
-            }
+            double somaSaldoFichas = fichasPagamentos.Sum(f => f.Saldo.Value);
 
             //Verifica se as fichas usadas contem saldo
             if (!(somaSaldoFichas > 0))
@@ -135,27 +114,20 @@ namespace TruckEvent.WebApi.Controllers.Api
                                           where venda_pagamento_fichas.ValorInformado > 0
                                           select new { Fichas = venda_pagamento_fichas.Ficha, Pagamentos = venda_pagamento_fichas };
 
-            if (fichasComValorInformado.ToList().Count > 0)
-            {
-                var countValorMaiorQueSaldo = from pagamentos in fichasComValorInformado.Select(f => f.Pagamentos)
-                                              where pagamentos.ValorInformado > pagamentos.Ficha.Saldo
-                                              select pagamentos.Ficha;
+            var countValorMaiorQueSaldo = fichasComValorInformado.Select(f => f.Pagamentos).Where(p => p.ValorInformado > p.Ficha.Saldo.Value);
 
+            if (fichasComValorInformado.Any())
+            {
                 // se existir valor informado maior que o saldo ta ficha
-                if (countValorMaiorQueSaldo.ToList().Count > 0)
+                if (countValorMaiorQueSaldo.Any())
                 {
                     return BadRequest("Existem valores informados maiores que o saldo contido em fichas, verifique");
                 }
 
-                var venda = _vendaAppService.Criar(vendaViewModel);
-                return Ok(venda);
             }
-            else
-            {
 
-                var venda = _vendaAppService.Criar(vendaViewModel);
-                return Ok(venda);
-            }
+            var venda = _vendaAppService.Criar(vendaViewModel);
+            return Ok(venda);
 
         }
 

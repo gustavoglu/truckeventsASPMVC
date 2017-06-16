@@ -150,9 +150,10 @@ namespace TruckEvent.WebApi.Services
 
         public void AtualizaFichas(Guid Id_Venda)
         {
-            var venda = _vendaRepository.BuscarPorId(Id_Venda);
-
+    
             var vendaPagamentos = _venda_PagamentoRepository.TrazerTodosAtivos().ToList().Where(vp => vp.Id_venda == Id_Venda);
+
+            var venda = vendaPagamentos.FirstOrDefault().Venda;
 
             var pagamentos = from vendaPagamento in vendaPagamentos
                              from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
@@ -206,7 +207,7 @@ namespace TruckEvent.WebApi.Services
                 // Se ainda existir valor no total da venda, desconta das outras fichas sem valor informado
                 if (vendaTotal > 0)
                 {
-                    var fichasSemValorInformado = from pagamento in venda.Venda_Pagamentos
+                    var fichasSemValorInformado = from pagamento in vendaPagamentos
                                                   from pagamentoFicha in pagamento.Venda_Pagamento_Fichas
                                                   where pagamentoFicha.ValorInformado == 0 && pagamentoFicha.Ficha.Saldo.Value > 0
                                                   select pagamentoFicha.Ficha;
@@ -239,7 +240,7 @@ namespace TruckEvent.WebApi.Services
             else if (countPagamentosInformados == 0)
             {
 
-                var fichasAtualizadas = from pagamentosInf in venda.Venda_Pagamentos
+                var fichasAtualizadas = from pagamentosInf in vendaPagamentos
                                         from pagamentosFicha in pagamentosInf.Venda_Pagamento_Fichas
                                         where pagamentosFicha.Ficha.Saldo.Value > 0
                                         select pagamentosFicha.Ficha;
