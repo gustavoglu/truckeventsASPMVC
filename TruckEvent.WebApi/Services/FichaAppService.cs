@@ -29,6 +29,11 @@ namespace TruckEvent.WebApi.Services
             return Mapper.Map<FichaViewModel>(_fichaRepository.Atualizar(ficha));
         }
 
+        public FichaViewModel BuscarAtivoPorCodigo(string codigo)
+        {
+            return Mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo && f.Deletado == false).FirstOrDefault());
+        }
+
         public FichaViewModel BuscarPorCodigo(string codigo)
         {
             return Mapper.Map<FichaViewModel>(_fichaRepository.Pesquisar(f => f.Codigo == codigo).FirstOrDefault());

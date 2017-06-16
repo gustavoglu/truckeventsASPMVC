@@ -156,7 +156,7 @@ namespace TruckEvent.WebApi.Services
 
             var pagamentos = from vendaPagamento in vendaPagamentos
                              from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
-                         select pagamentoFicha;
+                             select pagamentoFicha;
 
             double countPagamentosInformados = pagamentos.Sum(p => p.ValorInformado);
 
@@ -173,6 +173,8 @@ namespace TruckEvent.WebApi.Services
                 //Atualiza fichas com valor já informado
                 foreach (var item in pagamentosComValorInformado)
                 {
+                    var fichaDTO = _ficha_Repository.BuscarPorId(item.Ficha.Id);
+
                     double? saldoAntigo = 0;
 
                     if (vendaTotal > 0)
@@ -180,9 +182,9 @@ namespace TruckEvent.WebApi.Services
 
                         if (item.ValorDescontado >= vendaTotal)
                         {
-                            saldoAntigo = item.Ficha.Saldo;
+                            saldoAntigo = fichaDTO.Saldo;
 
-                            item.Ficha.Saldo = item.Ficha.Saldo - vendaTotal;
+                            fichaDTO.Saldo = fichaDTO.Saldo - vendaTotal;
 
                             vendaTotal = 0;
 
@@ -191,13 +193,13 @@ namespace TruckEvent.WebApi.Services
                         {
                             saldoAntigo = item.Ficha.Saldo;
 
-                            item.Ficha.Saldo = item.Ficha.Saldo - item.ValorDescontado;
+                            fichaDTO.Saldo = fichaDTO.Saldo - item.ValorDescontado;
 
                             vendaTotal = vendaTotal - item.ValorDescontado;
 
                         }
 
-                        _ficha_Repository.Atualizar(item.Ficha, saldoAntigo.Value);
+                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo.Value);
                     }
                 }
 
@@ -212,20 +214,22 @@ namespace TruckEvent.WebApi.Services
 
                     foreach (var ficha in fichasSemValorInformado)
                     {
-                        if (ficha.Saldo >= vendaTotal)
+                        var fichaDTO = _ficha_Repository.BuscarPorId(ficha.Id);
+
+                        if (fichaDTO.Saldo >= vendaTotal)
                         {
-                            var descontado = ficha.Saldo - vendaTotal;
-                            double saldoAntigo = ficha.Saldo.Value;
-                            ficha.Saldo = descontado;
-                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
+                            var descontado = fichaDTO.Saldo - vendaTotal;
+                            double saldoAntigo = fichaDTO.Saldo.Value;
+                            fichaDTO.Saldo = descontado;
+                            _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
                             vendaTotal = 0;
                         }
                         else
                         {
-                            var descontado = vendaTotal - ficha.Saldo;
-                            double saldoAntigo = ficha.Saldo.Value;
-                            ficha.Saldo = 0;
-                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
+                            var descontado = vendaTotal - fichaDTO.Saldo;
+                            double saldoAntigo = fichaDTO.Saldo.Value;
+                            fichaDTO.Saldo = 0;
+                            _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
                             vendaTotal = descontado.Value;
                         }
                     }
@@ -245,20 +249,22 @@ namespace TruckEvent.WebApi.Services
 
                 foreach (var ficha in fichasAtualizadas)
                 {
-                    if (ficha.Saldo >= pagamento)
+                    var fichaDTO = _ficha_Repository.BuscarPorId(ficha.Id);
+
+                    if (fichaDTO.Saldo >= pagamento)
                     {
-                        var descontado = ficha.Saldo - pagamento;
-                        double saldoAntigo = ficha.Saldo.Value;
-                        ficha.Saldo = descontado;
-                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
+                        var descontado = fichaDTO.Saldo - pagamento;
+                        double saldoAntigo = fichaDTO.Saldo.Value;
+                        fichaDTO.Saldo = descontado;
+                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
                         pagamento = 0;
                     }
                     else
                     {
-                        var descontado = pagamento - ficha.Saldo;
-                        double saldoAntigo = ficha.Saldo.Value;
-                        ficha.Saldo = 0;
-                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
+                        var descontado = pagamento - fichaDTO.Saldo;
+                        double saldoAntigo = fichaDTO.Saldo.Value;
+                        fichaDTO.Saldo = 0;
+                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
                         pagamento = descontado;
                     }
                 }

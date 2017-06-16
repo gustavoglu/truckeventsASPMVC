@@ -50,7 +50,7 @@ namespace TruckEvent.WebApi.Controllers.Api
         [ResponseType(typeof(FichaViewModel))]
         public IHttpActionResult GetFichaViewModel(Guid id_evento, string codigo)
         {
-            FichaViewModel fichaViewModel = _fichaAppService.BuscarPorCodigo(codigo);
+            FichaViewModel fichaViewModel = _fichaAppService.BuscarAtivoPorCodigo(codigo);
             if (fichaViewModel == null)
             {
                 return NotFound();

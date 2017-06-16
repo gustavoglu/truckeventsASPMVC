@@ -29,7 +29,7 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
                 var movimentacaoCriada = _movimentacaoRepository.Criar(novaMovimentacao);
             }
 
-            return this.dbSet.Find(obj);
+            return this.BuscarPorId(obj.Id);
             
         }
 
