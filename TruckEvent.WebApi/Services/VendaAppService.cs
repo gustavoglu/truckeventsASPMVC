@@ -157,25 +157,25 @@ namespace TruckEvent.WebApi.Services
 
             var pagamentos = from vendaPagamento in vendaPagamentos
                              from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
+                             where pagamentoFicha.Ficha.Saldo.Value > 0
                              select pagamentoFicha;
 
-            double countPagamentosInformados = pagamentos.Sum(p => p.ValorInformado);
+            var pagamentosComValorInformado = pagamentos.Where(p => p.ValorInformado > 0);
+
+            var pagamentosSemValorInformado = pagamentos.Where(p => p.ValorInformado == 0);
 
             //Se existir pagamentos com valor já informados
-            if (countPagamentosInformados > 0)
+            if (pagamentosComValorInformado.Any())
             {
 
                 var vendaTotal = venda.TotalVenda.Value;
 
-                var pagamentosComValorInformado = from pagamentoInf in pagamentos
-                                                  where pagamentoInf.ValorInformado > 0 && pagamentoInf.Ficha.Saldo.Value > 0
-                                                  select new { Ficha = pagamentoInf.Ficha, ValorDescontado = pagamentoInf.ValorInformado };
+                var queryPagamentosComValorInformado = from pagamentoInf in pagamentosComValorInformado
+                                                       select new { Ficha = _ficha_Repository.BuscarPorId(pagamentoInf.Ficha.Id.Value), ValorDescontado = pagamentoInf.ValorInformado };
 
                 //Atualiza fichas com valor já informado
-                foreach (var item in pagamentosComValorInformado)
+                foreach (var item in queryPagamentosComValorInformado)
                 {
-                    var fichaDTO = _ficha_Repository.BuscarPorId(item.Ficha.Id);
-
                     double? saldoAntigo = 0;
 
                     if (vendaTotal > 0)
@@ -183,9 +183,9 @@ namespace TruckEvent.WebApi.Services
 
                         if (item.ValorDescontado >= vendaTotal)
                         {
-                            saldoAntigo = fichaDTO.Saldo;
+                            saldoAntigo = item.Ficha.Saldo;
 
-                            fichaDTO.Saldo = fichaDTO.Saldo - vendaTotal;
+                            item.Ficha.Saldo = item.Ficha.Saldo - vendaTotal;
 
                             vendaTotal = 0;
 
@@ -194,78 +194,72 @@ namespace TruckEvent.WebApi.Services
                         {
                             saldoAntigo = item.Ficha.Saldo;
 
-                            fichaDTO.Saldo = fichaDTO.Saldo - item.ValorDescontado;
+                            item.Ficha.Saldo = item.Ficha.Saldo - item.ValorDescontado;
 
                             vendaTotal = vendaTotal - item.ValorDescontado;
 
                         }
 
-                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo.Value);
+                        _ficha_Repository.Atualizar(item.Ficha, saldoAntigo.Value);
                     }
                 }
 
                 // Se ainda existir valor no total da venda, desconta das outras fichas sem valor informado
                 if (vendaTotal > 0)
                 {
-                    var fichasSemValorInformado = from pagamento in vendaPagamentos
-                                                  from pagamentoFicha in pagamento.Venda_Pagamento_Fichas
-                                                  where pagamentoFicha.ValorInformado == 0 && pagamentoFicha.Ficha.Saldo.Value > 0
-                                                  select pagamentoFicha.Ficha;
+                    var fichasSemValorInformado = from pagamento in pagamentosSemValorInformado
+                                                  select _ficha_Repository.BuscarPorId(pagamento.Ficha.Id.Value);
 
 
                     foreach (var ficha in fichasSemValorInformado)
                     {
-                        var fichaDTO = _ficha_Repository.BuscarPorId(ficha.Id);
 
-                        if (fichaDTO.Saldo >= vendaTotal)
+                        if (ficha.Saldo >= vendaTotal)
                         {
-                            var descontado = fichaDTO.Saldo - vendaTotal;
-                            double saldoAntigo = fichaDTO.Saldo.Value;
-                            fichaDTO.Saldo = descontado;
-                            _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
+                            var descontado = ficha.Saldo - vendaTotal;
+                            double saldoAntigo = ficha.Saldo.Value;
+                            ficha.Saldo = descontado;
+                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
                             vendaTotal = 0;
                         }
                         else
                         {
-                            var descontado = vendaTotal - fichaDTO.Saldo;
-                            double saldoAntigo = fichaDTO.Saldo.Value;
-                            fichaDTO.Saldo = 0;
-                            _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
+                            var descontado = vendaTotal - ficha.Saldo;
+                            double saldoAntigo = ficha.Saldo.Value;
+                            ficha.Saldo = 0;
+                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
                             vendaTotal = descontado.Value;
                         }
                     }
 
                 }
             }
-            else if (countPagamentosInformados == 0)
+            else if (!pagamentosComValorInformado.Any())
             {
 
                 var fichasAtualizadas = from pagamentosInf in vendaPagamentos
                                         from pagamentosFicha in pagamentosInf.Venda_Pagamento_Fichas
-                                        where pagamentosFicha.Ficha.Saldo.Value > 0
-                                        select pagamentosFicha.Ficha;
+                                        select _ficha_Repository.BuscarPorId(pagamentosFicha.Ficha.Id.Value);
 
                 //Atualiza Saldo das Fichas
                 double? pagamento = venda.TotalVenda.Value;
 
                 foreach (var ficha in fichasAtualizadas)
                 {
-                    var fichaDTO = _ficha_Repository.BuscarPorId(ficha.Id);
-
-                    if (fichaDTO.Saldo >= pagamento)
+                    if (ficha.Saldo >= pagamento)
                     {
-                        var descontado = fichaDTO.Saldo - pagamento;
-                        double saldoAntigo = fichaDTO.Saldo.Value;
-                        fichaDTO.Saldo = descontado;
-                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
+                        var descontado = ficha.Saldo - pagamento;
+                        double saldoAntigo = ficha.Saldo.Value;
+                        ficha.Saldo = descontado;
+                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
                         pagamento = 0;
                     }
                     else
                     {
-                        var descontado = pagamento - fichaDTO.Saldo;
-                        double saldoAntigo = fichaDTO.Saldo.Value;
-                        fichaDTO.Saldo = 0;
-                        _ficha_Repository.Atualizar(fichaDTO, saldoAntigo);
+                        var descontado = pagamento - ficha.Saldo;
+                        double saldoAntigo = ficha.Saldo.Value;
+                        ficha.Saldo = 0;
+                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
                         pagamento = descontado;
                     }
                 }
