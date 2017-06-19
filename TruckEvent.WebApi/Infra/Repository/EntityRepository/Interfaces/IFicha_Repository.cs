@@ -13,7 +13,7 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository.Interfaces
 
         Ficha Atualizar(Ficha obj,double? valorAntigo);
 
-        Ficha Atualizar(Venda_Pagamento_Ficha venda_Pagamento_Ficha);
+        Ficha Atualizar(Venda_Pagamento_Ficha venda_Pagamento_Ficha,double pagamento);
 
     }
 }

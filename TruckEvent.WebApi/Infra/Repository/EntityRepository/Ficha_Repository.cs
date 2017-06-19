@@ -33,7 +33,6 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             
         }
 
-
         public override Ficha BuscarPorId(Guid? Id)
         {
             return dbSet.Find(Id);
@@ -81,12 +80,10 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             return base.Atualizar(obj);
         }
 
-        public Ficha Atualizar(Venda_Pagamento_Ficha venda_Pagamento_Ficha)
+        public Ficha Atualizar(Venda_Pagamento_Ficha venda_Pagamento_Ficha,double pagamento)
         {
 
-            Ficha ficha = venda_Pagamento_Ficha.Ficha;
-
-            double vendaTotal = venda_Pagamento_Ficha.Venda_Pagamento.Venda.TotalVenda.Value;
+            Ficha ficha = this.BuscarPorId(venda_Pagamento_Ficha.Ficha.Id.Value);
 
             double saldoAnterior = venda_Pagamento_Ficha.Ficha.Saldo.Value;
 
@@ -95,13 +92,13 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             if (valorInformado > 0)
             {
 
-                if (valorInformado >= vendaTotal)
+                if (valorInformado >= pagamento)
                 {
 
-                    ficha.Saldo = ficha.Saldo - vendaTotal;
+                    ficha.Saldo = ficha.Saldo - pagamento;
 
                 }
-                else if (valorInformado < vendaTotal)
+                else if (valorInformado < pagamento)
                 {
 
                     ficha.Saldo = ficha.Saldo - valorInformado;
@@ -110,15 +107,15 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
             }
             else
             {
-                if (ficha.Saldo >= vendaTotal)
+                if (ficha.Saldo >= pagamento)
                 {
-                    var descontado = ficha.Saldo - vendaTotal;
+                    var descontado = ficha.Saldo - pagamento;
 
                     ficha.Saldo = descontado;
                 }
                 else
                 {
-                    var descontado = vendaTotal - ficha.Saldo;
+                    var descontado = pagamento - ficha.Saldo;
 
                     double saldoAntigo = ficha.Saldo.Value;
 

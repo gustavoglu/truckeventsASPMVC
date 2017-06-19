@@ -9,5 +9,9 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
 {
     public class Venda_PagamentoRepository : Repository<Venda_Pagamento>, IVenda_PagamentoRepository
     {
+        public IEnumerable<Venda_Pagamento> TrazerAtivoPorVenda(Guid Id_Venda)
+        {
+            return this.dbSet.Where(p => p.Id_venda == Id_Venda && p.Deletado == false);
+        }
     }
 }

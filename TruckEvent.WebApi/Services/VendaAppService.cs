@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using TruckEvent.WebApi.Infra;
 using TruckEvent.WebApi.Infra.Repository.EntityRepository;
@@ -68,7 +69,7 @@ namespace TruckEvent.WebApi.Services
                 AdicionaVenda_Pagamentos(vendaCriadaDTO.Id.Value, vendaViewModel.Venda_Pagamentos);
             }
 
-            AtualizaFichas(vendaCriadaDTO.Id.Value);
+            Task.Run(() => AtualizaFichas(vendaCriadaDTO.Id.Value));
 
             return vendaCriadaViewModel;
         }
@@ -148,20 +149,17 @@ namespace TruckEvent.WebApi.Services
         public void AtualizaFichas(Guid Id_Venda)
         {
 
-            var vendaPagamentos = _venda_PagamentoRepository.TrazerTodosAtivos().ToList().Where(vp => vp.Id_venda == Id_Venda);
+            var vendaPagamentos = _venda_PagamentoRepository.TrazerAtivoPorVenda(Id_Venda).ToList();
 
             var TotalVenda = vendaPagamentos.FirstOrDefault().Venda.TotalVenda.Value;
-
-            //var pagamentos = from vendaPagamento in vendaPagamentos
-            //                 from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
-            //                 select pagamentoFicha;
 
             var pagamento = TotalVenda;
 
             // traz venda_Pagamentos_Fichas e prioriza valores pré informados com OrderBy
             var venda_Pagamento_Fichas = (from vendaPagamento in vendaPagamentos
                                           from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
-                                          select pagamentoFicha).OrderBy(x => x.ValorInformado);
+                                          select pagamentoFicha).OrderByDescending(x => x.ValorInformado);
+
 
             //Atualiza Fichas
             foreach (var venda_Pagamento_Ficha in venda_Pagamento_Fichas)
@@ -172,18 +170,18 @@ namespace TruckEvent.WebApi.Services
 
                     double fichaSaldo = venda_Pagamento_Ficha.Ficha.Saldo.Value;
 
-                    _ficha_Repository.Atualizar(venda_Pagamento_Ficha);
-
                     // Se existir valor pré-informado em uma ficha
                     if (valorInformado > 0)
                     {
                         // Se o valor pré-informado for maior ou igual ao pagamento
                         if (valorInformado >= pagamento)
                         {
+                            _ficha_Repository.Atualizar(venda_Pagamento_Ficha, pagamento);
                             pagamento = 0;
                         }
                         else
                         {
+                            _ficha_Repository.Atualizar(venda_Pagamento_Ficha, pagamento);
                             pagamento = pagamento - valorInformado;
                         }
 
@@ -194,13 +192,17 @@ namespace TruckEvent.WebApi.Services
                         // Se o saldo da ficha for maior ou igual ao pagamento
                         if (fichaSaldo >= pagamento)
                         {
+                            _ficha_Repository.Atualizar(venda_Pagamento_Ficha, pagamento);
                             pagamento = 0;
                         }
                         else
                         {
+                            _ficha_Repository.Atualizar(venda_Pagamento_Ficha, pagamento);
                             pagamento = pagamento - fichaSaldo;
                         }
                     }
+
+                 
                 }
             }
         }
