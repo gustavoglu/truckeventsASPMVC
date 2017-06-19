@@ -58,12 +58,12 @@ namespace TruckEvent.WebApi.Services
 
             var vendaCriadaViewModel = Mapper.Map<VendaViewModel>(vendaCriadaDTO);
 
-            if (vendaViewModel.Venda_Produtos.Count > 0)
+            if (vendaViewModel.Venda_Produtos.Any())
             {
                 AdicionaVenda_Produtos(vendaCriadaDTO.Id.Value, vendaViewModel.Venda_Produtos);
             }
 
-            if (vendaViewModel.Venda_Pagamentos.Count > 0)
+            if (vendaViewModel.Venda_Pagamentos.Any())
             {
                 AdicionaVenda_Pagamentos(vendaCriadaDTO.Id.Value, vendaViewModel.Venda_Pagamentos);
             }
@@ -105,7 +105,6 @@ namespace TruckEvent.WebApi.Services
 
         }
 
-
         private void AdicionaVenda_Pagamentos(Guid Id_Venda,ICollection<Venda_PagamentoViewModel> Venda_Pagamentos)
         {
             // Cria Venda_Pagamentos
@@ -129,8 +128,6 @@ namespace TruckEvent.WebApi.Services
                 }
             }
 
-
-
         }
 
         private void AdicionaVenda_Produtos(Guid Id_Venda,ICollection<Venda_ProdutoViewModel> Venda_Produtos)
@@ -150,121 +147,174 @@ namespace TruckEvent.WebApi.Services
 
         public void AtualizaFichas(Guid Id_Venda)
         {
-    
+
             var vendaPagamentos = _venda_PagamentoRepository.TrazerTodosAtivos().ToList().Where(vp => vp.Id_venda == Id_Venda);
 
-            var venda = vendaPagamentos.FirstOrDefault().Venda;
+            var TotalVenda = vendaPagamentos.FirstOrDefault().Venda.TotalVenda.Value;
 
-            var pagamentos = from vendaPagamento in vendaPagamentos
-                             from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
-                             where pagamentoFicha.Ficha.Saldo.Value > 0
-                             select pagamentoFicha;
+            //var pagamentos = from vendaPagamento in vendaPagamentos
+            //                 from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
+            //                 select pagamentoFicha;
 
-            var pagamentosComValorInformado = pagamentos.Where(p => p.ValorInformado > 0);
+            var pagamento = TotalVenda;
 
-            var pagamentosSemValorInformado = pagamentos.Where(p => p.ValorInformado == 0);
+            // traz venda_Pagamentos_Fichas e prioriza valores pré informados com OrderBy
+            var venda_Pagamento_Fichas = (from vendaPagamento in vendaPagamentos
+                                          from pagamentoFicha in vendaPagamento.Venda_Pagamento_Fichas
+                                          select pagamentoFicha).OrderBy(x => x.ValorInformado);
 
-            //Se existir pagamentos com valor já informados
-            if (pagamentosComValorInformado.Any())
+            //Atualiza Fichas
+            foreach (var venda_Pagamento_Ficha in venda_Pagamento_Fichas)
             {
-
-                var vendaTotal = venda.TotalVenda.Value;
-
-                var queryPagamentosComValorInformado = from pagamentoInf in pagamentosComValorInformado
-                                                       select new { Ficha = _ficha_Repository.BuscarPorId(pagamentoInf.Ficha.Id.Value), ValorDescontado = pagamentoInf.ValorInformado };
-
-                //Atualiza fichas com valor já informado
-                foreach (var item in queryPagamentosComValorInformado)
+                if (pagamento > 0)
                 {
-                    double? saldoAntigo = 0;
+                    double valorInformado = venda_Pagamento_Ficha.ValorInformado;
 
-                    if (vendaTotal > 0)
+                    double fichaSaldo = venda_Pagamento_Ficha.Ficha.Saldo.Value;
+
+                    _ficha_Repository.Atualizar(venda_Pagamento_Ficha);
+
+                    // Se existir valor pré-informado em uma ficha
+                    if (valorInformado > 0)
                     {
-
-                        if (item.ValorDescontado >= vendaTotal)
+                        // Se o valor pré-informado for maior ou igual ao pagamento
+                        if (valorInformado >= pagamento)
                         {
-                            saldoAntigo = item.Ficha.Saldo;
-
-                            item.Ficha.Saldo = item.Ficha.Saldo - vendaTotal;
-
-                            vendaTotal = 0;
-
-                        }
-                        else if (item.ValorDescontado < vendaTotal)
-                        {
-                            saldoAntigo = item.Ficha.Saldo;
-
-                            item.Ficha.Saldo = item.Ficha.Saldo - item.ValorDescontado;
-
-                            vendaTotal = vendaTotal - item.ValorDescontado;
-
-                        }
-
-                        _ficha_Repository.Atualizar(item.Ficha, saldoAntigo.Value);
-                    }
-                }
-
-                // Se ainda existir valor no total da venda, desconta das outras fichas sem valor informado
-                if (vendaTotal > 0)
-                {
-                    var fichasSemValorInformado = from pagamento in pagamentosSemValorInformado
-                                                  select _ficha_Repository.BuscarPorId(pagamento.Ficha.Id.Value);
-
-
-                    foreach (var ficha in fichasSemValorInformado)
-                    {
-
-                        if (ficha.Saldo >= vendaTotal)
-                        {
-                            var descontado = ficha.Saldo - vendaTotal;
-                            double saldoAntigo = ficha.Saldo.Value;
-                            ficha.Saldo = descontado;
-                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
-                            vendaTotal = 0;
+                            pagamento = 0;
                         }
                         else
                         {
-                            var descontado = vendaTotal - ficha.Saldo;
-                            double saldoAntigo = ficha.Saldo.Value;
-                            ficha.Saldo = 0;
-                            _ficha_Repository.Atualizar(ficha, saldoAntigo);
-                            vendaTotal = descontado.Value;
+                            pagamento = pagamento - valorInformado;
                         }
+
                     }
-
-                }
-            }
-            else if (!pagamentosComValorInformado.Any())
-            {
-
-                var fichasAtualizadas = from pagamentosInf in vendaPagamentos
-                                        from pagamentosFicha in pagamentosInf.Venda_Pagamento_Fichas
-                                        select _ficha_Repository.BuscarPorId(pagamentosFicha.Ficha.Id.Value);
-
-                //Atualiza Saldo das Fichas
-                double? pagamento = venda.TotalVenda.Value;
-
-                foreach (var ficha in fichasAtualizadas)
-                {
-                    if (ficha.Saldo >= pagamento)
-                    {
-                        var descontado = ficha.Saldo - pagamento;
-                        double saldoAntigo = ficha.Saldo.Value;
-                        ficha.Saldo = descontado;
-                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
-                        pagamento = 0;
-                    }
+                    // Se não existir valor pré informado na ficha
                     else
                     {
-                        var descontado = pagamento - ficha.Saldo;
-                        double saldoAntigo = ficha.Saldo.Value;
-                        ficha.Saldo = 0;
-                        _ficha_Repository.Atualizar(ficha, saldoAntigo);
-                        pagamento = descontado;
+                        // Se o saldo da ficha for maior ou igual ao pagamento
+                        if (fichaSaldo >= pagamento)
+                        {
+                            pagamento = 0;
+                        }
+                        else
+                        {
+                            pagamento = pagamento - fichaSaldo;
+                        }
                     }
                 }
             }
         }
+
+
+            //var pagamentosComValorInformado = pagamentos.Where(p => p.ValorInformado > 0);
+
+            //var pagamentosSemValorInformado = pagamentos.Where(p => p.ValorInformado == 0);
+
+            ////Se existir pagamentos com valor já informados
+            //if (pagamentosComValorInformado.Any())
+            //{
+
+            //    var vendaTotal = TotalVenda;
+
+            //    var queryPagamentosComValorInformado = from pagamentoInf in pagamentosComValorInformado
+            //                                           select new
+            //                                           {
+            //                                               Ficha = _ficha_Repository.BuscarPorId(pagamentoInf.Ficha.Id.Value),
+            //                                               ValorDescontado = pagamentoInf.ValorInformado
+            //                                           };
+
+            //    //Atualiza fichas com valor já informado
+            //    foreach (var item in queryPagamentosComValorInformado)
+            //    {
+            //        double? saldoAntigo = 0;
+
+            //        if (vendaTotal > 0)
+            //        {
+
+            //            if (item.ValorDescontado >= vendaTotal)
+            //            {
+            //                saldoAntigo = item.Ficha.Saldo;
+
+            //                item.Ficha.Saldo = item.Ficha.Saldo - vendaTotal;
+
+            //                vendaTotal = 0;
+
+            //            }
+            //            else if (item.ValorDescontado < vendaTotal)
+            //            {
+            //                saldoAntigo = item.Ficha.Saldo;
+
+            //                item.Ficha.Saldo = item.Ficha.Saldo - item.ValorDescontado;
+
+            //                vendaTotal = vendaTotal - item.ValorDescontado;
+
+            //            }
+
+            //            _ficha_Repository.Atualizar(item.Ficha, saldoAntigo.Value);
+            //        }
+            //    }
+
+            //    // Se ainda existir valor no total da venda, desconta das outras fichas sem valor informado
+            //    if (vendaTotal > 0)
+            //    {
+            //        var fichasSemValorInformado = from pagamento in pagamentosSemValorInformado
+            //                                      select _ficha_Repository.BuscarPorId(pagamento.Ficha.Id.Value);
+
+
+            //        foreach (var ficha in fichasSemValorInformado)
+            //        {
+
+            //            if (ficha.Saldo >= vendaTotal)
+            //            {
+            //                var descontado = ficha.Saldo - vendaTotal;
+            //                double saldoAntigo = ficha.Saldo.Value;
+            //                ficha.Saldo = descontado;
+            //                _ficha_Repository.Atualizar(ficha, saldoAntigo);
+            //                vendaTotal = 0;
+            //            }
+            //            else
+            //            {
+            //                var descontado = vendaTotal - ficha.Saldo;
+            //                double saldoAntigo = ficha.Saldo.Value;
+            //                ficha.Saldo = 0;
+            //                _ficha_Repository.Atualizar(ficha, saldoAntigo);
+            //                vendaTotal = descontado.Value;
+            //            }
+            //        }
+
+            //    }
+            //}
+            //else if (!pagamentosComValorInformado.Any())
+            //{
+
+            //    var fichasAtualizadas = from pagamentosInf in vendaPagamentos
+            //                            from pagamentosFicha in pagamentosInf.Venda_Pagamento_Fichas
+            //                            select _ficha_Repository.BuscarPorId(pagamentosFicha.Ficha.Id.Value);
+
+            //    //Atualiza Saldo das Fichas
+            //    double? pagamento = TotalVenda;
+
+            //    foreach (var ficha in fichasAtualizadas)
+            //    {
+            //        if (ficha.Saldo >= pagamento)
+            //        {
+            //            var descontado = ficha.Saldo - pagamento;
+            //            double saldoAntigo = ficha.Saldo.Value;
+            //            ficha.Saldo = descontado;
+            //            _ficha_Repository.Atualizar(ficha, saldoAntigo);
+            //            pagamento = 0;
+            //        }
+            //        else
+            //        {
+            //            var descontado = pagamento - ficha.Saldo;
+            //            double saldoAntigo = ficha.Saldo.Value;
+            //            ficha.Saldo = 0;
+            //            _ficha_Repository.Atualizar(ficha, saldoAntigo);
+            //            pagamento = descontado;
+            //        }
+            //    }
+            //}
+        
 
         public VendaViewModel Calcelar(Guid Id_Venda)
         {

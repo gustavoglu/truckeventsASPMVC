@@ -21,7 +21,6 @@ namespace TruckEvent.WebApi.Controllers.Api
     {
         private SQLContext db = new SQLContext();
         private readonly IFichaAppService _fichaAppService = new FichaAppService();
-
         private readonly IVendaAppService _vendaAppService = new VendaAppService();
 
         // GET: api/Vendas
@@ -30,7 +29,6 @@ namespace TruckEvent.WebApi.Controllers.Api
             return _vendaAppService.TrazerTodosAtivos().ToList().AsQueryable();
         }
 
-        // GET: api/Vendas/5
         [ResponseType(typeof(VendaViewModel))]
         public IHttpActionResult GetVendaViewModel(Guid id)
         {
@@ -43,7 +41,6 @@ namespace TruckEvent.WebApi.Controllers.Api
             return Ok(vendaViewModel);
         }
 
-        // PUT: api/Vendas/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutVendaViewModel(Guid id, VendaViewModel vendaViewModel)
         {
@@ -84,25 +81,19 @@ namespace TruckEvent.WebApi.Controllers.Api
                                    select _fichaAppService.BuscarPorId(vendaPagamentoFicha.Ficha.Id.Value);
 
 
-            if (!(vendaViewModel.Venda_Produtos.Count > 0))
+            if (!(vendaViewModel.Venda_Produtos.Any()))
             {
                 return BadRequest("Uma venda precisa ter Produtos Vendidos");
             }
 
-            if (!(vendaViewModel.Venda_Pagamentos.Count > 0))
+            if (!(vendaViewModel.Venda_Pagamentos.Any()))
             {
                 return BadRequest("Uma venda precisa ter Pagamentos");
             }
-
-            //Verifica se a soma das fichas dessa venda tem saldo para o total da venda
+          
             double somaSaldoFichas = fichasPagamentos.Sum(f => f.Saldo.Value);
 
-            //Verifica se as fichas usadas contem saldo
-            if (!(somaSaldoFichas > 0))
-            {
-                return BadRequest("Não existe saldo na(s) Ficha(s) informada(s)");
-            }
-
+            //Verifica se a soma das fichas dessa venda tem saldo para o total da venda
             if (!(somaSaldoFichas > 0) && !(somaSaldoFichas >= vendaViewModel.TotalVenda))
             {
                 return BadRequest(string.Format("A(s) Ficha(s) não contem saldo para esta Venda, total saldo da(s) Ficha(s) : {0}, total Venda: {1}", somaSaldoFichas, vendaViewModel.TotalVenda));
@@ -127,6 +118,7 @@ namespace TruckEvent.WebApi.Controllers.Api
             }
 
             var venda = _vendaAppService.Criar(vendaViewModel);
+
             return Ok(venda);
 
         }

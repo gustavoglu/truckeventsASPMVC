@@ -16,6 +16,8 @@ namespace TruckEvent.WebApi.Services.Interfaces
 
         FichaViewModel Estornar(FichaViewModel fichaViewModel);
 
+        FichaViewModel Atualizar(FichaViewModel fichaViewModel, double saldoAnterior);
+
         IEnumerable<FichaViewModel> TrazerTodosAtivos(Guid id_evento);
 
         IEnumerable<FichaViewModel> TrazerTodosDeletados(Guid id_evento);

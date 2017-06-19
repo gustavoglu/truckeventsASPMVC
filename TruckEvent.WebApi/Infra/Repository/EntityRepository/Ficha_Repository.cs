@@ -80,5 +80,56 @@ namespace TruckEvent.WebApi.Infra.Repository.EntityRepository
 
             return base.Atualizar(obj);
         }
+
+        public Ficha Atualizar(Venda_Pagamento_Ficha venda_Pagamento_Ficha)
+        {
+
+            Ficha ficha = venda_Pagamento_Ficha.Ficha;
+
+            double vendaTotal = venda_Pagamento_Ficha.Venda_Pagamento.Venda.TotalVenda.Value;
+
+            double saldoAnterior = venda_Pagamento_Ficha.Ficha.Saldo.Value;
+
+            double valorInformado = venda_Pagamento_Ficha.ValorInformado;
+
+            if (valorInformado > 0)
+            {
+
+                if (valorInformado >= vendaTotal)
+                {
+
+                    ficha.Saldo = ficha.Saldo - vendaTotal;
+
+                }
+                else if (valorInformado < vendaTotal)
+                {
+
+                    ficha.Saldo = ficha.Saldo - valorInformado;
+
+                }
+            }
+            else
+            {
+                if (ficha.Saldo >= vendaTotal)
+                {
+                    var descontado = ficha.Saldo - vendaTotal;
+
+                    ficha.Saldo = descontado;
+                }
+                else
+                {
+                    var descontado = vendaTotal - ficha.Saldo;
+
+                    double saldoAntigo = ficha.Saldo.Value;
+
+                    ficha.Saldo = 0;
+
+                }
+
+            }
+
+            return this.Atualizar(ficha, saldoAnterior);
+
+        }
     }
 }
